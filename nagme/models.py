@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 #from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -19,18 +20,15 @@ class Category(models.Model):
         return self.name
 
 
-class User(models.Model):
-    username = models.CharField(max_length=16, unique=True, primary_key=True)
-    forename = models.CharField(max_length=16)
-    surname = models.CharField(max_length=16)
-    email = models.EmailField(max_length=254)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+
     #phonenumber = PhoneNumberField(null=False, blank=False, unique=True)
-    password = models.CharField(max_length=16)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     isauthor = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 
 class Nag(models.Model):
@@ -43,4 +41,3 @@ class Nag(models.Model):
 
     def __str__(self):
         return self.text  # is this right?
-
