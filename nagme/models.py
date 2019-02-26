@@ -1,7 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-#from phonenumber_field.modelfields import PhoneNumberField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Category(models.Model):
@@ -22,8 +22,7 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-
-    #phonenumber = PhoneNumberField(null=False, blank=False, unique=True)
+    phonenumber = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     isauthor = models.BooleanField(default=False)
 
@@ -33,11 +32,11 @@ class UserProfile(models.Model):
 
 class Nag(models.Model):
     id = models.AutoField(primary_key=True)
-    category = models.ForeignKey('Category', on_delete=models.CASCADE) # change this
-    author = models.ForeignKey('User', on_delete=models.CASCADE, related_name='author', null=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)  # change this
+    author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='author', null=True)
     text = models.CharField(max_length=140, unique=True)
     likes = models.PositiveIntegerField(default=0)
-    subscriber = models.ManyToManyField(User, related_name='subscribe', null=True)
+    subscriber = models.ManyToManyField(User, related_name='subscribe')
 
     def __str__(self):
         return self.text  # is this right?

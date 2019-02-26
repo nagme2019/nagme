@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nagme',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'nagme.urls'
 
+# noinspection PyUnresolvedReferences
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

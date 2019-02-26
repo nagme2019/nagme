@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^userhome/',
         views.userhome, name='userhome'),
     url(r'^userhome/account/',
-        views.acount, name='account'),
+        views.account, name='account'),
     url(r'^userhome/account/account_details/',
         views.account_details, name='account_details'),
     url(r'^userhome/account/account_details/account_password',
