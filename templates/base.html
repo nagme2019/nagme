@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- {% load nagme_template_tags %} -->
+
+<html>
+  <head>
+    <!-- TAB TITLE PASSED CONTEXTUALLY -->
+    <title>nag.me -
+      {% block title_block %}
+        welcome page
+      {% endblock %}
+      <!-- defaults to suffix welcome page -->
+    </title>
+
+    <!-- SETTINGS STUFF -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="base_styles.css">
+
+    <!-- IMPORT HOSTED BOOTSTRAP FROM MAXCDN-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+
+
+
+  <body>
+    <!-- NOTES/THOUGHTS -->
+    <!-- context dict = {topbar: {leftbutton_label, leftbutton_link, rightbutton_label, rightbutton_link}, sidebar: ...} -->
+    <!-- use a url context so that urls can be refered to, does this need an app? -->
+    <!-- TODO change the background of the navbar to orange and implement a navbar-custom that autooverrides contextual style for the link colors etc  -->
+    <!-- ><span class="glyphicon glyphicon-user"></span> -->
+    <!-- ><span class="glyphicon glyphicon-login"></span> -->
+    <!-- could just have 3 items to the side and deactivate active? -->
+    <!-- TODO go through the bootstrap inverse in CSS to make sure cover all responsive standards -->
+    <!-- TODO finish overriding stylistic for navbar -->
+    <!--  -->
+
+
+
+    <!-- NAVBAR STARTS HERE -->
+
+
+    <div class="container-fluid">
+      <nav id="topbar" class="navbar navbar-fixed-top navbar-custom">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><strong>Nag.Me</strong></a>
+        </div>
+
+        <div class="nav navbar-nav pull-right">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+              <a href="{{ topbar["leftbutton_link"] }} class="nav-link" ">{{ topbar["leftbutton_label"] }}</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ topbar["rightbutton_link"] }} class="nav-link" ">{{ topbar["rightbutton_label"] }}</a>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+
+
+
+
+
+    <!-- PAGE STARTS HERE -->
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
+          <img src="blank user pic.jpg" alt="blank user pic" width="200">
+          <p class="text-center text-muted">{{ sidebar["username"] }}</p>
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#section1">Homepage</a></li>
+            <li><a href="#section2">Manage account</a></li>
+            <li><a href="#section3">Manage my.nags</a></li>
+            <li><a href="#section3">? Write nags</a></li>
+            <li><a href="#section3">Explore Nags</a></li>
+            <li><a href="#section3">Explore Categories</a></li>
+          </ul><br>
+        </div>
+
+
+        <div id="pagecontents" class="col-sm-10">
+            <br><br><br><p>This is some text</p>
+        </div>
+      </div>
+    </div>
+
+
+
+</html>

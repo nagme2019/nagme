@@ -1,0 +1,38 @@
+
+
+
+body {
+  background-color: #ffffff;
+}
+
+.navbar-custom {
+  background-color: #ff6700;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text,
+.navbar-custom .navbar-nav a{
+  color : #ffffff;
+}
+
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color : #ffffff;
+}
+
+#sidebar {
+  background-color: #ebebeb;
+  margin-top : 6em;
+}
+
+
+/*Set height of the grid so .sidenav can be 100% (adjust as needed)
+SCREEN SIZE GUIDE
+xs (for phones - screens less than 768px wide)
+sm (for tablets - screens equal to or greater than 768px wide)
+md (for small laptops - screens equal to or greater than 992px wide)
+lg (for laptops and desktops - screens equal to or greater than 1200px wide)
+*/
+.row.content {height: 450px}
