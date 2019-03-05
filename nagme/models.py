@@ -30,7 +30,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class Nag(models.Model):
+class Nag(models.Model): # need to add datetime for when the nag is created
     id = models.AutoField(primary_key=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)  # change this
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='author', null=True)
