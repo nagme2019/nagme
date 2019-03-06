@@ -4,6 +4,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from nagme.models import Reminder
+from django.views.generic.edit import CreateView
+from django.contrib.messages.views import SuccessMessageMixin
+from nagme.models import Category, Nag
 
 
 def welcome(request):
@@ -61,13 +65,28 @@ def support(request):
 
 
 def categories(request):
-    context_dict = {}
+    category_list = Category.objects.all()
+    context_dict = {'categories': category_list}
 
     return render(request, 'nagme/categories.html', context_dict)
 
 
-def category(request):
+def category(request, category_name_slug):
     context_dict = {}
+
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+        nags = Nag.objects.filter(category=cat)
+        context_dict['nags'] = nags
+        context_dict['category'] = cat
+    except Category.DoesNotExist:
+        context_dict['nag'] = None
+        context_dict['category'] = None
 
     return render(request, 'nagme/category.html', context_dict)
 
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'text']
+    success_message = 'Reminder successfully created'
