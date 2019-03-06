@@ -9,7 +9,7 @@ client = Client(account_sid, auth_token)
 
 message = client.messages \
                 .create(
-                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",
+                     body="Join Earth's mightiest heroes. Like Kevin Bacon.",  # top nag text
                      from_='',  # insert twilio number
                      to=''  # insert phone number
                  )
