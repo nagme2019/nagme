@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
 
+def base(request):
+    context_dict={}
+
+    return render(request, '')
+
 def welcome(request):
     context_dict = {}
 
@@ -70,4 +75,3 @@ def category(request):
     context_dict = {}
 
     return render(request, 'nagme/category.html', context_dict)
-

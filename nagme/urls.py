@@ -20,10 +20,12 @@ from django.conf.urls.static import static
 from nagme import views
 
 urlpatterns = [
+    url(r'^$',
+        views.base, name='base'),
     url(r'^welcome/',
-        views.welcome, name ='welcome'),
+        views.welcome, name='welcome'),
     url(r'^login/',
-        views.login,  name= 'login'),
+        views.login, name='login'),
     url(r'^registration/',
         views.login, name='registration'),
     url(r'^userhome/',
