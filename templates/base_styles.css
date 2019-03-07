@@ -9,6 +9,7 @@ body {
   background-color: #ff6700;
   margin-bottom: 0;
   border-radius: 0;
+  padding-right: 1em;
 }
 
 .navbar-custom .navbar-brand,
@@ -24,7 +25,47 @@ body {
 
 #sidebar {
   background-color: #ebebeb;
-  margin-top : 6em;
+  margin-top : 4.5em;
+  padding : 0.75em;
+}
+
+.sidenav .nav-item .nav-link {
+  color : #4b4b57;
+  font-size : 1.2em;
+}
+
+.sidenav .nav-item.active .nav-link {
+  color : #4b4b57;
+  background-color : #ffffff;
+}
+
+.sidenav .nav-item .nav-link:hover {
+  color : #ff6700;
+  background-color : #ffffff;
+}
+
+.sidenav .nav-item.big-side-button .nav-link,
+.sidenav .nav-item.big-side-button .nav-link:visited  {
+  color : #ff6700;
+  background-color : #ffffff;
+  text-align : center;
+  font-size : 150%;
+  font-weight : bold;
+  border-color : #ff6700;
+  border-width : .05em;
+  border-style : solid;
+  margin-right: 0.25em;
+}
+
+.sidenav .nav-item.big-side-button .nav-link:hover {
+  color : #ffffff;
+  background-color : #ff6700;
+}
+
+#sidebar-prof-pic {
+  width : 90%;
+  margin : auto;
+  padding-left: 1em;
 }
 
 

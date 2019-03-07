@@ -31,13 +31,9 @@
     <!-- NOTES/THOUGHTS -->
     <!-- context dict = {topbar: {leftbutton_label, leftbutton_link, rightbutton_label, rightbutton_link}, sidebar: ...} -->
     <!-- use a url context so that urls can be refered to, does this need an app? -->
-    <!-- TODO change the background of the navbar to orange and implement a navbar-custom that autooverrides contextual style for the link colors etc  -->
     <!-- ><span class="glyphicon glyphicon-user"></span> -->
     <!-- ><span class="glyphicon glyphicon-login"></span> -->
-    <!-- could just have 3 items to the side and deactivate active? -->
-    <!-- TODO go through the bootstrap inverse in CSS to make sure cover all responsive standards -->
-    <!-- TODO finish overriding stylistic for navbar -->
-    <!--  -->
+    <!-- {{ topbar["leftbutton_label"] }} , {{ topbar["rightbutton_label"] }} , {{ sidebar["username"] }} -->
 
 
 
@@ -54,12 +50,11 @@
         <div class="nav navbar-nav pull-right">
           <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
-              <a href="{{ topbar["leftbutton_link"] }} class="nav-link" ">{{ topbar["leftbutton_label"] }}</a>
+              <a href="{{ topbar["leftbutton_link"] }} class="nav-link" "> Left Label</a>
             </li>
             <li class="nav-item">
               <a href="{{ topbar["rightbutton_link"] }} class="nav-link" ">
-                <span class="glyphicon glyphicon-log-in"></span>
-                {{ topbar["rightbutton_label"] }}</a>
+                <span class="glyphicon glyphicon-log-in"></span> Right Label</a>
             </li>
           </ul>
         </div>
@@ -76,17 +71,31 @@
     <div class="container-fluid">
       <div class="row">
 
+
         <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
-          <img src="blank user pic.jpg" alt="blank user pic" width="200">
-          <p class="text-center text-muted">{{ sidebar["username"] }}</p>
+          <img id="sidebar-prof-pic" src="blank user pic.jpg" alt="blank user pic">
+          <p class="text-center text-muted">username</p>
+
           <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#section1">Homepage</a></li>
-            <li><a href="#section2">Manage account</a></li>
-            <li><a href="#section3">Manage my.nags</a></li>
-            <li><a href="#section3">? Write nags</a></li>
-            <li><a href="#section3">Explore Nags</a></li>
-            <li><a href="#section3">Explore Categories</a></li>
+            <li class="nav-item active"><a class="nav-link" href="#section1">Homepage</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#section2">Manage account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#section3">Manage my.nags</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#section3">? Write nags</a>
+            </li>
+            <li class="nav-item text-center big-side-button">
+              <a class="nav-link" href="#section3">Explore<br>Nags</a>
+            </li>
+            <li class="nav-item big-side-button">
+              <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
+            </li>
           </ul><br>
+
+
         </div>
 
 
