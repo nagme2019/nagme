@@ -15,6 +15,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+        app_label = '_nagme'
 
     def __str__(self):
         return self.name
@@ -29,6 +30,9 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        app_label = '_nagme'
+
 
 class Nag(models.Model):
     id = models.AutoField(primary_key=True)
@@ -42,6 +46,9 @@ class Nag(models.Model):
     def __str__(self):
         return self.text  # is this right?
 
+    class Meta:
+        app_label = '_nagme'
+
 
 class Reminder(models.Model):
     name = models.ManyToManyField('UserProfile', related_name='subscriber')
@@ -51,3 +58,6 @@ class Reminder(models.Model):
 
     def __str__(self):
         return 'Reminder #{0} - {1}'.format(self.pk, self.text)
+
+    class Meta:
+        app_label = '_nagme'
