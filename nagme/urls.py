@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from _nagme import views
+from nagme import views
 
 urlpatterns = [
     url(r'^$',
@@ -42,7 +42,6 @@ urlpatterns = [
         views.support, name='support'),
     url(r'^userhome/categories_list/',
         views.categories, name='categories'),
-    url(r'^userhome/category/(?P<category_name_slug>[\w\-]+)/$',
-        views.category, name='category'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^userhome/category/',
+        views.category, name='category')
 ]

@@ -4,10 +4,16 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme.models import Reminder
+from _nagme.models import Reminder
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
-from nagme.models import Category, Nag
+from _nagme.models import Category, Nag
+
+
+def base(request):
+    context_dict = {}
+
+    return render(request, 'base.html', context=context_dict)
 
 
 def welcome(request):
@@ -82,6 +88,4 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
-
-    return render(request, 'nagme/category.html', context_dict)
 
