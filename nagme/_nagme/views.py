@@ -85,8 +85,3 @@ def category(request, category_name_slug):
 
     return render(request, 'nagme/category.html', context_dict)
 
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'text']
-    success_message = 'Reminder successfully created'
