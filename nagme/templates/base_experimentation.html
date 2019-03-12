@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!-- {% load nagme_template_tags %} -->
+
+<html>
+  <head>
+    <!-- TAB TITLE PASSED CONTEXTUALLY -->
+    <title>nag.me -
+      {% block title_block %}
+        welcome page
+      {% endblock %}
+      <!-- defaults to suffix welcome page -->
+    </title>
+
+    <!-- SETTINGS STUFF -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="base_styles.css">
+
+    <!-- IMPORT HOSTED BOOTSTRAP FROM MAXCDN-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  </head>
+
+
+
+  <body>
+    <!-- NOTES/THOUGHTS -->
+    <!-- context dict = {topbar: {leftbutton_label, leftbutton_link, rightbutton_label, rightbutton_link}, sidebar: ...} -->
+    <!-- use a url context so that urls can be refered to, does this need an app? -->
+    <!-- TODO change the background of the navbar to orange and implement a navbar-custom that autooverrides contextual style for the link colors etc  -->
+    <!-- ><span class="glyphicon glyphicon-user"></span> -->
+    <!-- ><span class="glyphicon glyphicon-login"></span> -->
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Nag.Me</a>
+        </div>
+        <div class="nav navbar-nav pull-right">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="row">
+      <div class="col-sm-8">
+        <h3>Nag.Me</h3>
+      </div>
+      <div class="col-sm-2">
+        <a href="{{ topbar["leftbutton_link"] }}" class="btn btn-link btn-md">{{ topbar["leftbutton_label"] }}</a>
+      </div>
+      <div class="col-sm-2">
+        <a href="{{ topbar["rightbutton_link"] }}" class="btn btn-link btn-md">{{ topbar["rightbutton_label"] }}</a>
+      </div>
+    </div>
+  </body>
+
+
+
+</html>
