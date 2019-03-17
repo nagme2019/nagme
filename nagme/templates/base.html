@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load _nagme_template_tags %}
-{% load staticfiles %}
 
 <html>
   <head>
@@ -34,7 +33,7 @@
     <!-- use a url context so that urls can be refered to, does this need an app? -->
     <!-- ><span class="glyphicon glyphicon-user"></span> -->
     <!-- ><span class="glyphicon glyphicon-login"></span> -->
-    <!-- topbar["leftbutton_label"] , topbar["rightbutton_label"], sidebar["username"] -->
+    <!-- {{ topbar["leftbutton_label"] }} , {{ topbar["rightbutton_label"] }} , {{ sidebar["username"] }} -->
 
 
 
@@ -117,10 +116,6 @@
               </div>
             </div>
 
-            <div class="row">
-              div
-            </div>
-
           </div>
 
         </div>
@@ -129,6 +124,6 @@
       </div>
     </div>
 
-  </body>
+
 
 </html>

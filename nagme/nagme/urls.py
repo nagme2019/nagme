@@ -44,6 +44,5 @@ urlpatterns = [
         views.categories, name='categories'),
     url(r'^userhome/category/(?P<category_name_slug>[\w\-]+)/$',
         views.category, name='category'),
-    url(r'^new$', views.ReminderCreateView.as_view(), name='new reminder'),
     url(r'^admin/', admin.site.urls),
 ]

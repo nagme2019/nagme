@@ -44,7 +44,7 @@ class Nag(models.Model):
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.text  # is this right?
+        return self.text
 
     class Meta:
         app_label = '_nagme'
@@ -52,7 +52,7 @@ class Nag(models.Model):
 
 class Reminder(models.Model):
     name = models.ManyToManyField('UserProfile', related_name='subscriber')
-    phonenumber = models.ManyToManyField('UserProfile', related_name='number')
+    phonenumber = models.ManyToManyField('UserProfile', related_name='phonenumber')  # this should be automatically set to the user's number
     time = models.DateTimeField()
     text = models.ForeignKey('Nag')
 

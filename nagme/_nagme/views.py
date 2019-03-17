@@ -4,9 +4,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from _nagme.models import Reminder
-from django.views.generic.edit import CreateView
-from django.contrib.messages.views import SuccessMessageMixin
 from _nagme.models import Category, Nag
 
 
@@ -19,62 +16,62 @@ def base(request):
 def welcome(request):
     context_dict = {}
 
-    return render(request, 'nagme/welcome.html', context_dict)
+    return render(request, '_nagme/welcome_page.html', context_dict)
 
 
 def login(request):
     context_dict = {}
 
-    return render(request, 'nagme/login.html', context_dict)
+    return render(request, '_nagme/login.html', context_dict)
 
 
 def registration(request):
     context_dict = {}
 
-    return render(request, 'nagme/registration.html', context_dict)
+    return render(request, '_nagme/registration.html', context_dict)
 
 
 def userhome(request):
     context_dict = {}
 
-    return render(request, 'nagme/userhome.html', context_dict)
+    return render(request, '_nagme/userhome.html', context_dict)
 
 
 def account(request):
     context_dict = {}
 
-    return render(request, 'nagme/account.html', context_dict)
+    return render(request, '_nagme/account.html', context_dict)
 
 
 def account_details(request):
     context_dict = {}
 
-    return render(request, 'nagme/account_details.html', context_dict)
+    return render(request, '_nagme/account_details.html', context_dict)
 
 
 def account_password(request):
     context_dict = {}
 
-    return render(request, 'nagme/account_password.html', context_dict)
+    return render(request, '_nagme/account_password.html', context_dict)
 
 
 def addnag(request):
     context_dict = {}
 
-    return render(request, 'nagme/addnag.html', context_dict)
+    return render(request, '_nagme/addnag.html', context_dict)
 
 
 def support(request):
     context_dict = {}
 
-    return render(request, 'nagme/support.html', context_dict)
+    return render(request, '_nagme/support.html', context_dict)
 
 
 def categories(request):
     category_list = Category.objects.all()
     context_dict = {'categories': category_list}
 
-    return render(request, 'nagme/categories.html', context_dict)
+    return render(request, '_nagme/categories.html', context_dict)
 
 
 def category(request, category_name_slug):
@@ -89,13 +86,3 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
-#    return render(request, 'nagme/category.html', context_dict)
-#<<<<<<< HEAD:nagme/views.py
-#=======
-
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'text']
-    success_message = 'Reminder successfully created'
-#>>>>>>> 9c4c0e8d30fe2f33f52e88fb9e23fbcfc7dfc286:nagme/_nagme/views.py
