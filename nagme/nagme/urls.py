@@ -18,6 +18,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from _nagme import views
+from _nagme.views import ReminderCreateView
+from _nagme.views import ReminderListView
+from _nagme.views import ReminderDeleteView
+from _nagme.views import ReminderDetailView
 
 urlpatterns = [
     url(r'^$',
@@ -45,4 +49,8 @@ urlpatterns = [
     url(r'^userhome/category/(?P<category_name_slug>[\w\-]+)/$',
         views.category, name='category'),
     url(r'^admin/', admin.site.urls),
+    url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
+    url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
+    url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
+    url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
 ]
