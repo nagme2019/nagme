@@ -13,8 +13,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 def base(request):
-    context_dict = {}
-
+    context_dict = {"topbar": {"leftbutton": {"label": topbarBtns["signup"]}, "rightbutton": topbarBtns["login"]}}
+    """
+      <!-- context dict = {topbar: {leftbutton_label, leftbutton_link, rightbutton_label, rightbutton_link}, sidebar: ...} -->
+    """
     return render(request, 'base.html', context=context_dict)
 
 
@@ -24,7 +26,9 @@ def welcome(request):
     return render(request, '_nagme/welcome_page.html', context_dict)
 
 
-def login(request):
+# added an underscore temporarily because name conflict with import at top,
+    # need to fix name of this view everywhere later
+def log_in(request):
     context_dict = {}
 
     return render(request, '_nagme/login.html', context_dict)
@@ -123,3 +127,39 @@ class ReminderDeleteView(DeleteView):
 
     model = Reminder
     success_url = reverse_lazy('list_appointments')
+
+
+# ##############################################################################
+# The functions and dictionaries below streamline passing in buttons to views
+# Could probably make into a model or something later to make cleaner and easier
+#       but can't be Fd rn
+
+
+topbarBtns = {
+    "signup": {"label": "Sign Up", "link": "#", "icon": "fas fa-user-plus"},
+    "login": {"label": "Log In", "link": "#", "icon": "fas fa-sign-in-alt"},
+    "logout": {"label": "Log Out", "link": "#", "icon": "fas fa-sign-out-alt"},
+    "contact": {"label": "Contact Us", "link": "#", "icon": "fas fa-question"},
+    "welcome": {"label": "Back to Welcome Page", "link": "#", "icon": "fas fa-home"}
+}
+
+
+'''
+    bell -slash bells  ,  badge -check ,  ban
+    calendar -alt -check -day - week
+            -edit -exclamation -minus -plus - star -times(looks like x)
+    minus -circle -square -hexagon -octagon
+    comments , comment -slash -alt -alt-slash  ,  sms , quote-left -right
+    mobile -alt
+    lock -open -alt -open-alt
+    exclamation -square -triangle
+    info -square -circle
+    eye -slash
+    bullhorn bullseye certificate
+    chart-area -bar -line -pie
+    tag tags
+    thumbtack
+    tasks
+    smile frown meh
+    clock , hourglass -end -start -half
+'''

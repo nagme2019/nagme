@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'^userhome/categories_list/',
         views.categories, name='categories'),
     url(r'^userhome/category/',
-        views.category, name='category')
+        views.category, name='category'),
     url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
     url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
     url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),

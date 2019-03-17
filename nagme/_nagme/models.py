@@ -74,8 +74,7 @@ class Reminder(models.Model):
         return reverse('view_reminder', args=[str(self.id)])
 
     def clean(self):
-        """Checks that appointments are not scheduled in the past"""
-
+        """Checks appointments are not scheduled in the past"""
         reminder_time = arrow.get(self.time, self.time_zone.zone)
 
         if reminder_time < arrow.utcnow():
@@ -85,7 +84,6 @@ class Reminder(models.Model):
 
     def schedule_reminder(self):
         """Schedule a Dramatiq task to send a reminder for this appointment"""
-
         # Calculate the correct time to send this reminder
         reminder_time = arrow.get(self.time, self.time_zone.zone)
         now = arrow.now(self.time_zone.zone)
@@ -102,7 +100,6 @@ class Reminder(models.Model):
 
     def save(self, *args, **kwargs):
         """Custom save method which also schedules a reminder"""
-
         self.slug = slugify(self.name)
 
         # Check if we have scheduled a reminder for this appointment before
