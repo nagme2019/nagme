@@ -30,6 +30,28 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# Twilio API
+TWILIO_NUMBER = '+447480534396'
+TWILIO_ACCOUNT_SID = 'ACf46f7868cc321426fc41dbbe0ea4676e'
+TWILIO_AUTH_TOKEN = 'f091327b9ce1bb5900b28edc8bb416b3'
+
+DRAMATIQ_BROKER = {
+    "BROKER": "dramatiq.brokers.redis.RedisBroker",
+    "OPTIONS": {
+        "url": 'redis://localhost:6379/0',
+    },
+    "MIDDLEWARE": [
+        "dramatiq.middleware.Prometheus",
+        "dramatiq.middleware.AgeLimit",
+        "dramatiq.middleware.TimeLimit",
+        "dramatiq.middleware.Callbacks",
+        "dramatiq.middleware.Retries",
+        "django_dramatiq.middleware.AdminMiddleware",
+        "django_dramatiq.middleware.DbConnectionsMiddleware",
+    ]
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [

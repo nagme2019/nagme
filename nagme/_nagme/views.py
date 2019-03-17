@@ -4,7 +4,12 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from _nagme.models import Category, Nag
+from _nagme.models import Category, Nag, Reminder
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def base(request):
@@ -86,3 +91,35 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    """Shows users a list of appointments"""
+
+    model = Reminder
+
+
+class ReminderDetailView(DetailView):
+    """Shows users a single appointment"""
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    """Powers a form to edit existing appointments"""
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+
+
+class ReminderDeleteView(DeleteView):
+    """Prompts users to confirm deletion of an appointment"""
+
+    model = Reminder
+    success_url = reverse_lazy('list_appointments')
