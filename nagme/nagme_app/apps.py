@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class NagmeConfig(AppConfig):
-    name = 'nagme'
+    name = 'nagme_app'

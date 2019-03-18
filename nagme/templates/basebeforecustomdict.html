@@ -31,13 +31,28 @@
 
 
   <body>
+    <!-- NOTES/THOUGHTS -->
+    <!-- context_dict =
+    { topbar: {leftbutton: {label, link, icon}, rightbutton: {label, link, icon}
+      sidebar: {}
+    }-->
+    <!-- USING FONT-AWESOME ICONS
+        <i class="fas fa-igloo"></i>
+        -  free prefixes are usually fas=solid and sometimes far=light/outling and fab=brand
+        -  naming convention : can use i or span element, prefix for style then fa-iconname
+        -  icons automatically inherit font color and weight of text where inserted
+    -->
 
 
-<!-- TOP BAR  -->
+
+
+
+
+
+                      <!--      TOP BAR     -->
 
     <div class="container-fluid">
       <nav id="topbar" class="navbar navbar-fixed-top navbar-custom">
-
 
 <!-- Top bar logo -->
         <div class="navbar-header">
@@ -46,42 +61,55 @@
           </a>
         </div>
 
+<!-- Top bar left button -->
         <div class="nav navbar-nav pull-right">
           <ul class="nav navbar-nav navbar-right">
-
-<!-- Top bar left button -->
               <li class="nav-item">
-                  {% block leftbutton_block %}
-                  <a href="#" class="nav-link" >
-                        <i class=""></i>
+                  <a href=
+                        "{% block Lbtnlink_block %}
+                        {% endblock %}" class="nav-link" >
+                       <i class=
+                        "{% block Lbtnicon_block %}
+                        {% endblock %}">
+                      </i>
+                        {% block Lbtnlabel_block %}
+                        {% endblock %}
                   </a>
-                  {% endblock %}
               </li>
 
 <!-- Top bar right button -->
               <li class="nav-item">
-                  {% block rightbutton_block %}
-                  <a href="" class="nav-link" >
-                       <i class=""</i>
+                  <a href=
+                        "{% block Rbtnlink_block %}
+                            {% url 'logout' %}
+                        {% endblock %}" class="nav-link" >
+                       <i class=
+                        "{% block Rbtnicon_block %}
+                            fas fa-sign-out-alt
+                        {% endblock %}">
+                      </i>
+                        {% block Rbtnlabel_block %}
+                             Log Out
+                        {% endblock %}
                   </a>
-                  {% endblock %}
               </li>
           </ul>
-
         </div>
 
       </nav>
     </div>
 
-
-
 <!-- SIDE BAR  -->
     <div class="container-fluid">
-      <div id="siderow"class="row">
-        {% block sidebar_width_block %}
-        <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
-        {% endblock %}
+      <div class="row">
+        <div id="sidebar" class="col-sm-2 hidden
+          {% block sidebar_visibility_block %}
+              -xs sidenav
+          {% endblock %}
+        ">
+        <!-- (delete text in the sidebar_visibility_block to hide sidebar) -->
 
+<!-- sidebar_block -->
           {% block sidebar_block %}
               <!--<img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
               <p class="text-center text-muted">username</p> -->
@@ -103,29 +131,43 @@
                 <li class="nav-item big-side-button">
                   <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
                 </li>
-                <li class="nav-item text-left">
-                  <a class="nav-link" href="#section3"> <i class="far fa-question-circle"</i>Contact Us</a>
-                </li>
               </ul><br>
           {% endblock %}
         </div>
 
-<!-- PAGE BODY -->
-        {% block body_width_block %}
-        <div id="pagecontents" class="col-sm-8">
-        {% endblock %}
 
-                {% block body_block %}
-                {% endblock %}
+
+
+<!-- PAGE BODY -->
+        <div id="pagecontents" class="col-sm-10">
+          <div class="container-fluid">
+              <!--<div class="row">
+                <h1>Big Orange Page Title is h1</h1>
+                <p class="page-subtitle">Page subtitle is p.page-subtitle</p>
+              </div>
+
+              <div class="row">
+                <div class="announcebox">
+                  <div class="bubble">
+                    <h3>Nag of the day</h3>
+                    <p>llakjf;alkjf;lsakjf ;dsalkfj;salkfj;salkfj;alkfj;akj</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                div
+              </div>-->
+
+          </div>
         </div>
 
 
-
-
-
-
+<!-- Closing side bar after page body inescapable -->
       </div>  <!-- ends row of sidebar -->
     </div>  <!-- ends container-fluid of sidebar -->
+
+
 
   </body>
 </html>

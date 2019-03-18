@@ -1,5 +1,5 @@
 from django.contrib import admin
-from _nagme.models import Category, UserProfile, Nag, Reminder
+from nagme_app.models import Category, UserProfile, Nag, Reminder
 
 
 class CategoryAdmin(admin.ModelAdmin):

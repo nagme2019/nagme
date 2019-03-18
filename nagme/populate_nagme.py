@@ -19,7 +19,7 @@ def populate():
 		"Struggling to get up? Countdown from 10, and get up before you’re finished. 3… 2… 1… Go!",
 		"Up Up Up! Let’s go! Let’s go!"
 	]
-   
+
    hygiene_nags = [
         "Remember to wash behind your ears",
 		"You clean? Scrub up and feel better!",
@@ -32,7 +32,7 @@ def populate():
 		"Get the water running! Shower time!",
 		"Brush your teeth! Or at least the ones you want to keep"
     ]
-	
+
 	being_on_time_nags = [
         "Don’t be late! Get going nice and early",
 		"Leaving in plenty of time gives you lots of time to relax once you’re there",
@@ -69,7 +69,7 @@ def populate():
 		"Take it easy tiger. Don’t pour too much cash down your neck",
 		"Save the pennies and the pounds soon follow"
 	]
-	
+
 	bedtime_nags = [
 		"Early to bed, early to rise, makes a man healthy wealthy and wise",
 		"Off to bed. Good night. Tomorrow's a new day",
@@ -82,7 +82,7 @@ def populate():
 		"The sooner you get to sleep the sooner you’ll be dreaming",
 		"Come on! Don’t have another late night!"
 	]
-	
+
     cats = {"Wake Up": {"nags":wakeup_nags},
 			"Hygiene": {"nags": hygiene_nags}
             "Being on time": {"nags": being_on_time_nags},

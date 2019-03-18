@@ -1,5 +1,5 @@
 from django import template
-from _nagme.models import Category
+from nagme_app.models import Category
 
 
 register = template.Library()

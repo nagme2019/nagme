@@ -14,24 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from _nagme import views
-from _nagme.views import ReminderCreateView
-from _nagme.views import ReminderListView
-from _nagme.views import ReminderDeleteView
-from _nagme.views import ReminderDetailView
+from nagme_app import views
+from nagme_app.views import ReminderCreateView
+from nagme_app.views import ReminderListView
+from nagme_app.views import ReminderDeleteView
+from nagme_app.views import ReminderDetailView
 
 urlpatterns = [
     url(r'^$',
-        views.base, name='base'),
-    url(r'^welcome/',
         views.welcome, name='welcome'),
+    url(r'^base/', views.base, name='base'),
     url(r'^login/',
-        views.login, name='login'),
+        views.log_in, name='log_in'),
     url(r'^registration/',
-        views.login, name='registration'),
+        views.registration, name='registration'),
     url(r'^userhome/',
         views.userhome, name='userhome'),
     url(r'^userhome/account/',
@@ -46,8 +46,9 @@ urlpatterns = [
         views.support, name='support'),
     url(r'^userhome/categories_list/',
         views.categories, name='categories'),
-    url(r'^userhome/category/',
+    url(r'^userhome/category/(?P<category_name_slug>[\w\-]+)/$',
         views.category, name='category'),
+    url(r'^admin/', admin.site.urls),
     url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
     url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
     url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),

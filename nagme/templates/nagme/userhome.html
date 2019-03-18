@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+Homepage
+{% endblock %}
+
+{% block leftbutton_block %}
+{% endblock %}
+
+{% block rightbutton_block %}
+<a href="" class="nav-link" >
+     <i class="fas fa-sign-out-alt"</i>
+       Log Out
+</a>
+{% endblock %}
+
+{% block sidebar_block %}
+    <img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
+    <p class="text-center text-muted">username</p>
+
+    <ul class="nav nav-pills nav-stacked">
+      <li class="nav-item active"><a class="nav-link" href="#section1">Homepage</a></li>
+      <li class="nav-item">
+        <a class="nav-link" href="#section2">Manage account</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#section3">Manage my.nags</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#section3">? Write nags</a>
+      </li>
+      <li class="nav-item text-center big-side-button">
+        <a class="nav-link" href="#section3">Explore<br>Nags</a>
+      </li>
+      <li class="nav-item big-side-button">
+        <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
+      </li>
+      <li class="nav-item pull-left">
+        <a class="nav-link" href="#section3"> <i class="far fa-question-circle"</i>Contact Us</a>
+      </li>
+    </ul><br>
+{% endblock %}
+
+{% block body_block %}
+<h1>Welcome {{ firstname }}!</h1>
+<p class="page-subtitle">Congratulations, you've been using nag.me for {{days_using}} days! </p>
+
+<div class="announcebox">
+  <div class="bubble">
+    <h3>Nag of the day</h3>
+    <p>ajfjsadhflkjdsahflksajhflksajhflkh</p>
+  </div>
+</div>
+{% endblock %}

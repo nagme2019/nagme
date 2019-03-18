@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from _nagme.models import Category, Nag, Reminder
+from nagme_app.models import Category, Nag, Reminder
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
@@ -13,74 +13,83 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 def base(request):
-    context_dict = {"topbar": {"leftbutton": {"label": topbarBtns["signup"]}, "rightbutton": topbarBtns["login"]}}
-    """
-      <!-- context dict = {topbar: {leftbutton_label, leftbutton_link, rightbutton_label, rightbutton_link}, sidebar: ...} -->
-    """
-    return render(request, 'base.html', context=context_dict)
+
+    return render(request, 'base.html')
 
 
 def welcome(request):
-    context_dict = {}
+    context_dict = {"nag_of_the_day": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin."}
 
-    return render(request, '_nagme/welcome_page.html', context_dict)
+    return render(request, 'nagme/welcome_page.html')
 
 
 # added an underscore temporarily because name conflict with import at top,
     # need to fix name of this view everywhere later
 def log_in(request):
+    #need to change this so it stops giving the weird error from inbuilt login function
+    #who is building forms?
     context_dict = {}
 
-    return render(request, '_nagme/login.html', context_dict)
+    return render(request, 'nagme/log_in.html', context_dict)
 
 
 def registration(request):
+    #who is making forms?
     context_dict = {}
 
-    return render(request, '_nagme/registration.html', context_dict)
+    return render(request, 'nagme/registration.html', context_dict)
 
 
 def userhome(request):
-    context_dict = {}
+    #change to only allow if user is logged in,
+    #otherwise redirect to login page
+    #need to figure out how to display categories
 
-    return render(request, '_nagme/userhome.html', context_dict)
+    context_dict = {
+        "firstname":"FirstName",
+        "username": "username",
+        "days_using": 184,
+        "nag_of_the_day" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. \n Curabitur lacinia mattis arcu in sollicitudin."
+        }
+
+    return render(request, 'nagme/userhome.html', context_dict)
 
 
 def account(request):
     context_dict = {}
 
-    return render(request, '_nagme/account.html', context_dict)
+    return render(request, 'nagme/account.html', context_dict)
 
 
 def account_details(request):
     context_dict = {}
 
-    return render(request, '_nagme/account_details.html', context_dict)
+    return render(request, 'nagme/account_details.html', context_dict)
 
 
 def account_password(request):
     context_dict = {}
 
-    return render(request, '_nagme/account_password.html', context_dict)
+    return render(request, 'nagme/account_password.html', context_dict)
 
 
 def addnag(request):
     context_dict = {}
 
-    return render(request, '_nagme/addnag.html', context_dict)
+    return render(request, 'nagme/addnag.html', context_dict)
 
 
 def support(request):
     context_dict = {}
 
-    return render(request, '_nagme/support.html', context_dict)
+    return render(request, 'nagme/support.html', context_dict)
 
 
 def categories(request):
     category_list = Category.objects.all()
     context_dict = {'categories': category_list}
 
-    return render(request, '_nagme/categories.html', context_dict)
+    return render(request, 'nagme/categories.html', context_dict)
 
 
 def category(request, category_name_slug):
@@ -130,17 +139,16 @@ class ReminderDeleteView(DeleteView):
 
 
 # ##############################################################################
-# The functions and dictionaries below streamline passing in buttons to views
-# Could probably make into a model or something later to make cleaner and easier
-#       but can't be Fd rn
+# The dictionaries below temporary
 
 
 topbarBtns = {
-    "signup": {"label": "Sign Up", "link": "#", "icon": "fas fa-user-plus"},
-    "login": {"label": "Log In", "link": "#", "icon": "fas fa-sign-in-alt"},
-    "logout": {"label": "Log Out", "link": "#", "icon": "fas fa-sign-out-alt"},
-    "contact": {"label": "Contact Us", "link": "#", "icon": "fas fa-question"},
-    "welcome": {"label": "Back to Welcome Page", "link": "#", "icon": "fas fa-home"}
+    "signup": {"label": "Sign Up", "link": 'signup', "icon": "fas fa-user-plus"},
+    "login": {"label": "Log In", "link": 'login', "icon": "fas fa-sign-in-alt"},
+    "logout": {"label": "Log Out", "link": 'logout', "icon": "fas fa-sign-out-alt"},
+    "contact": {"label": "Contact Us", "link": 'contact', "icon": "fas fa-question"},
+    "welcome": {"label": "Back to Welcome Page", "link": 'welcome', "icon": "fas fa-home"},
+    "empty": {"label": "", "link": '#', "icon": ""}
 }
 
 

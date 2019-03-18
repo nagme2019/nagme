@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block title_block %}
+    Welcome
+{% endblock %}
+
+{% block sidebar_width_block %}
+<div id="sidebar" class="col-sm-0 hidden sidenav">
+{% endblock %}
+
+{% block leftbutton_block %}
+<a href="#" class="nav-link" >
+      <i class="fas fa-user-plus"></i>
+      Sign Up
+</a>
+{% endblock %}
+
+{% block rightbutton_block %}
+<a href="#" class="nav-link" >
+      <i class="fas fa-sign-in-alt"></i>
+      Log In
+</a>
+{% endblock %}
+
+
+{% block pagebody_width_block %}
+<div id="pagecontents" class="col-sm-12">
+{% endblock %}
+
+{% block body_block %}
+<h1 class="text-center">Productivity made pushy...</h1>
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-8">
+      <h2 class="navy text-center arial">meet</h2>
+      <h3 class="navy text-center arial">mum.bot</h3>
+      <h4 class="navy arial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin. Pellentesque id lobortis neque. Etiam at lacus nec orci bibendum feugiat eget ac nunc. In id leo mauris. Integer feugiat vehicula ex, in vulputate mauris tempus vitae. Donec lorem augue, blandit eu ligula quis, iaculis euismod odio. Nam euismod scelerisque sapien. Integer rhoncus lobortis metus vitae iaculis.
+
+	Duis nec dolor sit amet justo porta ornare. Etiam convallis lectus vel odio iaculis venenatis. Proin pretium, lorem sit amet tempus malesuada, ligula velit interdum elit, ut posuere nunc ligula eget enim. Nam posuere neque a libero efficitur dictum. Curabitur in malesuada risus.</h4>
+    </div>
+
+    <div class="col-sm-4">
+      <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot">
+      <div class="bubble orange">
+        <h3>Nag of the day</h3>
+        <p>{{ nag_of_the_day }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

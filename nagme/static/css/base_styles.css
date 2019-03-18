@@ -1,33 +1,53 @@
 
+.col-sm-2 {
+  background-color: blue;
+}
 
+#logo {
+  width : 65%;
+  height : auto;
+  margin-top : 0.025em;
+  margin-left : 1.75em;
+  margin-top : .75em;
+}
 
 body {
   background-color: #ffffff;
-  color :
+  font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
+}
+
+.fa-question {
+  font-size : 0.75em;
+  vertical-align : text-top -1%;
 }
 
 .navbar-custom {
   background-color: #ff6700;
   margin-bottom: 0;
   border-radius: 0;
-  padding-right: 1em;
+  padding-right: 2em;
+}
+
+.navbar-custom .nav-item .nav-link {
+  font-weight : bold;
 }
 
 .navbar-custom .navbar-brand,
 .navbar-custom .navbar-text,
 .navbar-custom .navbar-nav a{
-  color : #ffffff;
+  color :  #ffffff;
 }
 
 .navbar-custom .nav-item.active .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
-  color : #ffffff;
+  font-size : 1.1em;
+  background-color: #ff6700;
 }
 
 #sidebar {
   background-color: #ebebeb;
   padding : 0.75em;
-  padding-top : 3.25em;
+  padding-top : 4.5em;
 }
 
 .sidenav .nav-item .nav-link {
@@ -43,6 +63,7 @@ body {
 .sidenav .nav-item .nav-link:hover {
   color : #ff6700;
   background-color : #ffffff;
+  font-size : 1.1em;
 }
 
 .sidenav .nav-item.big-side-button .nav-link,
@@ -55,7 +76,6 @@ body {
   border-color : #ff6700;
   border-width : .05em;
   border-style : solid;
-  margin-right: 0.25em;
 }
 
 .sidenav .nav-item.big-side-button .nav-link:hover {
@@ -74,10 +94,17 @@ body {
 
 
 #pagecontents {
-  margin-top : 2.75em;
+  margin-top : 3em;
+  width: inherit;
 }
 
 #pagecontents h1 {
+  font-weight: 300;
+  font-size: 4em;
+  color : #ff6700;
+}
+
+#pagecontents h3 {
   font-weight : bold;
   color : #ff6700;
 }
@@ -88,23 +115,48 @@ body {
   color : #6f7380;
 }
 
+#pagecontents .navy {
+  color : #081233;
+}
+
+#pagecontents h2.navy {
+  font-size: 3em;
+}
+
+#pagecontents h3.navy {
+  font-weight: bold;
+  font-size: 3.5em;
+}
+
+#pagecontents .arial {
+  font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+}
+
 .announcebox {
   background-color: #f5edf0;
-  margin : auto;
-  width : 95%;
-  padding : 4em;
+  padding : 1em;
+  width: inherit;
 }
 
 
 .bubble {
   position: relative;
-  width: 295px;
+  width: fit-content;
+  height: inherit;
+  padding: 2em;
+  /*width: 295px;
   height: 130px;
-  padding: 5px;
+  padding: 5px;*/
   background: #FFFFFF;
   -webkit-border-radius: 19px;
   -moz-border-radius: 19px;
   border-radius: 19px;
+  margin-left:2em;
+}
+
+.bubble.orange {
+  background: #ff6700;
+  color : #ffffff;
 }
 
 .bubble:after {
@@ -121,11 +173,15 @@ body {
   top: 78%;
 }
 
+.img .botcircle {
+  width: 20px;
+}
+
 /*Set height of the grid so .sidenav can be 100% (adjust as needed)
 SCREEN SIZE GUIDE
 xs (for phones - screens less than 768px wide)
 sm (for tablets - screens equal to or greater than 768px wide)
 md (for small laptops - screens equal to or greater than 992px wide)
 lg (for laptops and desktops - screens equal to or greater than 1200px wide)
-*/
 .row.content {height: 450px}
+*/

@@ -1,4 +1,6 @@
 import redis
+import pytz
+import arrow
 
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -7,8 +9,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from timezone_field import TimeZoneField
 from django.urls import reverse
 from django.core.exceptions import ValidationError
-
-import arrow
 
 
 class Category(models.Model):
