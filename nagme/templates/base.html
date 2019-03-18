@@ -42,7 +42,7 @@
 <!-- Top bar logo -->
         <div class="navbar-header">
           <a href="{% url 'welcome' %}" class="navbar-left">
-            <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}">
+            <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}"/>
           </a>
         </div>
 
@@ -62,7 +62,7 @@
               <li class="nav-item">
                   {% block rightbutton_block %}
                   <a href="" class="nav-link" >
-                       <i class=""</i>
+                       <i class=""></i>
                   </a>
                   {% endblock %}
               </li>
@@ -77,14 +77,12 @@
 
 <!-- SIDE BAR  -->
     <div class="container-fluid">
-      <div id="siderow"class="row">
+      <div id="siderow" class="row">
         {% block sidebar_width_block %}
         <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
         {% endblock %}
 
           {% block sidebar_block %}
-              <!--<img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
-              <p class="text-center text-muted">username</p> -->
 
               <ul class="nav nav-pills nav-stacked">
                 <li class="nav-item active"><a class="nav-link" href="#section1">Homepage</a></li>
@@ -104,7 +102,7 @@
                   <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
                 </li>
                 <li class="nav-item text-left">
-                  <a class="nav-link" href="#section3"> <i class="far fa-question-circle"</i>Contact Us</a>
+                  <a class="nav-link" href="#section3"> <i class="far fa-question-circle"></i>Contact Us</a>
                 </li>
               </ul><br>
           {% endblock %}
