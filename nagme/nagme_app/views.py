@@ -18,7 +18,6 @@ def base(request):
 
 
 def welcome(request):
-    context_dict = {"nag_of_the_day": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin."}
 
     return render(request, 'nagme/welcome_page.html')
 

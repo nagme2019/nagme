@@ -52,5 +52,5 @@ urlpatterns = [
     url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
     url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
     url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
-    url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
+    #url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
 ]
