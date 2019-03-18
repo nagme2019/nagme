@@ -40,7 +40,6 @@ class Nag(models.Model):
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='author', null=True)
     text = models.CharField(max_length=140, unique=True)
     likes = models.PositiveIntegerField(default=0)
-    subscriber = models.ManyToManyField(User, related_name='subscribe')
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):
