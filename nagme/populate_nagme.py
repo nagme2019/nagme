@@ -73,8 +73,12 @@ def populate():
 			["Come on! Don’t have another late night!", "mombot"]]}
 
 
+	for c, c_data in nags:
+		add_cat(c)
+		for elt in cat_data:
+			add_nag(c, elt[0], elt[1])
 
-	users = {"mombot": ["Mom", "Bot", "mombot@botmail.com", 01414960320,"//PHOTOTEMP//", True]}
+	for u,u_data in users:
 
 
 
@@ -85,48 +89,15 @@ def add_cat(name):
     return c
 
 #Add Nags
-def add_nag(category, nag, author){
+def add_nag(category, nag, author):
 	n = nag.objects.get_or_create(
 	category=category,
 	text = nag
 
 	)
-}
+	n.save()
+	return n
 
-
-#Add User
-
-##Iterate over Users
-
-
-##Iterate over Nags
-	##1. Add Cats to Cat
-	##2. Add Nags to Nags
-
-
-
-
-
-
-##    for cat, cat_data in cats.items():
-##       c = add_cat(cat)
-##        for n in cat_data:
-##            add_nag(c, n);
-##
-##    for c in Category.objects.all():
-##        for n in Nag.objects.filter(category=c):
-##            print("- {0} - {1}".format(str(c), str(n)))
-
-##def add_nag(nag_data):
-##    n = Nag.objects.get_or_create(category=cat, text=text)[0]
-# #   n.likes = likes
-##    n.save()
-##    return n
-
-
-
-
-##def add_user(username, user_info):
 
 
 if __name__ == '__main__':
