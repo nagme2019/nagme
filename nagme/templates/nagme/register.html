@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block title_block %}
+    Log In
+{% endblock %}
+
+{% block sidebar_width_block %}
+<div id="sidebar" class="col-sm-0 hidden sidenav"/>
+{% endblock %}
+
+{% block leftbutton_block %}
+{% endblock %}
+
+{% block rightbutton_block %}
+<a href="#" class="nav-link" >
+      <i class="fas fa-home"></i>
+      Back to Welcome Page
+</a>
+{% endblock %}
+
+{% block pagebody_width_block %}
+<div id="pagecontents" class="col-sm-12"/>
+{% endblock %}
+
+{% block body_block %}
+        <h1>Register with Nag Me</h1>
+        <form id="user_form" method="post" action="/rango/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+{% endblock %}

@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
+from .forms import ContactForm,UserForm,UserProfileForm
 
 
 def base(request):
@@ -169,7 +170,6 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
-<<<<<<< HEAD
 
 class ReminderCreateView(SuccessMessageMixin, CreateView):
     model = Reminder
@@ -199,13 +199,12 @@ class ReminderUpdateView(SuccessMessageMixin, UpdateView):
     success_message = 'Reminder successfully updated.'
 
 
-class ReminderDeleteView(DeleteView):
-    """Prompts users to confirm deletion of an appointment"""
+#class ReminderDeleteView(DeleteView):
+ #   """Prompts users to confirm deletion of an appointment"""
 
-    model = Reminder
-    success_url = reverse_lazy('list_appointments')
-=======
-    return render(request, 'nagme/category_page.html', context_dict)
+  #  model = Reminder
+   # success_url = reverse_lazy('list_appointments')
+	#return render(request, 'nagme/category_page.html', context_dict)
 
 
 # class ReminderCreateView(SuccessMessageMixin, CreateView):
@@ -239,7 +238,7 @@ class ReminderDeleteView(DeleteView):
 #
 #     model = Reminder
 #     success_url = reverse_lazy('list_appointments')
->>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
+#>>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
 
 
 # ##############################################################################
