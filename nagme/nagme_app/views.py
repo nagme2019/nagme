@@ -63,11 +63,8 @@ def registration(request):
             profile.save()
             registered = True
         else:
-<<<<<<< HEAD
             print (user_form.errors, profile_form.errors)
-=======
-            print(user_form.errors, profile_form.errors)
->>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
+
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
