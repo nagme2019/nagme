@@ -22,7 +22,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
-        app_label = '_nagme'
+        app_label = 'nagme_app'
 
     def __str__(self):
         return self.name
@@ -30,15 +30,15 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    phonenumber = PhoneNumberField(null=False, blank=False, unique=True)
+    phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    isauthor = models.BooleanField(default=False)
+    is_author = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
 
     class Meta:
-        app_label = '_nagme'
+        app_label = 'nagme_app'
 
 
 class Nag(models.Model):
@@ -46,14 +46,14 @@ class Nag(models.Model):
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='author', null=True)
     text = models.CharField(max_length=140, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
-
 
     def __str__(self):
         return self.text
 
     class Meta:
-        app_label = '_nagme'
+        app_label = 'nagme_app'
 
 
 class Reminder(models.Model):
@@ -121,4 +121,4 @@ class Reminder(models.Model):
         redis_client.hdel("dramatiq:default.DQ.msgs", self.task_id)
 
     class Meta:
-        app_label = '_nagme'
+        app_label = 'nagme_app'

@@ -90,14 +90,14 @@ body {
 .announcebox {
   background-color: #f5edf0;
   margin : auto;
-  width : 95%;
+  width : 200px;
   padding : 4em;
 }
 
 
 .bubble {
   position: relative;
-  width: 295px;
+  width: 10px;
   height: 130px;
   padding: 5px;
   background: #FFFFFF;
@@ -109,7 +109,7 @@ body {
 .bubble:after {
   content: '';
   position: absolute;
-  border-style: solid;
+  border-style: solid;100%
   border-width: 9px 21px 9px 0;
   border-color: transparent #FFFFFF;
   display: block;
