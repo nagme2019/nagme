@@ -37,7 +37,7 @@ def login(request):
             else:
                 return HttpResponse("Your Rango account is disabled.")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
+            print ("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'login.html', {})
@@ -58,7 +58,7 @@ def registration(request):
             profile.save()
             registered = True
         else:
-            print user_form.errors, profile_form.errors
+            print (user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
@@ -107,9 +107,13 @@ def addnag(request):
 
 
 def support(request):
-    context_dict = {}
-
-    return render(request, 'nagme/support.html', context_dict)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            pass  # does nothing, just trigger the validation
+    else:
+        form = ContactForm()
+    return render(request, 'support.html', {'form': form})
 
 
 def categories(request):
@@ -142,6 +146,8 @@ class ReminderListView(ListView):
     """Shows users a list of appointments"""
 
     model = Reminder
+	
+	
 
 
 class ReminderDetailView(DetailView):
