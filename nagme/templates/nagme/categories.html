@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Categories
+{% endblock %}
+
+
+{% block body_block %}
+	{% if categories %}
+		{% for category in categories %}
+                <li><a href="{%  url 'category' category.slug %}">{{ category.name }}</a></li>
+            {% endfor %}
+    {% else %}
+            <strong>No categories.</strong>
+    {% endif %}
+{% endblock %}

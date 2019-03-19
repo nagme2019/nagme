@@ -19,38 +19,41 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from nagme_app import views
-from nagme_app.views import ReminderCreateView
-from nagme_app.views import ReminderListView
-from nagme_app.views import ReminderDeleteView
-from nagme_app.views import ReminderDetailView
+# from nagme_app.views import ReminderCreateView
+# from nagme_app.views import ReminderListView
+# from nagme_app.views import ReminderDeleteView
+# from nagme_app.views import ReminderDetailView
 
 urlpatterns = [
     url(r'^$',
         views.welcome, name='welcome'),
     url(r'^base/', views.base, name='base'),
-    url(r'^login/',
+    url(r'^log_in/',
         views.log_in, name='log_in'),
     url(r'^registration/',
         views.registration, name='registration'),
-    url(r'^userhome/',
-        views.userhome, name='userhome'),
-    url(r'^userhome/account/',
+    url(r'^user_home/',
+        views.user_home, name='user_home'),
+    url(r'^user_home/account/',
         views.account, name='account'),
-    url(r'^userhome/account/account_details/',
+    url(r'^user_home/account/account_details/',
         views.account_details, name='account_details'),
-    url(r'^userhome/account/account_details/account_password',
+    url(r'^user_home/account/account_details/account_password',
         views.account_password, name='account_password'),
-    url(r'^userhome/addnag/',
-        views.addnag, name='addnag'),
-    url(r'^userhome/support/',
+    url(r'^add_nag/',
+        views.add_nag, name='add_nag'),
+    url(r'^support/',
         views.support, name='support'),
-    url(r'^userhome/categories_list/',
+    url(r'^categories_list/',
         views.categories, name='categories'),
-    url(r'^userhome/category/(?P<category_name_slug>[\w\-]+)/$',
+    url(r'^category/(?P<category_name_slug>[\w\-]+)/$',
         views.category, name='category'),
+    url(r'^category/(?P<category_name_slug>[\w\-]+)/add_nag/$',
+        views.add_nag,
+        name='add_nag'),
     url(r'^admin/', admin.site.urls),
-    url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
-    url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
-    url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
-    url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
+    # url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
+    # url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
+    # url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
+    # url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
 ]

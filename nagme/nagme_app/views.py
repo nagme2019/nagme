@@ -10,37 +10,41 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.models import User
 
 
 def base(request):
-
     return render(request, 'base.html')
 
 
 def welcome(request):
-    context_dict = {"nag_of_the_day": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin."}
+    nag = Nag.objects.order_by('-likes')[0]
 
-    return render(request, 'nagme/welcome_page.html')
+    context_dict = {
+        "nag_of_the_day": nag}
+
+    return render(request, 'nagme/welcome_page.html', context_dict)
 
 
 # added an underscore temporarily because name conflict with import at top,
-    # need to fix name of this view everywhere later
-def login(request):
+# need to fix name of this view everywhere later
+def log_in(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('/rango/')
+                log_in(request, user)
+                return HttpResponseRedirect("user_home")
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            print("Invalid log_in details: {0}, {1}".format(username, password))
+            return HttpResponse("Invalid log_in details supplied.")
     else:
-        return render(request, 'login.html', {})
+        return render(request, 'log_in.html', {})
+
 
 def registration(request):
     registered = False
@@ -58,52 +62,80 @@ def registration(request):
             profile.save()
             registered = True
         else:
-            print user_form.errors, profile_form.errors
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
     return render(request,
-            'register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+                  'register.html',
+                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
-def userhome(request):
-    #change to only allow if user is logged in,
-    #otherwise redirect to login page
-    #need to figure out how to display categories
+def user_home(request):
+    # change to only allow if user is logged in,
+    # otherwise redirect to log_in page
+
+    category_list = Category.objects.all
+    nag = Nag.objects.order_by('-likes')[0]
 
     context_dict = {
-        "firstname":"FirstName",
+        "firstname": "FirstName",
         "username": "username",
         "days_using": 184,
-        "nag_of_the_day" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. \n Curabitur lacinia mattis arcu in sollicitudin."
-        }
+        "nag_of_the_day": nag,
+        "categories": category_list,
+    }
 
-    return render(request, 'nagme/userhome.html', context_dict)
+    return render(request, 'nagme/user_home.html', context_dict)
 
 
+@login_required
 def account(request):
     context_dict = {}
 
     return render(request, 'nagme/account.html', context_dict)
 
 
+@login_required
 def account_details(request):
     context_dict = {}
 
     return render(request, 'nagme/account_details.html', context_dict)
 
 
+@login_required
 def account_password(request):
     context_dict = {}
 
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-def addnag(request):
-    context_dict = {}
+# make sure it can't be accessed unless the person is an author
+# currently set up so author can add nag from chosen category page, assume we want to
+# make it possible for them to choose the category from a drop down list on the add
+# nag page
+@login_required
+def add_nag(request, category_name_slug):
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        cat = None
 
-    return render(request, 'nagme/addnag.html', context_dict)
+    form = NagForm()
+    if request.method == 'POST':
+        form = NagForm(request.POST)
+        if form.is_valid():
+            if cat:
+                nag = form.save(commit=False)
+                nag.category = cat
+                nag.likes = 0
+                nag.save()
+                return cat(request, category_name_slug)
+        else:
+            print(form.errors)
+
+    context_dict = {'form': form, 'category': cat}
+    return render(request, 'nagme/add_nag.html', context_dict)
 
 
 def support(request):
@@ -131,38 +163,40 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
+    return render(request, 'nagme/category_page.html', context_dict)
 
 
-class ReminderListView(ListView):
-    """Shows users a list of appointments"""
-
-    model = Reminder
-
-
-class ReminderDetailView(DetailView):
-    """Shows users a single appointment"""
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-
-
-class ReminderDeleteView(DeleteView):
-    """Prompts users to confirm deletion of an appointment"""
-
-    model = Reminder
-    success_url = reverse_lazy('list_appointments')
+# class ReminderCreateView(SuccessMessageMixin, CreateView):
+#     model = Reminder
+#     fields = ['name', 'phone_number', 'time', 'time_zone']
+#     success_message = 'Reminder successfully created.'
+#
+#
+# class ReminderListView(ListView):
+#     """Shows users a list of appointments"""
+#
+#     model = Reminder
+#
+#
+# class ReminderDetailView(DetailView):
+#     """Shows users a single appointment"""
+#
+#     model = Reminder
+#
+#
+# class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+#     """Powers a form to edit existing appointments"""
+#
+#     model = Reminder
+#     fields = ['name', 'phone_number', 'time', 'time_zone']
+#     success_message = 'Reminder successfully updated.'
+#
+#
+# class ReminderDeleteView(DeleteView):
+#     """Prompts users to confirm deletion of an appointment"""
+#
+#     model = Reminder
+#     success_url = reverse_lazy('list_appointments')
 
 
 # ##############################################################################
@@ -171,13 +205,12 @@ class ReminderDeleteView(DeleteView):
 
 topbarBtns = {
     "signup": {"label": "Sign Up", "link": 'signup', "icon": "fas fa-user-plus"},
-    "login": {"label": "Log In", "link": 'login', "icon": "fas fa-sign-in-alt"},
+    "log_in": {"label": "Log In", "link": 'log_in', "icon": "fas fa-sign-in-alt"},
     "logout": {"label": "Log Out", "link": 'logout', "icon": "fas fa-sign-out-alt"},
     "contact": {"label": "Contact Us", "link": 'contact', "icon": "fas fa-question"},
     "welcome": {"label": "Back to Welcome Page", "link": 'welcome', "icon": "fas fa-home"},
     "empty": {"label": "", "link": '#', "icon": ""}
 }
-
 
 '''
     bell -slash bells  ,  badge -check ,  ban
