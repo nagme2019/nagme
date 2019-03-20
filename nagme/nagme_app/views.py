@@ -65,7 +65,7 @@ def registration(request):
             profile.save()
             registered = True
         else:
-            print (user_form.errors, profile_form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -73,6 +73,8 @@ def registration(request):
     return render(request,
                   'nagme/register.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+
 
 
 def user_home(request):
@@ -113,6 +115,15 @@ def account_password(request):
 
     return render(request, 'nagme/account_password.html', context_dict)
 
+
+def like(request, nag_id):
+    # TODO:
+    print()
+
+
+def subscribe(request, category):
+    #TODO
+    print()
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
@@ -156,7 +167,7 @@ def send_text(name, number, content):
                  to=number
              )
     print(message.sid)
-    
+
 
 def nags(request):
     nag_list = Nag.objects.all()
@@ -211,37 +222,32 @@ def category(request, category_name_slug):
     return render(request, 'nagme/category_page.html', context_dict)
 
 
-# class ReminderCreateView(SuccessMessageMixin, CreateView):
-#     model = Reminder
-#     fields = ['name', 'phone_number', 'time', 'time_zone']
-#     success_message = 'Reminder successfully created.'
-#
-#
-# class ReminderListView(ListView):
-#     """Shows users a list of appointments"""
-#
-#     model = Reminder
-#
-#
-# class ReminderDetailView(DetailView):
-#     """Shows users a single appointment"""
-#
-#     model = Reminder
-#
-#
-# class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-#     """Powers a form to edit existing appointments"""
-#
-#     model = Reminder
-#     fields = ['name', 'phone_number', 'time', 'time_zone']
-#     success_message = 'Reminder successfully updated.'
-#
-#
-# class ReminderDeleteView(DeleteView):
-#     """Prompts users to confirm deletion of an appointment"""
-#
-#     model = Reminder
-#     success_url = reverse_lazy('list_appointments')
+"""
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    #Shows users a list of appointments
+
+    model = Reminder
+
+
+class ReminderDetailView(DetailView):
+    #Shows users a single appointment
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    #Powers a form to edit existing appointments
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+"""
 
 
 # ##############################################################################
