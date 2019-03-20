@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+<<<<<<< HEAD
         <title>Register</title>
     </head>
 
@@ -12,6 +13,19 @@
         <a href="/user_home/">Return to the homepage.</a><br />
         {% else %}
         MumBot says: <strong>register here!</strong><br />
+=======
+        <title>Rango</title>
+    </head>
+
+    <body>
+        <h1>Register with Rango</h1>
+
+        {% if registered %}
+        Rango says: <strong>thank you for registering!</strong>
+        <a href="/rango/">Return to the homepage.</a><br />
+        {% else %}
+        Rango says: <strong>register here!</strong><br />
+>>>>>>> cad6ed183b617c1067882092d3ce0baf055692a2
 
         <form id="user_form" method="post" action="{% url "registration" %}"
                 enctype="multipart/form-data">
