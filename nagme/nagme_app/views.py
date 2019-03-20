@@ -37,7 +37,7 @@ def log_in(request):
         if user:
             if user.is_active:
                 log_in(request, user)
-                return HttpResponseRedirect("user_home")
+                return HttpResponseRedirect('user_home')
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
@@ -145,7 +145,9 @@ def support(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            pass  # does nothing, just trigger the validation
+            print ("message recieved")
+        else:
+            print ("message not recieved")
     else:
         form = ContactForm()
     return render(request, 'support.html', {'form': form})
@@ -181,8 +183,8 @@ class ReminderListView(ListView):
     """Shows users a list of appointments"""
 
     model = Reminder
-	
-	
+    
+    
 
 
 class ReminderDetailView(DetailView):
@@ -204,7 +206,7 @@ class ReminderUpdateView(SuccessMessageMixin, UpdateView):
 
   #  model = Reminder
    # success_url = reverse_lazy('list_appointments')
-	#return render(request, 'nagme/category_page.html', context_dict)
+    #return render(request, 'nagme/category_page.html', context_dict)
 
 
 # class ReminderCreateView(SuccessMessageMixin, CreateView):
