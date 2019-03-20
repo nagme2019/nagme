@@ -75,6 +75,8 @@ def registration(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
+
+
 def user_home(request):
     # change to only allow if user is logged in,
     # otherwise redirect to login page
@@ -113,6 +115,12 @@ def account_password(request):
 
     return render(request, 'nagme/account_password.html', context_dict)
 
+
+def like(request, nag_id):
+    #TODO
+
+def subscribe(request, category):
+    #TODO
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to

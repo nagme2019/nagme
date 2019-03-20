@@ -29,6 +29,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Like(models.Model):
+    user = models.ForeignKey(UserProfile)
+    nag = models.ForeignKey(Nag)
+
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(UserProfile)
+    cat = models.ForeignKey(Category)
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
