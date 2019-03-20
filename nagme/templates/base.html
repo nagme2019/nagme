@@ -22,9 +22,8 @@
     <!-- TAB TITLE PASSED CONTEXTUALLY -->
     <title>nag.me -
       {% block title_block %}
-        welcome page
+        Welcome
       {% endblock %}
-      <!-- defaults to suffix welcome page -->
     </title>
   </head>
 
@@ -40,9 +39,9 @@
 
 
 <!-- Top bar logo -->
-        <div class="navbar-header">
-          <a href="{% url 'welcome' %}" class="navbar-left">
-            <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}">
+        <div class="navbar-header" style="position:absolute;">
+          {% block logo_link %}<a href="{% url 'user_home' %}" class="navbar-left">{% endblock %}
+            <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}"/>
           </a>
         </div>
 
@@ -52,18 +51,18 @@
 <!-- Top bar left button -->
               <li class="nav-item">
                   {% block leftbutton_block %}
-                  <a href="#" class="nav-link" >
-                        <i class=""></i>
-                  </a>
                   {% endblock %}
               </li>
 
 <!-- Top bar right button -->
               <li class="nav-item">
                   {% block rightbutton_block %}
-                  <a href="" class="nav-link" >
-                       <i class=""</i>
-                  </a>
+                      {% if user.is_authenticated %}
+                          <a href="" class="nav-link" >
+                            <i class="fas fa-sign-out-alt"></i>
+                              Log Out
+                          </a>
+                      {% endif %}
                   {% endblock %}
               </li>
           </ul>
@@ -77,44 +76,39 @@
 
 <!-- SIDE BAR  -->
     <div class="container-fluid">
-      <div id="siderow"class="row">
-        {% block sidebar_width_block %}
+    {% block sidebar_block %}
+      <div id="siderow" class="row">
         <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
-        {% endblock %}
-
-          {% block sidebar_block %}
-              <!--<img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
-              <p class="text-center text-muted">username</p> -->
-
+            {% block user_image %}{% endblock %}
               <ul class="nav nav-pills nav-stacked">
-                <li class="nav-item active"><a class="nav-link" href="#section1">Homepage</a></li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#section2">Manage account</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#section3">Manage my.nags</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#section3">? Write nags</a>
-                </li>
                 <li class="nav-item text-center big-side-button">
-                  <a class="nav-link" href="#section3">Explore<br>Nags</a>
-                </li>
-                <li class="nav-item big-side-button">
-                  <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
-                </li>
-                <li class="nav-item text-left">
-                  <a class="nav-link" href="#section3"> <i class="far fa-question-circle"</i>Contact Us</a>
-                </li>
+                    <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
+                <li class="nav-item text-center big-side-button">
+                    <a class="nav-link" href="">Manage account</a>
+                  </li>
+                  <li class="nav-item text-center big-side-button">
+                    <a class="nav-link" href="#section3">Manage subscribed nags</a>
+                  </li>
+                  <li class="nav-item text-center big-side-button">
+                      {%  if user.is_author %}
+                        <a class="nav-link" href="{% url 'add_nag' %}">Write a nag</a>
+                      {% endif %}
+                  </li>
+                  <li class="nav-item text-center big-side-button">
+                    <a class="nav-link" href="{% url 'nags' %}">Explore Nags</a>
+                  </li>
+                  <li class="nav-item text-center big-side-button">
+                    <a class="nav-link" href="{% url 'categories' %}" class="text-dark">Explore Categories</a>
+                  </li>
+                  <li class="nav-item text-centre big-side-button">
+                    <a class="nav-link" href="{% url 'support' %}" class="text-dark"> <i class="far fa-question-circle"></i>Contact Us</a>
+                  </li>
               </ul><br>
-          {% endblock %}
         </div>
+      {% endblock %}
 
 <!-- PAGE BODY -->
-        {% block body_width_block %}
         <div id="pagecontents" class="col-sm-8">
-        {% endblock %}
-
                 {% block body_block %}
                 {% endblock %}
         </div>

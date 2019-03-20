@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Homepage
+{% endblock %}
+
+{% block leftbutton_block %}
+{% endblock %}
+
+{% block user_image %}
+    <img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
+    <p class="text-center text-muted">username</p>
+{% endblock %}
+
+{% block body_block %}
+    <h1>Welcome {{ firstname }}!</h1>
+    <p class="page-subtitle">Congratulations, you've been using nag.me for {{days_using}} days! </p>
+
+    <div class="announcebox">
+      <div class="bubble">
+        <h3>Nag of the day</h3>
+        <p>{{ nag_of_the_day.text }}</p>
+      </div>
+    </div>
+
+    <div class="announcebox">
+        <div class="bubble">Hi</div>
+    </div>
+{% endblock %}

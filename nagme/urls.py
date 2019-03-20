@@ -1,5 +1,4 @@
 """nagme URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
 Examples:
@@ -40,6 +39,8 @@ urlpatterns = [
         views.account_details, name='account_details'),
     url(r'^user_home/account/account_details/account_password',
         views.account_password, name='account_password'),
+    url(r'^add_nag/',
+        views.add_nag, name='add_nag'),
     url(r'^support/',
         views.support, name='support'),
     url(r'^categories_list/',
@@ -49,10 +50,8 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/add_nag/$',
         views.add_nag,
         name='add_nag'),
-    url(r'^nags/$', views.nags, name='nags'),
     url(r'^admin/', admin.site.urls),
     # url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
     # url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
     # url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
     # url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
-]

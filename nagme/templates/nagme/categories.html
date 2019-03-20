@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Categories
+{% endblock %}
+
+
+{% block body_block %}
+	<div class="container marketing" style="margin-top:50px;">
+
+      <!-- Three columns of text below the carousel -->
+        {% if categories %}
+              <div class="row">
+                  {% for category in categories %}
+                        <div class="col-lg-4">
+                            <a href="{% url 'category' category.slug %}">
+                                <img class="rounded-circle" src="{% static '/images/Cat_Study.png' %}" alt="Generic placeholder image" width="140" height="140">
+                                <h2>{{ category.name }}</h2>
+                            </a>
+                        </div><!-- /.col-lg-4 -->
+                  {% endfor %}
+              </div><!-- /.row -->
+        {% else %}
+            <strong>No categories.</strong>
+        {% endif %}
+    </div>
+{% endblock %}

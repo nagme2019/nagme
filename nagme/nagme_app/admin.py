@@ -8,7 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'phonenumber', 'isauthor')
+    list_display = ('user', 'phone_number', 'is_author')
 
 
 class NagAdmin(admin.ModelAdmin):
