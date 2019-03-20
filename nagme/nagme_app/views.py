@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
-from .forms import ContactForm,UserForm,UserProfileForm
+from .forms import ContactForm, UserForm, UserProfileForm, NagForm
 
 
 def base(request):
@@ -141,13 +141,28 @@ def add_nag(request, category_name_slug):
     return render(request, 'nagme/add_nag.html', context_dict)
 
 
+def nags(request):
+    nag_list = Nag.objects.all()
+    context_dict = {"nags": nag_list}
+
+    return render(request, 'nagme/nags.html', context_dict)
+
+
+# def subscribed_nags(request):
+#     user = request.user
+#     nag_list = Nag.objects.filter(subscriber=user)
+#     context_dict = {"nags": nag_list}
+#
+#     return render(request, 'nagme/subscribed_nags.html', context_dict)
+
+
 def support(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            print ("message recieved")
+            print("message received")
         else:
-            print ("message not recieved")
+            print("message not received")
     else:
         form = ContactForm()
     return render(request, 'support.html', {'form': form})
@@ -165,12 +180,14 @@ def category(request, category_name_slug):
 
     try:
         cat = Category.objects.get(slug=category_name_slug)
-        nags = Nag.objects.filter(category=cat)
-        context_dict['nags'] = nags
+        nag = Nag.objects.filter(category=cat)
+        context_dict['nags'] = nag
         context_dict['category'] = cat
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
+
+    return render(request, 'nagme/category_page.html', context_dict)
 
 
 class ReminderCreateView(SuccessMessageMixin, CreateView):
@@ -184,8 +201,6 @@ class ReminderListView(ListView):
 
     model = Reminder
     
-    
-
 
 class ReminderDetailView(DetailView):
     """Shows users a single appointment"""

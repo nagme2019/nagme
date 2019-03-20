@@ -30,10 +30,10 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-	
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     is_author = models.BooleanField(default=False)
+    categories = models.ManyToManyField('Category')
 
     def __str__(self):
         return self.user.username

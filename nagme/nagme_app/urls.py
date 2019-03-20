@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/add_nag/$',
         views.add_nag,
         name='add_nag'),
+    url(r'^nags/$', views.nags, name='nags'),
     url(r'^admin/', admin.site.urls),
     # url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
     # url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),

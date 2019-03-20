@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Rango</title>
+        <title>Register</title>
     </head>
 
     <body>
-        <h1>Register with Rango</h1>
+        <h1>Register with NagMe</h1>
 
         {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
-        <a href="/rango/">Return to the homepage.</a><br />
+        MumBot says: <strong>thank you for registering!</strong>
+        <a href="/user_home/">Return to the homepage.</a><br />
         {% else %}
-        Rango says: <strong>register here!</strong><br />
+        MumBot says: <strong>register here!</strong><br />
 
         <form id="user_form" method="post" action="{% url "registration" %}"
                 enctype="multipart/form-data">
