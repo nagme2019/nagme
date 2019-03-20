@@ -75,17 +75,16 @@ def registration(request):
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
-
-
 def user_home(request):
     # change to only allow if user is logged in,
     # otherwise redirect to login page
+    user = request.user
 
     category_list = Category.objects.all
     nag = Nag.objects.order_by('-likes')[0]
 
     context_dict = {
-        "firstname": "FirstName",
+        "firstname": user.username,
         "username": "username",
         "days_using": 184,
         "nag_of_the_day": nag,
