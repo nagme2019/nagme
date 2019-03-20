@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
+from .forms import ContactForm,UserForm,UserProfileForm
 
 
 def base(request):
@@ -36,12 +37,13 @@ def log_in(request):
         if user:
             if user.is_active:
                 log_in(request, user)
-                return HttpResponseRedirect("user_home")
+                return HttpResponseRedirect('user_home')
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print("Invalid log_in details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid log_in details supplied.")
+            print ("Invalid login details: {0}, {1}".format(username, password))
+            return HttpResponse("Invalid login details supplied.")
+
     else:
         return render(request, 'log_in.html', {})
 
@@ -62,7 +64,8 @@ def registration(request):
             profile.save()
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            print (user_form.errors, profile_form.errors)
+
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
@@ -139,9 +142,15 @@ def add_nag(request, category_name_slug):
 
 
 def support(request):
-    context_dict = {}
-
-    return render(request, 'nagme/support.html', context_dict)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            print ("message recieved")
+        else:
+            print ("message not recieved")
+    else:
+        form = ContactForm()
+    return render(request, 'support.html', {'form': form})
 
 
 def categories(request):
@@ -163,7 +172,41 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
-    return render(request, 'nagme/category_page.html', context_dict)
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    """Shows users a list of appointments"""
+
+    model = Reminder
+    
+    
+
+
+class ReminderDetailView(DetailView):
+    """Shows users a single appointment"""
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    """Powers a form to edit existing appointments"""
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+
+
+#class ReminderDeleteView(DeleteView):
+ #   """Prompts users to confirm deletion of an appointment"""
+
+  #  model = Reminder
+   # success_url = reverse_lazy('list_appointments')
+    #return render(request, 'nagme/category_page.html', context_dict)
 
 
 # class ReminderCreateView(SuccessMessageMixin, CreateView):
@@ -197,6 +240,7 @@ def category(request, category_name_slug):
 #
 #     model = Reminder
 #     success_url = reverse_lazy('list_appointments')
+#>>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
 
 
 # ##############################################################################
