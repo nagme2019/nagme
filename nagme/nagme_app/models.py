@@ -27,10 +27,19 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Like(models.Model):
+    user = models.ForeignKey(UserProfile)
+    nag = models.ForeignKey(Nag)
+
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(UserProfile)
+    cat = models.ForeignKey(Category)
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-	
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     is_author = models.BooleanField(default=False)
