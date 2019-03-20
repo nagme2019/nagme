@@ -73,7 +73,7 @@ def registration(request):
 
 def user_home(request):
     # change to only allow if user is logged in,
-    # otherwise redirect to log_in page
+    # otherwise redirect to login page
 
     category_list = Category.objects.all
     nag = Nag.objects.order_by('-likes')[0]

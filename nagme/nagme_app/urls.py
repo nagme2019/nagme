@@ -40,8 +40,6 @@ urlpatterns = [
         views.account_details, name='account_details'),
     url(r'^user_home/account/account_details/account_password',
         views.account_password, name='account_password'),
-    url(r'^add_nag/',
-        views.add_nag, name='add_nag'),
     url(r'^support/',
         views.support, name='support'),
     url(r'^categories_list/',

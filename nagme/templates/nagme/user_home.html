@@ -32,25 +32,29 @@ Homepage
         <a class="nav-link" href="#section3">? Write nags</a>
       </li>
       <li class="nav-item text-center big-side-button">
-        <a class="nav-link" href="#section3">Explore<br>Nags</a>
+        <a class="nav-link" href="#">Explore Nags</a>
       </li>
-      <li class="nav-item big-side-button">
-        <a class="nav-link" href="#section3" class="text-dark">Explore<br>Categories</a>
+      <li class="nav-item text-center big-side-button">
+        <a class="nav-link" href="{% url 'categories' %}" class="text-dark">Explore Categories</a>
       </li>
-      <li class="nav-item pull-left">
-        <a class="nav-link" href="#section3"> <i class="far fa-question-circle"</i>Contact Us</a>
+      <li class="nav-item text-centre big-side-button">
+        <a class="nav-link" href="#section3" class="text-dark"> <i class="far fa-question-circle"></i>Contact Us</a>
       </li>
     </ul><br>
 {% endblock %}
 
 {% block body_block %}
-<h1>Welcome {{ firstname }}!</h1>
-<p class="page-subtitle">Congratulations, you've been using nag.me for {{days_using}} days! </p>
+    <h1>Welcome {{ firstname }}!</h1>
+    <p class="page-subtitle">Congratulations, you've been using nag.me for {{days_using}} days! </p>
 
-<div class="announcebox">
-  <div class="bubble">
-    <h3>Nag of the day</h3>
-    <p>ajfjsadhflkdshjdfskhdfskjhaskhjfsakjdsjdsahflksajhflksajhflkh</p>
-  </div>
-</div>
+    <div class="announcebox">
+      <div class="bubble">
+        <h3>Nag of the day</h3>
+        <p>{{ nag_of_the_day.text }}</p>
+      </div>
+    </div>
+
+    <div class="announcebox">
+        <div class="bubble">Hi</div>
+    </div>
 {% endblock %}
