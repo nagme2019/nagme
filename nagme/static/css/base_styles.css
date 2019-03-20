@@ -46,8 +46,7 @@ body {
 
 #sidebar {
   background-color: #ebebeb;
-  padding : 0.75em;
-  padding-top : 4.5em;
+  padding: 4.5em 0.75em 0.75em;
 }
 
 .sidenav .nav-item .nav-link {
@@ -71,7 +70,7 @@ body {
   color : #ff6700;
   background-color : #ffffff;
   text-align : center;
-  font-size : 150%;
+  font-size : 100%;
   font-weight : bold;
   border-color : #ff6700;
   border-width : .05em;
@@ -138,15 +137,17 @@ body {
 
 .announcebox {
   background-color: #f5edf0;
-  padding-left: auto;
-  padding-right: auto;
-  width: 80%;
+  padding : 1em;
+  width: inherit;
+  height: inherit;
+  position: relative;
 }
 
 
 .bubble {
   position: relative;
-  width: fit-content;
+  float: left;
+  max-width: 300px;
   height: inherit;
   padding: 2em;
   /*width: 295px;
@@ -166,7 +167,7 @@ body {
 
 .bubble:after {
   content: '';
-  position: absolute;
+  position: relative;
   border-style: solid;
   border-width: 9px 21px 9px 0;
   border-color: transparent #FFFFFF;
