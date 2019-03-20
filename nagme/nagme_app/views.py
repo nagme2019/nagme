@@ -42,7 +42,7 @@ def log_in(request):
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print ("Invalid login details: {0}, {1}".format(username, password))
+            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
@@ -141,14 +141,15 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
-def send_text(name,number,content):
+
+def send_text(name, number, content):
     account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
     nagme_number='+447480534396'
-    test='+447365140632'
-    client= Client(account_sid,auth_token)
+    test = '+447365140632'
+    client = Client(account_sid, auth_token)
 
-    message=client.messages \
+    message = client.messages \
              .create(
                  body=content,
                  from_=nagme_number,
@@ -175,16 +176,16 @@ def subscribed_categories(request):
 def support(request):
     form = ContactForm(request.POST)
     if form.is_valid():
-        name= form.cleaned_data.get("contact_name")
-        number= form.cleaned_data.get("contact_number")
-        content=form.cleaned_data.get("content")
+        name = form.cleaned_data.get("contact_name")
+        number = form.cleaned_data.get("contact_number")
+        content = form.cleaned_data.get("content")
         print(number)
-        print ("message recieved")
-        send_text(name,number,content)
-        context= {'form': form}
+        print("message recieved")
+        send_text(name, number, content)
+        context = {'form': form}
         return render(request, 'nagme/support.html', context)
     else:
-        context= {'form': form}
+        context = {'form': form}
         return render(request, 'nagme/support.html', {'form': form})
 
 
@@ -208,76 +209,6 @@ def category(request, category_name_slug):
         context_dict['category'] = None
 
     return render(request, 'nagme/category_page.html', context_dict)
-
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
-
-
-class ReminderListView(ListView):
-    """Shows users a list of appointments"""
-
-    model = Reminder
-    
-    
-
-
-class ReminderDetailView(DetailView):
-    """Shows users a single appointment"""
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-
-
-#class ReminderDeleteView(DeleteView):
- #   """Prompts users to confirm deletion of an appointment"""
-
-  #  model = Reminder
-   # success_url = reverse_lazy('list_appointments')
-    #return render(request, 'nagme/category_page.html', context_dict)
-
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
-
-
-class ReminderListView(ListView):
-    """Shows users a list of appointments"""
-
-    model = Reminder
-    
-
-class ReminderDetailView(DetailView):
-    """Shows users a single appointment"""
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-
-
-#class ReminderDeleteView(DeleteView):
- #   """Prompts users to confirm deletion of an appointment"""
-
-  #  model = Reminder
-   # success_url = reverse_lazy('list_appointments')
-    #return render(request, 'nagme/category_page.html', context_dict)
 
 
 # class ReminderCreateView(SuccessMessageMixin, CreateView):
@@ -311,7 +242,6 @@ class ReminderUpdateView(SuccessMessageMixin, UpdateView):
 #
 #     model = Reminder
 #     success_url = reverse_lazy('list_appointments')
-#>>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
 
 
 # ##############################################################################
