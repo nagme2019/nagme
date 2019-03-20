@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
+from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
 
 
@@ -45,7 +46,7 @@ def log_in(request):
             return HttpResponse("Invalid login details supplied.")
 
     else:
-        return render(request, 'log_in.html', {})
+        return render(request, 'nagme/log_in.html', {})
 
 
 def registration(request):
@@ -70,7 +71,7 @@ def registration(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
     return render(request,
-                  'register.html',
+                  'nagme/register.html',
                   {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
@@ -140,6 +141,21 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
+def send_text(name,number,content):
+    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
+    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
+    nagme_number='+447480534396'
+    test='+447365140632'
+    client= Client(account_sid,auth_token)
+
+    message=client.messages \
+             .create(
+                 body=content,
+                 from_=nagme_number,
+                 to=number
+             )
+    print(message.sid)
+    
 
 def nags(request):
     nag_list = Nag.objects.all()
@@ -157,15 +173,19 @@ def subscribed_categories(request):
 
 
 def support(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            print("message received")
-        else:
-            print("message not received")
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        name= form.cleaned_data.get("contact_name")
+        number= form.cleaned_data.get("contact_number")
+        content=form.cleaned_data.get("content")
+        print(number)
+        print ("message recieved")
+        send_text(name,number,content)
+        context= {'form': form}
+        return render(request, 'nagme/support.html', context)
     else:
-        form = ContactForm()
-    return render(request, 'support.html', {'form': form})
+        context= {'form': form}
+        return render(request, 'nagme/support.html', {'form': form})
 
 
 def categories(request):
