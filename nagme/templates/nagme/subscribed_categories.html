@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Subscribed nags
+{% endblock %}
+
+
+{% block body_block %}
+	<div class="container marketing" style="margin-top:10px;max-width:60%">
+
+      <!-- Three columns of text below the carousel -->
+        {% if nags %}
+            <ul>
+                {% for nag in nags %}
+                       <li><a href="{% url 'category' nag.category.slug %}">{{ nag.category }}</a>: {{ nag.text }}</li>
+                  {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No subscribed nags. Go <a href="{% url 'nags' %}">here</a> to subscribe.</strong>
+        {% endif %}
+    </div>
+{% endblock %}

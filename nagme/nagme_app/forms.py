@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from nagme_app.models import Category, UserProfile
 from phonenumber_field.modelfields import PhoneNumberField
-
+from nagme_app.models import Category, UserProfile, Nag
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True, label="Name")
@@ -12,7 +11,7 @@ class ContactForm(forms.Form):
         widget=forms.Textarea,
         label="Message"
     )
-			
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -20,7 +19,14 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password')
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('phone_number','picture')
+        fields = ('phone_number', 'picture')
+
+
+class NagForm(forms.ModelForm):
+    class Meta:
+        model = Nag
+        fields = ('category', 'author', 'text')

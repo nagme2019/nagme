@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+<<<<<<< HEAD
+        <title>Register</title>
+    </head>
+
+    <body>
+        <h1>Register with NagMe</h1>
+
+        {% if registered %}
+        MumBot says: <strong>thank you for registering!</strong>
+        <a href="/user_home/">Return to the homepage.</a><br />
+        {% else %}
+        MumBot says: <strong>register here!</strong><br />
+=======
         <title>Rango</title>
     </head>
 
@@ -12,6 +25,7 @@
         <a href="/rango/">Return to the homepage.</a><br />
         {% else %}
         Rango says: <strong>register here!</strong><br />
+>>>>>>> cad6ed183b617c1067882092d3ce0baf055692a2
 
         <form id="user_form" method="post" action="{% url "registration" %}"
                 enctype="multipart/form-data">

@@ -11,8 +11,8 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
-from .forms import ContactForm,UserForm,UserProfileForm
 from twilio.rest import Client
+from .forms import ContactForm, UserForm, UserProfileForm, NagForm
 
 
 def base(request):
@@ -77,7 +77,7 @@ def registration(request):
 
 def user_home(request):
     # change to only allow if user is logged in,
-    # otherwise redirect to log_in page
+    # otherwise redirect to login page
 
     category_list = Category.objects.all
     nag = Nag.objects.order_by('-likes')[0]
@@ -157,6 +157,20 @@ def send_text(name,number,content):
     print(message.sid)
     
 
+def nags(request):
+    nag_list = Nag.objects.all()
+    context_dict = {"nags": nag_list}
+
+    return render(request, 'nagme/nags.html', context_dict)
+
+
+# def subscribed_nags(request):
+#     user = request.user
+#     nag_list = Nag.objects.filter(subscriber=user)
+#     context_dict = {"nags": nag_list}
+#
+#     return render(request, 'nagme/subscribed_nags.html', context_dict)
+
 def support(request):
     form = ContactForm(request.POST)
     if form.is_valid():
@@ -185,8 +199,8 @@ def category(request, category_name_slug):
 
     try:
         cat = Category.objects.get(slug=category_name_slug)
-        nags = Nag.objects.filter(category=cat)
-        context_dict['nags'] = nags
+        nag = Nag.objects.filter(category=cat)
+        context_dict['nags'] = nag
         context_dict['category'] = cat
     except Category.DoesNotExist:
         context_dict['nag'] = None
@@ -206,6 +220,40 @@ class ReminderListView(ListView):
     
     
 
+
+class ReminderDetailView(DetailView):
+    """Shows users a single appointment"""
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    """Powers a form to edit existing appointments"""
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+
+
+#class ReminderDeleteView(DeleteView):
+ #   """Prompts users to confirm deletion of an appointment"""
+
+  #  model = Reminder
+   # success_url = reverse_lazy('list_appointments')
+    #return render(request, 'nagme/category_page.html', context_dict)
+
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    """Shows users a list of appointments"""
+
+    model = Reminder
+    
 
 class ReminderDetailView(DetailView):
     """Shows users a single appointment"""

@@ -34,6 +34,7 @@ class UserProfile(models.Model):
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     is_author = models.BooleanField(default=False)
+    categories = models.ManyToManyField('Category')
 
     def __str__(self):
         return self.user.username
@@ -60,7 +61,7 @@ class Nag(models.Model):
 class Reminder(models.Model):
     task_id = models.AutoField(primary_key=True)
     name = models.ForeignKey('UserProfile', default='00000', on_delete=models.CASCADE, related_name='subscriber', null=True)
-    phonenumber = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='number', null=True)  # this should be automatically set to the user's number
+    phone_number = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='number', null=True)  # this should be automatically set to the user's number
     time = models.DateTimeField()
     time_zone = TimeZoneField(default='GMT')
     text = models.ForeignKey('Nag', null=True, on_delete=models.CASCADE,)
