@@ -18,6 +18,7 @@ def base(request):
 
 
 def welcome(request):
+    # context_dict = {"nag_of_the_day": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin."}
 
     return render(request, 'nagme/welcome_page.html')
 
@@ -25,24 +26,24 @@ def welcome(request):
 # added an underscore temporarily because name conflict with import at top,
     # need to fix name of this view everywhere later
 def log_in(request):
-    #need to change this so it stops giving the weird error from inbuilt login function
-    #who is building forms?
+    # need to change this so it stops giving the weird error from inbuilt login function
+    # who is building forms?
     context_dict = {}
 
     return render(request, 'nagme/log_in.html', context_dict)
 
 
 def registration(request):
-    #who is making forms?
+    # who is making forms?
     context_dict = {}
 
     return render(request, 'nagme/registration.html', context_dict)
 
 
 def userhome(request):
-    #change to only allow if user is logged in,
-    #otherwise redirect to login page
-    #need to figure out how to display categories
+    # change to only allow if user is logged in,
+    # otherwise redirect to login page
+    # need to figure out how to display categories
 
     context_dict = {
         "firstname":"FirstName",
@@ -122,12 +123,14 @@ class ReminderDetailView(DetailView):
     model = Reminder
 
 
+"""
 class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
+    #Powers a form to edit existing appointments
 
     model = Reminder
     fields = ['name', 'phonenumber', 'time', 'time_zone']
     success_message = 'Reminder successfully updated.'
+"""
 
 
 class ReminderDeleteView(DeleteView):
