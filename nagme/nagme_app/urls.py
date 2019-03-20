@@ -19,10 +19,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from nagme_app import views
-# from nagme_app.views import ReminderCreateView
-# from nagme_app.views import ReminderListView
-# from nagme_app.views import ReminderDeleteView
-# from nagme_app.views import ReminderDetailView
+#from nagme_app.views import ReminderCreateView
+#from nagme_app.views import ReminderListView
+#from nagme_app.views import ReminderDeleteView
+#from nagme_app.views import ReminderDetailView
 
 urlpatterns = [
     url(r'^$',
