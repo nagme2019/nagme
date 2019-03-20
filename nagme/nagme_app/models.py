@@ -15,6 +15,8 @@ class Category(models.Model):
     name = models.CharField(max_length=128, unique=True, primary_key=True)
     top = models.ForeignKey('Nag', on_delete=models.SET_NULL, related_name='top', null=True)  # change the on_delete to the next most liked nag
     slug = models.SlugField(unique=True)
+    subscribers = models.ManyToManyField('UserProfile')
+    image = models.ImageField(blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -30,11 +32,9 @@ class Category(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-	
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     is_author = models.BooleanField(default=False)
-    categories = models.ManyToManyField('Category')
 
     def __str__(self):
         return self.user.username

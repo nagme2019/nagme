@@ -10,10 +10,10 @@
 	<div class="container marketing" style="margin-top:10px;max-width:60%">
 
       <!-- Three columns of text below the carousel -->
-        {% if nags %}
+        {% if categories %}
             <ul>
-                {% for nag in nags %}
-                       <li><a href="{% url 'category' nag.category.slug %}">{{ nag.category }}</a>: {{ nag.text }}</li>
+                {% for cat in categories %}
+                       <li><a href="{% url 'category' cat.slug %}">{{ cat.name }}</a></li>
                   {% endfor %}
             </ul>
         {% else %}

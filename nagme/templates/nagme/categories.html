@@ -15,7 +15,7 @@
                   {% for category in categories %}
                         <div class="col-lg-4">
                             <a href="{% url 'category' category.slug %}">
-                                <img class="rounded-circle" src="{% static '/images/Cat_Study.png' %}" alt="Generic placeholder image" width="140" height="140">
+                                <img class="rounded-circle" src="{{ STATIC_URL }}Cat_WakeUp" alt="Generic placeholder image" width="140" height="140">
                                 <h2>{{ category.name }}</h2>
                             </a>
                         </div><!-- /.col-lg-4 -->

@@ -148,12 +148,13 @@ def nags(request):
     return render(request, 'nagme/nags.html', context_dict)
 
 
-# def subscribed_nags(request):
-#     user = request.user
-#     nag_list = Nag.objects.filter(subscriber=user)
-#     context_dict = {"nags": nag_list}
-#
-#     return render(request, 'nagme/subscribed_nags.html', context_dict)
+def subscribed_categories(request):
+    user = request.user
+    category_list = Category.objects.filter(subscribers=user.id)
+    context_dict = {"categories": category_list}
+
+    return render(request, 'nagme/subscribed_categories.html', context_dict)
+
 
 def support(request):
     if request.method == 'POST':
@@ -185,6 +186,8 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
+
+    return render(request, 'nagme/category_page.html', context_dict)
 
 
 class ReminderCreateView(SuccessMessageMixin, CreateView):
