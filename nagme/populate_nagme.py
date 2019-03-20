@@ -78,9 +78,6 @@ def populate():
 		for elt in cat_data:
 			add_nag(c, elt[0], elt[1])
 
-	for u,u_data in users:
-
-
 
 #Add Categories
 def add_cat(name):
