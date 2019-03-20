@@ -85,7 +85,7 @@ def user_home(request):
 
     context_dict = {
         "firstname": user.username,
-        "username": "username",
+        "username": user.username,
         "days_using": 184,
         "nag_of_the_day": nag,
         "categories": category_list,

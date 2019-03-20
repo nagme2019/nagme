@@ -31,7 +31,7 @@
   <h1 class="text-center">Sign in to personalize your nags</h1>
   <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot"/>
   <a href="/registration/">Register Here</a>
-  <form id="login_form" method="post" action="{% url "login" %}">
+  <form class="form-signin" id="login_form" method="post" action="{% url "login" %}">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br />
