@@ -117,10 +117,13 @@ def account_password(request):
 
 
 def like(request, nag_id):
-    #TODO
+    # TODO:
+    print()
+
 
 def subscribe(request, category):
     #TODO
+    print()
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to

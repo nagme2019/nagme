@@ -1,11 +1,11 @@
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nagme.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nagme_project.settings')
 
 import django
 
 django.setup()
-from nagme.models import Category, User, Nag
+from nagme_app.models import Category, User, Nag
 
 
 def populate():
@@ -101,4 +101,3 @@ def add_nag(category, nag, author):
 if __name__ == '__main__':
     print("Starting NagMe population script...")
     populate()
-
