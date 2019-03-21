@@ -4,11 +4,15 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag
+from nagme_app.models import Category, Nag, Reminder
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
-from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
 def base(request):
@@ -38,7 +42,7 @@ def log_in(request):
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print("Invalid login details: {0}, {1}".format(username, password))
+            print ("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
@@ -61,7 +65,7 @@ def registration(request):
             profile.save()
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            print (user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -74,14 +78,13 @@ def registration(request):
 def user_home(request):
     # change to only allow if user is logged in,
     # otherwise redirect to login page
-    user = request.user
 
     category_list = Category.objects.all
     nag = Nag.objects.order_by('-likes')[0]
 
     context_dict = {
-        "firstname": user.username,
-        "username": user.username,
+        "firstname": "FirstName",
+        "username": "username",
         "days_using": 184,
         "nag_of_the_day": nag,
         "categories": category_list,
@@ -92,9 +95,17 @@ def user_home(request):
 
 @login_required
 def account(request):
-    context_dict = {}
+    # remember to make sure only to allow is user is logged in later
+    # TODO add firstname, lastname, email to profile?
+    user = request.user
 
-    return render(request, 'nagme/account.html', context_dict)
+    context_dict = {
+        "username": user.user,
+        "phone_number": user.phone_number,
+        "password": "********",
+    }
+
+    return render(request, 'nagme/manage_account.html', context_dict)
 
 
 @login_required
@@ -110,15 +121,6 @@ def account_password(request):
 
     return render(request, 'nagme/account_password.html', context_dict)
 
-
-def like(request, nag_id):
-    # TODO:
-    print()
-
-
-def subscribe(request, category):
-    #TODO
-    print()
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
@@ -147,56 +149,57 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
+#call sent_text with number you want to send to and content being what you want to send
+def send_text(name,number,content):
+    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
+    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
+    nagme_number='+447480534396'
+    test='+447365140632'
+    if(not number):
+        print("no")
+        
+    client= Client(account_sid,auth_token)
 
-def send_text(name, number, content):
-    test = '+447365140632'
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-
-    message = client.messages \
+    message=client.messages \
              .create(
                  body=content,
-                 from_=TWILIO_NUMBER,
-                 to=number
+                 from_=nagme_number,
+                 to=test
              )
     print(message.sid)
+    
 
-
-def nags_likes(request):
-    nag_list = Nag.objects.order_by('-likes')
+def nags(request):
+    nag_list = Nag.objects.all()
     context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
 
 
-def nags_time(request):
-    nag_list = Nag.objects.order_by('-created')
-    context_dict = {"nags": nag_list}
-
-    return render(request, 'nagme/nags.html', context_dict)
-
-
-def subscribed_categories(request):
-    user = request.user
-    category_list = Category.objects.filter(subscribers=user.id)
-    context_dict = {"categories": category_list}
-
-    return render(request, 'nagme/subscribed_categories.html', context_dict)
-
+# def subscribed_nags(request):
+#     user = request.user
+#     nag_list = Nag.objects.filter(subscriber=user)
+#     context_dict = {"nags": nag_list}
+#
+#     return render(request, 'nagme/subscribed_nags.html', context_dict)
 
 def support(request):
-    form = ContactForm(request.POST)
-    if form.is_valid():
-        name = form.cleaned_data.get("contact_name")
-        number = form.cleaned_data.get("contact_number")
-        content = form.cleaned_data.get("content")
-        print(number)
-        print("message recieved")
-        send_text(name, number, content)
-        context = {'form': form}
-        return render(request, 'nagme/support.html', context)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name= form.cleaned_data.get("contact_name")
+            number= form.cleaned_data.get("contact_number")
+            content=form.cleaned_data.get("content")
+            print(number)
+            print ("message recieved")
+            send_text(name,number,content)
+            context= {'form': form}
+            return render(request, 'nagme/support.html', context)
+        else:
+            context= {'form': form}
+            return render(request, 'nagme/support.html', {'form': form})
     else:
-        context = {'form': form}
-        return render(request, 'nagme/support.html', {'form': form})
+        return render(request, 'nagme/support.html', {})
 
 
 def categories(request):
@@ -217,8 +220,6 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
-
-    return render(request, 'nagme/category_page.html', context_dict)
 
 
 # ##############################################################################
