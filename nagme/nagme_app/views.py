@@ -124,21 +124,23 @@ def account_password(request):
 
 
 @login_required
-def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id)
-    if not created:
-        return False
-    else:
-        return True
+def like(request, user, nag):
+    new_like,created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+    if created:
+        nag.likes += 1
 
 
-def is_liked(request, username, nag_id):
-    return Like.objects.filter(user=username, nag=nag_id).exists()
+@login_required
+def is_liked(request, user, nag):
+    return Like.objects.filter(user=user.user, nag=nag.id).exists()
 
 @login_required
 def subscribe(request, user, category):
-    Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    if created:
+        category.subscribers += 1
 
+@login_required
 def is_subbed(request, user, category):
     return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
