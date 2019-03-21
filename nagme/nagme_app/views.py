@@ -227,7 +227,11 @@ def subscribed_categories(request):
 def send_email(subject,emails,content):
     send_mail(subject,content,'nagmebot2019@gmail.com',emails)
 
-def send_nags(nag_cat,emails):
+def send_nags(request,category_name_slug):
+    emails=[]
+    nag_cat = Category.objects.get(slug=category_name_slug)
+    subscribers=Subscribe.objects.filter(cat=nag_cat)
+    
     nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
     send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
     

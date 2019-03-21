@@ -28,6 +28,14 @@
 		{% endif %}
 		{% if user.is_author %}
 			<a href="{% url 'add_nag' category.slug %}">Add a nag</a>
+			<div class="dropdown">
+				<button onclick="myFunction()" class="dropbtn">Dropdown</button>
+				<div id="myDropdown" class="dropdown-content">
+					{% for category in categories %}
+						<a href="{% url 'send_nags' category.slug %}">category</a>
+					{% endfor %}
+				</div>
+			</div>
 		{% endif %}
 	{% else %}
 		The specified category does not exist!
