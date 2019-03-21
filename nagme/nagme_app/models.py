@@ -41,8 +41,8 @@ class Category(models.Model):
 
 
 class UserProfile(models.Model):
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=128, default='empty')
+    last_name = models.CharField(max_length=128,default='empty')
     user = models.OneToOneField(User, primary_key=True)
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
