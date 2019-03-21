@@ -29,15 +29,15 @@ class Category(models.Model):
         return self.name
 
 
-#class Like(models.Model):
-#    user = models.ForeignKey(UserProfile)
-#    nag = models.ForeignKey(Nag)
-#TODO
+class Like(models.Model):
+    user = models.ForeignKey('UserProfile')
+    nag = models.ForeignKey('Nag')
 
-#class Subscribe(models.Model):
-#    user = models.ForeignKey(UserProfile)
-#    cat = models.ForeignKey(Category)
-#TODO
+
+class Subscribe(models.Model):
+    user = models.ForeignKey('UserProfile')
+    cat = models.ForeignKey('Category')
+
 
 
 class UserProfile(models.Model):

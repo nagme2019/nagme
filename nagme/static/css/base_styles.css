@@ -1,14 +1,14 @@
 
-.col-sm-2 {
-  background-color: blue;
-}
-
 #logo {
   width : 65%;
   height : auto;
   margin-top : 0.025em;
   margin-left : 1.75em;
   margin-top : .75em;
+}
+
+.orange {
+  color: #ff6700;
 }
 
 body {
@@ -94,7 +94,7 @@ body {
 
 #pagecontents {
   margin-top : 3em;
-  width: inherit;
+  font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
 }
 
 #pagecontents h1 {
@@ -119,7 +119,7 @@ body {
 }
 
 #pagecontents p.navy{
-  
+
 }
 
 #pagecontents h2.navy {
