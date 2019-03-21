@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag
+from nagme_app.models import Category, Nag, Like, Subscribe
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
@@ -38,7 +38,7 @@ def log_in(request):
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print ("Invalid login details: {0}, {1}".format(username, password))
+            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
@@ -47,28 +47,41 @@ def log_in(request):
 
 def registration(request):
     registered = False
+
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
+
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+
             profile = profile_form.save(commit=False)
             profile.user = user
+
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
             profile.save()
             registered = True
         else:
-            print (user_form.errors, profile_form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+
     return render(request,
                   'nagme/register.html',
-                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
+
+
+@login_required
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
 
 
 def user_home(request):
@@ -116,13 +129,16 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-#def like(request, nag_id):
-    #TODO
+def like(request, username, nag_id):
+    new_like, created = Like.objects.get_or_create(user=username, nag_id=nag_id)
+    if not created:
+        return False
+    else:
+        return True
 
 
-#def subscribe(request, cat):
-    #TODO
-
+def subscribe(request, username, category):
+    new_sub, created = Subscribe.objects.get_or_create(user=username, category=category)
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to

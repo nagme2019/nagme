@@ -20,7 +20,7 @@
                             </a>
                             <p>
                                 {% if category.subscribers == user %}
-                                <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+                                    <button type="button" class="btn btn-success btn-sm">Subscribed</button>
                                 {% else %}
                                     <a target="_blank" class="btn bt-light btn-sm" href="{%  url 'subscribe' category.name %}">Subscribe</a>
                                 {% endif %}
