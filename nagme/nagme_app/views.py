@@ -127,14 +127,16 @@ def like(request, username, nag_id):
 def is_liked(request, username, nag_id)
     return Like.objects.filter(user=username, nag=nag_id).exists()
 
-def is_subbed(request, username, category)
-    return Subscribe.objects.filter(user=username, cat=category).exists()
-
 @login_required
 def subscribe(request, username, category):
     new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
 
-
+def is_subbed(request, username, category):
+    return Subscribe.objects.filter(user=username, cat=category).exists()
+    if not created:
+        return False
+    else:
+        return True
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
 # make it possible for them to choose the category from a drop down list on the add
