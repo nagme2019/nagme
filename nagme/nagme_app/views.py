@@ -125,15 +125,15 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-@login_reguired
+@login_required
 def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id
+    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id)
     if not created:
         return False
     else:
         return True
 
-def is_liked(request, username, nag_id)
+def is_liked(request, username, nag_id):
     return Like.objects.filter(user=username, nag=nag_id).exists()
 
 @login_required
@@ -223,12 +223,14 @@ def subscribed_categories(request):
 
     return render(request, 'nagme/subscribed_categories.html', context_dict)
 
-def send_email(emails,content):
+#emails = emails to send to
+def send_email(subject,emails,content):
+    send_mail(subject,content,'nagmebot2019@gmail.com',emails)
+
+def send_nags(nag_cat,emails):
+    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
+    send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
     
-    send_mail('Support',content,'nagmebot2019@gmail.com',emails,
-)
-
-
 def support(request):
     #if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -238,7 +240,8 @@ def support(request):
             message=form.cleaned_data.get("content")
             content= name+"\n"+email+"\n"+message
             print ("message recieved")
-            send_email(['nagmebot2019@gmail.com'],content)
+            send_email('Support',['nagmebot2019@gmail.com'],content)
+            send_nags("Wake",['oliver.warke@gmail.com'])
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
