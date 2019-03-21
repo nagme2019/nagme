@@ -6,7 +6,7 @@ from nagme_app.models import Category, UserProfile, Nag
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True, label="Name")
-    contact_number =PhoneNumberField()
+    contact_email=forms.EmailField(max_length=500, label="Email")
     content = forms.CharField(
         required=True,
         widget=forms.Textarea,
