@@ -4,15 +4,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag, Reminder
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from django.views.generic.list import ListView
-from django.urls import reverse_lazy
-from django.views.generic import DetailView
-from django.contrib.messages.views import SuccessMessageMixin
+from nagme_app.models import Category, Nag
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
+from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
 def base(request):
@@ -153,23 +149,27 @@ def add_nag(request, category_name_slug):
 
 
 def send_text(name, number, content):
-    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
-    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
-    nagme_number='+447480534396'
     test = '+447365140632'
-    client = Client(account_sid, auth_token)
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
     message = client.messages \
              .create(
                  body=content,
-                 from_=nagme_number,
+                 from_=TWILIO_NUMBER,
                  to=number
              )
     print(message.sid)
 
 
-def nags(request):
-    nag_list = Nag.objects.all()
+def nags_likes(request):
+    nag_list = Nag.objects.order_by('-likes')
+    context_dict = {"nags": nag_list}
+
+    return render(request, 'nagme/nags.html', context_dict)
+
+
+def nags_time(request):
+    nag_list = Nag.objects.order_by('-created')
     context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
@@ -219,34 +219,6 @@ def category(request, category_name_slug):
         context_dict['category'] = None
 
     return render(request, 'nagme/category_page.html', context_dict)
-
-
-"""
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
-
-
-class ReminderListView(ListView):
-    #Shows users a list of appointments
-
-    model = Reminder
-
-
-class ReminderDetailView(DetailView):
-    #Shows users a single appointment
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    #Powers a form to edit existing appointments
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-"""
 
 
 # ##############################################################################
