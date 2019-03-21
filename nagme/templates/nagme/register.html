@@ -1,25 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-    <body>
-        <h1>Register with NagMe</h1>
+{% block title_block %} Register {% endblock %}
 
-        {% if registered %}
-            MumBot says: <strong>thank you for registering!</strong>
-            <a href="/user_home/">Return to the homepage.</a><br />
-        {% else %}
-            MumBot says: <strong>register here!</strong><br />
-            <form id="user_form" method="post" action="{% url "registration" %}"
-                    enctype="multipart/form-data">
+{% block logo_link %}
+    <a href="{% url 'welcome' %}" class="navbar-left"></a>
+{% endblock %}
 
-                {% csrf_token %}
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
-                <input type="submit" name="submit" value="Register" />
-            </form>
-        {% endif %}
-    </body>
-</html>
+{% block leftbutton_block %}{% endblock %}
+
+{% block rightbutton_block %}
+    <a href="{% url 'log_in' %}" class="nav-link" >
+      <i class="fas fa-sign-in-alt"></i>
+      Log In
+    </a>
+{% endblock %}
+
+{% block sidebar_block %}{% endblock %}
+
+{% block body_block %}
+    <h1>Register for NagMe</h1>
+    {% if registered %}
+        MomBot says: <strong>thank you for registering!</strong>
+        <a href="{% url 'user_home' %}">Return to the homepage.</a><br />
+    {% else %}
+        MomBot says: <strong>register here!</strong><br />
+        <form id="user_form" method="post" action="{% url 'registration' %}"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Display each form -->
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Register" />
+        </form>
+    {% endif %}
+{% endblock %}

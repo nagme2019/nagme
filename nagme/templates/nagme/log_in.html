@@ -1,70 +1,14 @@
-
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% load static %}
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/sign-in/">
-
-    <!-- Bootstrap core CSS -->
-    <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
-
-{% block title_block %}
-    Log In
-{% endblock %}
-
-{% block sidebar_width_block %}
-{% endblock %}
-
-{% block sidebar_block %}
-{% endblock %}
-
-{% block leftbutton_block %}
-{% endblock %}
-
-{% block rightbutton_block %}
-<a href="#" class="nav-link" >
-      <i class="fas fa-home"></i>
-      Welcome Page
-</a>
-{% endblock %}
-
-
-{% block pagebody_width_block %}
-<div id="pagecontents" class="col-sm-12"/>
-{% endblock %}
+{% block title_block %} Login {% endblock %}
 
 {% block body_block %}
-    <div class="text-center">
-        <form class="form-signin" id="login_form" method="post" action="{% url "log_in" %}">
-      {% csrf_token %}
-      <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="username" id="username" class="form-control" placeholder="Username" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <h1>Login to NagMe</h1>
+    <form id="login_form" method="post" action="{% url 'log_in' %}">
+        {% csrf_token %}
+        Username: <input type="text" name="username" value="" size="50" /> <br />
+        Password: <input type="password" name="password" value="" size="50" /> <br />
+        <input type="submit" value="submit" />
     </form>
-    <a href="/registration/">Register Here</a>
-</div>
 {% endblock %}

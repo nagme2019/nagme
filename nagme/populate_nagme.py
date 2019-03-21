@@ -112,7 +112,7 @@ def add_cat(name, image):
 
 # Add Nags
 def add_nag(category, nag, likes=0):
-    n = Nag.objects.get_or_create(category=category, text=nag, author="mombot")[0]
+    n = Nag.objects.get_or_create(category=category, text=nag)[0]
     n.likes = likes
     n.save()
     return n

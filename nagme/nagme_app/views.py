@@ -35,8 +35,8 @@ def log_in(request):
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
-                log_in(request, user)
-                return HttpResponseRedirect('user_home')
+                login(request, user)
+                return HttpResponseRedirect(reverse('user_home'))
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
@@ -83,7 +83,7 @@ def registration(request):
 @login_required
 def log_out(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('welcome'))
 
 
 def user_home(request):

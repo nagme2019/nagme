@@ -28,6 +28,8 @@ urlpatterns = [
         views.log_in, name='log_in'),
     url(r'^registration/',
         views.registration, name='registration'),
+    url(r'^log_out/$',
+        views.log_out, name="log_out"),
     url(r'^user_home/',
         views.user_home, name='user_home'),
     url(r'^user_home/account/',
