@@ -116,10 +116,10 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-def like(request, nag_id):
+#def like(request, nag_id):
     #TODO
 
-def subscribe(request, category):
+#def subscribe(request, category):
     #TODO
 
 # make sure it can't be accessed unless the person is an author

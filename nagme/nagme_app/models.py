@@ -13,7 +13,6 @@ from django.core.exceptions import ValidationError
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True, primary_key=True)
-    top = models.ForeignKey('Nag', on_delete=models.SET_NULL, related_name='top', null=True)  # change the on_delete to the next most liked nag
     slug = models.SlugField(unique=True)
     subscribers = models.ManyToManyField('UserProfile')
     image = models.ImageField(blank=True)
@@ -29,15 +28,15 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Like(models.Model):
-    user = models.ForeignKey(UserProfile)
-    nag = models.ForeignKey(Nag)
+#class Like(models.Model):
+#    user = models.ForeignKey(UserProfile)
+#    nag = models.ForeignKey(Nag)
+#TODO
 
-
-class Subscribe(models.Model):
-    user = models.ForeignKey(UserProfile)
-    cat = models.ForeignKey(Category)
-
+#class Subscribe(models.Model):
+#    user = models.ForeignKey(UserProfile)
+#    cat = models.ForeignKey(Category)
+#TODO
 
 
 class UserProfile(models.Model):
