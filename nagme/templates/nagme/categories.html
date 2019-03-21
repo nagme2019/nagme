@@ -19,10 +19,17 @@
                                 <h2>{{ category.name }}</h2>
                             </a>
                             <p>
+<<<<<<< HEAD
+                                {% if category.subscribers == user %}
+                                    <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+                                {% else %}
+                                    <a target="_blank" class="btn bt-light btn-sm" href="{%  url 'subscribe' category.name %}">Subscribe</a>
+=======
                                 {% if category in subbed %}
                                 <button type="button" class="btn btn-light btn-sm">Subscribe</button>
                                 {% else %}
                                 <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+>>>>>>> 1ba638e9a207633ecdeeff70abd5e5411a343a94
                                 {% endif %}
                             </p>
                         </div><!-- /.col-lg-4 -->

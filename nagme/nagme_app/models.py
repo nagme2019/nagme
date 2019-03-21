@@ -39,7 +39,6 @@ class Subscribe(models.Model):
     cat = models.ForeignKey('Category')
 
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)

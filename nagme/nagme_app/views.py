@@ -7,15 +7,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from nagme_app.models import Category, Nag, Like, Subscribe
 from django.conf import settings
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from django.views.generic.list import ListView
-from django.urls import reverse_lazy
-from django.views.generic import DetailView
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
-
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
@@ -41,12 +35,12 @@ def log_in(request):
         user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
-                log_in(request, user)
-                return HttpResponseRedirect('user_home')
+                login(request, user)
+                return HttpResponseRedirect(reverse('user_home'))
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print ("Invalid login details: {0}, {1}".format(username, password))
+            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
@@ -55,28 +49,41 @@ def log_in(request):
 
 def registration(request):
     registered = False
+
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
+
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
+
             profile = profile_form.save(commit=False)
             profile.user = user
+
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
             profile.save()
             registered = True
         else:
-            print (user_form.errors, profile_form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+
     return render(request,
                   'nagme/register.html',
-                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
+
+
+@login_required
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('welcome'))
 
 
 def user_home(request):
@@ -95,6 +102,7 @@ def user_home(request):
     }
 
     return render(request, 'nagme/user_home.html', context_dict)
+
 
 @login_required
 def account(request):
@@ -134,6 +142,7 @@ def like(request, user, nag):
 def is_liked(request, user, nag):
     return Like.objects.filter(user=user.user, nag=nag.id).exists()
 
+
 @login_required
 def subscribe(request, user, category):
     new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
@@ -144,6 +153,13 @@ def subscribe(request, user, category):
 def is_subbed(request, user, category):
     return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
+
+def is_subbed(request, username, category):
+    return Subscribe.objects.filter(user=username, cat=category).exists()
+    if not created:
+        return False
+    else:
+        return True
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
@@ -215,21 +231,28 @@ def nags_time(request):
 #     return render(request, 'nagme/subscribed_nags.html', context_dict)
 
 
+@login_required
 def subscribed_categories(request):
     user = request.user
-    category_list = Category.objects.filter(subscriber=user)
+    category_list = Category.objects.filter(subscribers=user)
     context_dict = {"categories": category_list}
 
     return render(request, 'nagme/subscribed_categories.html', context_dict)
+
 
 #emails = emails to send to
 def send_email(subject,emails,content):
     send_mail(subject,content,'nagmebot2019@gmail.com',emails)
 
-def send_nags(nag_cat,emails):
+
+def send_nags(request,category_name_slug):
+    emails=[]
+    nag_cat = Category.objects.get(slug=category_name_slug)
+    subscribers=Subscribe.objects.filter(cat=nag_cat)
     nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
     send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
-    
+
+
 def support(request):
     #if request.method == 'POST':
         form = ContactForm(request.POST)
