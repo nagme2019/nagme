@@ -8,6 +8,7 @@ from nagme_app.models import Category, Nag
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
+
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
@@ -88,7 +89,6 @@ def user_home(request):
 
     return render(request, 'nagme/user_home.html', context_dict)
 
-
 @login_required
 def account(request):
     # remember to make sure only to allow is user is logged in later
@@ -116,7 +116,7 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-
+@login_reguired
 def like(request, username, nag_id):
     new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id
     if not created:
@@ -124,7 +124,13 @@ def like(request, username, nag_id):
     else:
         return True
 
+def is_liked(request, username, nag_id)
+    return Like.objects.filter(user=username, nag=nag_id).exists()
 
+def is_subbed(request, username, category)
+    return Subscribe.objects.filter(user=username, cat=category).exists()
+
+@login_required
 def subscribe(request, username, category):
     new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
 
