@@ -78,9 +78,9 @@
     <div class="container-fluid">
     {% block sidebar_block %}
       <div id="siderow" class="row">
-        <div id="sidebar" class="col-sm-2 hidden-xs sidenav">
+        <div id="sidebar" data-spy="affix" class="col-sm-2 hidden-xs sidenav fixed-left">
             {% block user_image %}{% endblock %}
-              <ul class="nav nav-pills nav-stacked">
+              <ul class="nav nav-pills nav-stacked fixed-left">
                 <li class="nav-item text-center big-side-button">
                     <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
                 <li class="nav-item text-center big-side-button">

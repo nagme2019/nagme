@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag
+from nagme_app.models import Category, Nag, Like, Subscribe
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
@@ -116,9 +116,8 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-
 def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id
+    new_like, created = Like.objects.get_or_create(user=username, nag_id=nag_id)
     if not created:
         return False
     else:
@@ -126,7 +125,7 @@ def like(request, username, nag_id):
 
 
 def subscribe(request, username, category):
-    new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
+    new_sub, created = Subscribe.objects.get_or_create(user=username, category=category)
 
 
 # make sure it can't be accessed unless the person is an author
