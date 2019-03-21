@@ -146,13 +146,16 @@ def send_text(name,number,content):
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
     nagme_number='+447480534396'
     test='+447365140632'
+    if(not number):
+        print("no")
+        
     client= Client(account_sid,auth_token)
 
     message=client.messages \
              .create(
                  body=content,
                  from_=nagme_number,
-                 to=number
+                 to=test
              )
     print(message.sid)
     
@@ -172,20 +175,22 @@ def nags(request):
 #     return render(request, 'nagme/subscribed_nags.html', context_dict)
 
 def support(request):
-    form = ContactForm(request.POST)
-    if form.is_valid():
-        name= form.cleaned_data.get("contact_name")
-        number= form.cleaned_data.get("contact_number")
-        content=form.cleaned_data.get("content")
-        print(number)
-        print ("message recieved")
-        send_text(name,number,content)
-        context= {'form': form}
-        return render(request, 'nagme/support.html', context)
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name= form.cleaned_data.get("contact_name")
+            number= form.cleaned_data.get("contact_number")
+            content=form.cleaned_data.get("content")
+            print(number)
+            print ("message recieved")
+            send_text(name,number,content)
+            context= {'form': form}
+            return render(request, 'nagme/support.html', context)
+        else:
+            context= {'form': form}
+            return render(request, 'nagme/support.html', {'form': form})
     else:
-        context= {'form': form}
-        return render(request, 'nagme/support.html', {'form': form})
-
+        return render(request, 'nagme/support.html', {})
 
 def categories(request):
     category_list = Category.objects.all()
