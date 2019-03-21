@@ -15,7 +15,7 @@
                   {% for category in categories %}
                         <div class="col-lg-4">
                             <a href="{% url 'category' category.slug %}">
-                                <img src="{% static "/images/LoudSpeaker.png" %}" width="140" height="140">
+                                <img src="{{ category.image }}" width="140" height="140">
                                 <h2>{{ category.name }}</h2>
                             </a>
                             <p>

@@ -29,21 +29,25 @@ class Category(models.Model):
         return self.name
 
 
-class Like(models.Model):
-    user = models.ForeignKey('UserProfile')
-    nag = models.ForeignKey('Nag')
+#class Like(models.Model):
+#    user = models.ForeignKey(UserProfile)
+#    nag = models.ForeignKey(Nag)
+#TODO
 
-
-class Subscribe(models.Model):
-    user = models.ForeignKey('UserProfile')
-    cat = models.ForeignKey('Category')
+#class Subscribe(models.Model):
+#    user = models.ForeignKey(UserProfile)
+#    cat = models.ForeignKey(Category)
+#TODO
 
 
 class UserProfile(models.Model):
+    first_name = models.CharField(max_length=128)
+    last_name = models.CharField(max_length=128)
     user = models.OneToOneField(User, primary_key=True)
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     is_author = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username

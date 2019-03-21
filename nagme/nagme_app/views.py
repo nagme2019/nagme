@@ -5,14 +5,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from nagme_app.models import Category, Nag
+
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.generic import DetailView
 from django.contrib.messages.views import SuccessMessageMixin
+
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
+from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
 def base(request):
@@ -98,13 +101,11 @@ def account(request):
     # remember to make sure only to allow is user is logged in later
     # TODO add firstname, lastname, email to profile?
     user = request.user
-
     context_dict = {
         "username": user.user,
         "phone_number": user.phone_number,
         "password": "********",
     }
-
     return render(request, 'nagme/manage_account.html', context_dict)
 
 
@@ -120,6 +121,14 @@ def account_password(request):
     context_dict = {}
 
     return render(request, 'nagme/account_password.html', context_dict)
+
+
+
+#def like(request, nag_id):
+    #TODO
+
+#def subscribe(request, category):
+    #TODO
 
 
 # make sure it can't be accessed unless the person is an author
@@ -149,15 +158,16 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
+
 #call sent_text with number you want to send to and content being what you want to send
-def send_text(name,number,content):
+def send_text(name, number, content):
     account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
     nagme_number='+447480534396'
     test='+447365140632'
     if(not number):
         print("no")
-        
+
     client= Client(account_sid,auth_token)
 
     message=client.messages \
@@ -167,10 +177,17 @@ def send_text(name,number,content):
                  to=test
              )
     print(message.sid)
-    
 
-def nags(request):
-    nag_list = Nag.objects.all()
+
+def nags_likes(request):
+    nag_list = Nag.objects.order_by('-likes')
+    context_dict = {"nags": nag_list}
+
+    return render(request, 'nagme/nags.html', context_dict)
+
+
+def nags_time(request):
+    nag_list = Nag.objects.order_by('-created')
     context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
@@ -182,6 +199,15 @@ def nags(request):
 #     context_dict = {"nags": nag_list}
 #
 #     return render(request, 'nagme/subscribed_nags.html', context_dict)
+
+
+def subscribed_categories(request):
+    user = request.user
+    category_list = Category.objects.filter(subscriber=user)
+    context_dict = {"categories": category_list}
+
+    return render(request, 'nagme/subscribed_categories.html', context_dict)
+
 
 def support(request):
     if request.method == 'POST':
@@ -201,6 +227,7 @@ def support(request):
     else:
         return render(request, 'nagme/support.html', {})
 
+
 def categories(request):
     category_list = Category.objects.all()
     context_dict = {'categories': category_list}
@@ -219,8 +246,6 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
-
-
 
 
 
