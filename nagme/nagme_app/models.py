@@ -39,7 +39,6 @@ class Subscribe(models.Model):
     cat = models.ForeignKey('Category')
 
 
-
 class UserProfile(models.Model):
     first_name = models.CharField(max_length=128, default='empty')
     last_name = models.CharField(max_length=128,default='empty')
