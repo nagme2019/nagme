@@ -13,7 +13,7 @@
         {% if categories %}
             <ul>
                 {% for cat in categories %}
-                       <li><a href="{% url 'category' cat.slug %}">{{ cat.name }}</a></li>
+                       <p><a href="{% url 'category' cat.slug %}">{{ cat.name }}</a>  <button type="button" class="btn btn-success btn-sm" style="float:right;">Unsubscribe</button></p>
                   {% endfor %}
             </ul>
         {% else %}

@@ -28,6 +28,11 @@ SECRET_KEY = '*%5*n^))v*6egej@+lyxlnx=4&-12jyn&h#&_s6kq8)h(e+(j3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Twilio API
+TWILIO_NUMBER = os.environ.get('TWILIO_NUMBER')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+
 ALLOWED_HOSTS = []
 
 
@@ -40,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nagme_app'
+    'nagme_app',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +77,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 WSGI_APPLICATION = 'nagme_project.wsgi.application'
 
@@ -117,7 +124,7 @@ PASSWORD_HASHERS = (
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 

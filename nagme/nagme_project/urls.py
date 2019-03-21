@@ -19,13 +19,6 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-"""
-from nagme.views import ReminderCreateView
-from nagme.views import ReminderListView
-from nagme.views import ReminderDeleteView
-from nagme.views import ReminderDetailView
-"""
-
 urlpatterns = [
     url(r'^', include('nagme_app.urls')),
 ]

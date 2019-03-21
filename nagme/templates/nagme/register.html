@@ -1,32 +1,33 @@
-{% extends "base.html" %}
-{% load staticfiles %}
-{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+<<<<<<< HEAD
+        <title>Register</title>
+    </head>
 
-{% block title_block %}
-    Log In
-{% endblock %}
+    <body>
+        <h1>Register with NagMe</h1>
 
-{% block sidebar_width_block %}
-<div id="sidebar" class="col-sm-0 hidden sidenav"/>
-{% endblock %}
+        {% if registered %}
+        MumBot says: <strong>thank you for registering!</strong>
+        <a href="/user_home/">Return to the homepage.</a><br />
+        {% else %}
+        MumBot says: <strong>register here!</strong><br />
+=======
+        <title>Rango</title>
+    </head>
 
-{% block leftbutton_block %}
-{% endblock %}
+    <body>
+        <h1>Register with Rango</h1>
 
-{% block rightbutton_block %}
-<a href="#" class="nav-link" >
-      <i class="fas fa-home"></i>
-      Back to Welcome Page
-</a>
-{% endblock %}
+        {% if registered %}
+        Rango says: <strong>thank you for registering!</strong>
+        <a href="/rango/">Return to the homepage.</a><br />
+        {% else %}
+        Rango says: <strong>register here!</strong><br />
+>>>>>>> cad6ed183b617c1067882092d3ce0baf055692a2
 
-{% block pagebody_width_block %}
-<div id="pagecontents" class="col-sm-12"/>
-{% endblock %}
-
-{% block body_block %}
-        <h1>Register with Nag Me</h1>
-        <form id="user_form" method="post" action="/rango/register/"
+        <form id="user_form" method="post" action="{% url "registration" %}"
                 enctype="multipart/form-data">
 
             {% csrf_token %}
@@ -35,4 +36,5 @@
             <input type="submit" name="submit" value="Register" />
         </form>
         {% endif %}
-{% endblock %}
+    </body>
+</html>

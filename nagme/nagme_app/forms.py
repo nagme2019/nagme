@@ -3,14 +3,16 @@ from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from nagme_app.models import Category, UserProfile, Nag
 
+
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True, label="Name")
-    contact_number = PhoneNumberField()
+    contact_number =PhoneNumberField()
     content = forms.CharField(
         required=True,
         widget=forms.Textarea,
         label="Message"
     )
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

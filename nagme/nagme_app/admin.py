@@ -1,10 +1,9 @@
 from django.contrib import admin
-from nagme_app.models import Category, UserProfile, Nag, Reminder
+from nagme_app.models import Category, UserProfile, Nag
 
 
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
-    list_display = ('name', 'top')
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -19,4 +18,3 @@ class NagAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(UserProfile, UserAdmin)
 admin.site.register(Nag, NagAdmin)
-admin.site.register(Reminder)

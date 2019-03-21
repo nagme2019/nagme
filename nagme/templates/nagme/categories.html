@@ -7,17 +7,21 @@
 
 
 {% block body_block %}
-	<div class="container marketing" style="margin-top:50px;">
-
+	<div class="container marketing" style="margin: auto;">
+    <div class="row">
       <!-- Three columns of text below the carousel -->
         {% if categories %}
               <div class="row">
                   {% for category in categories %}
                         <div class="col-lg-4">
                             <a href="{% url 'category' category.slug %}">
-                                <img class="rounded-circle" src="{{ STATIC_URL }}Cat_WakeUp" alt="Generic placeholder image" width="140" height="140">
+                                <img src="{{ category.image }}" width="140" height="140">
                                 <h2>{{ category.name }}</h2>
                             </a>
+                            <p>
+                                <button type="button" class="btn btn-light btn-sm">Subscribe</button>
+                                <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+                            </p>
                         </div><!-- /.col-lg-4 -->
                   {% endfor %}
               </div><!-- /.row -->
@@ -25,4 +29,10 @@
             <strong>No categories.</strong>
         {% endif %}
     </div>
+    </div>
 {% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>

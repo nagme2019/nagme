@@ -12,11 +12,17 @@
 		<h1>{{ category.name }}</h1>
 		</div>
 		{% if nags %}
-			<ul>
-			{% for nag in nags %}
-				<li>{{ nag.text }}</li>
+            {% for nag in nags %}
+                <p>
+                <button type="button" class="btn btn-default btn-sm" style="float:right;">
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                </button>
+                <button type="button" class="btn btn-success btn-sm" style="float:right;">
+                 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
+                 </button>
+                {{ nag.text }}
+                </p>
 			{% endfor %}
-			</ul>
 		{% else %}
 			<strong>No nags currently in category.</strong>
 		{% endif %}

@@ -11,18 +11,18 @@
 
 {% block user_image %}
     <img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
-    <p class="text-center text-muted">username</p>
+    <p class="text-center text-muted">{{ username }}</p>
 {% endblock %}
 
 {% block body_block %}
-    <h1>Welcome {{ firstname }}!</h1>
-    <p class="page-subtitle">Congratulations, you've been using nag.me for {{days_using}} days! </p>
-
+    <h1>Welcome {{ username }}!</h1>
+    <p><a class="btn btn-outline-primary" href="#" role="button">Click here</a> to be sent the top nag from each of your
+        subscribed categories</p>
     <div class="announcebox">
         <img src="{% static "/images/Mombot.png" %}" style="height: 200px; position:relative; float:left;"/>
-      <div class="bubble">
-        <h3>Nag of the day</h3>
-        <p>{{ nag_of_the_day.text }}</p>
+      <div class="bubble text-center">
+        <h4 style="color: #081233"><strong class="text.center">Nag of the Day</strong></h4>
+        <p class="text-center">{{ nag_of_the_day.text }}</p>
       </div>
     </div>
 {% endblock %}

@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Homepage
+{% endblock %}
+
+{% block leftbutton_block %}
+{% endblock %}
+
+{% block user_image %}
+    <img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
+    <p class="text-center text-muted">{{ username }}</p>
+{% endblock %}
+
+{% block body_block %}
+    <h1>Manage Account</h1>
+    <div class="col-sm-5">
+      <p>Username: {{ username }}</p>
+    </div>
+    <div class="col-sm-5">
+      <div class="jumbotron">
+        <button type="button" class="btn btn-light">change profile picture</button>
+        <img src="{{MEDIA_URL}} blank user pic.jpg" alt="user profile pic">
+        
+      </div>
+    </div>
+{% endblock %}
