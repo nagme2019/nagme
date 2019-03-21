@@ -19,8 +19,11 @@
                                 <h2>{{ category.name }}</h2>
                             </a>
                             <p>
-                                <button type="button" class="btn btn-light btn-sm">Subscribe</button>
+                                {% if category.subscribers == user %}
                                 <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+                                {% else %}
+                                    <a target="_blank" class="btn bt-light btn-sm" href="{%  url 'subscribe' category.name %}">Subscribe</a>
+                                {% endif %}
                             </p>
                         </div><!-- /.col-lg-4 -->
                   {% endfor %}

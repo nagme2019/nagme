@@ -116,11 +116,11 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-
 #def like(request, nag_id):
     #TODO
 
-#def subscribe(request, category):
+
+#def subscribe(request, cat):
     #TODO
 
 
@@ -194,9 +194,10 @@ def nags_time(request):
 #     return render(request, 'nagme/subscribed_nags.html', context_dict)
 
 
+@login_required
 def subscribed_categories(request):
     user = request.user
-    category_list = Category.objects.filter(subscriber=user)
+    category_list = Category.objects.filter(subscribers=user)
     context_dict = {"categories": category_list}
 
     return render(request, 'nagme/subscribed_categories.html', context_dict)
