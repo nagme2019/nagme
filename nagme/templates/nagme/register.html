@@ -1,107 +1,41 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% load static %}
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/sign-in/">
+{% block title_block %} Register {% endblock %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
-
-{% block title_block %}
-    Sign Up
+{% block logo_link %}
+    <a href="{% url 'welcome' %}" class="navbar-left"></a>
 {% endblock %}
 
-{% block sidebar_width_block %}
-{% endblock %}
-
-{% block sidebar_block %}
-{% endblock %}
-
-{% block leftbutton_block %}
-{% endblock %}
+{% block leftbutton_block %}{% endblock %}
 
 {% block rightbutton_block %}
-<a href="{% url 'welcome' %}" class="nav-link" >
-      <i class="fas fa-home"></i>
-      Welcome Page
-</a>
+    <a href="{% url 'log_in' %}" class="nav-link" >
+      <i class="fas fa-sign-in-alt"></i>
+      Log In
+    </a>
 {% endblock %}
 
-
-{% block pagebody_width_block %}
-<div id="pagecontents" class="col-sm-12"/>
-{% endblock %}
+{% block sidebar_block %}{% endblock %}
 
 {% block body_block %}
-    <br>
-    <div class="text-center">
-        <form class="form-signin" id="login_form" method="post" action="{% url "log_in" %}">
-      {% csrf_token %}
-      <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="" width="72" height="72">
+    <h1>Register for NagMe</h1>
+    {% if registered %}
+        MomBot says: <strong>thank you for registering!</strong>
+        <a href="{% url 'user_home' %}">Return to the homepage.</a><br />
+    {% else %}
+        MomBot says: <strong>register here!</strong><br />
+        <form id="user_form" method="post" action="{% url 'registration' %}"
+              enctype="multipart/form-data">
 
-      <h1>Register with NagMe</h1>
+            {% csrf_token %}
 
-      {% if registered %}
-          MumBot says: <strong>thank you for registering!</strong>
-          <a href="{% url 'welcome' %}">Return to the homepage.</a><br />
-      {% else %}
-          MumBot says: <strong>register here!</strong><br />
-          <form id="user_form" method="post" action="{% url "registration" %}"
-                  enctype="multipart/form-data">
+            <!-- Display each form -->
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
 
-              {% csrf_token %}
-              {{ user_form.as_p }}
-              {{ profile_form.as_p }}
-              <input type="submit" name="submit" value="Register" />
-          </form>
-      {% endif %}
-</div>
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Register" />
+        </form>
+    {% endif %}
 {% endblock %}
-
-<!--
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
-
-    <body>
-        <h1>Register with NagMe</h1>
-
-        {% if registered %}
-            MumBot says: <strong>thank you for registering!</strong>
-            <a href="{% url 'welcome' %}">Return to the homepage.</a><br />
-        {% else %}
-            MumBot says: <strong>register here!</strong><br />
-            <form id="user_form" method="post" action="{% url "registration" %}"
-                    enctype="multipart/form-data">
-
-                {% csrf_token %}
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
-                <input type="submit" name="submit" value="Register" />
-            </form>
-        {% endif %}
-    </body>
-</html>
--->

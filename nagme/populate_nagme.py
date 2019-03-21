@@ -93,6 +93,7 @@ def populate():
             "Sleep": {"nags": sleep_nags, "image": "/images/Cat_sleep.png"}
             }
 
+
     for cat, cat_data in cats.items():
         c = add_cat(cat, cat_data['image'])
         for n in cat_data["nags"]:
