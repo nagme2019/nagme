@@ -7,20 +7,44 @@
 
 
 {% block body_block %}
-	{% if nags %}
-			{% for nag in nags %}
-                <p>
-                <button type="button" class="btn btn-default btn-sm" style="float:right;">
-                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                </button>
-                <button type="button" class="btn btn-success btn-sm" style="float:right;">
-                 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
-                 </button>
-                <a href="{% url 'category' nag.category.slug %}">{{ nag.category }}:</a> {{ nag.text }}
-                </p>
-            {% endfor %}
-	{% else %}
-			<strong>No nags.</strong>
-	{% endif %}
+	<div style="margin-left: 2.5%; margin-right: 2.5%">
+			<h2 class="orange">
+				<strong>{{ nag_page_title }}</strong>
+				<br>
+				<small class="text-muted">Like your favorite nags or click on #category tags under nags to explore similar content</small>
+			</h2>
+
+			{% if nags %}
+					{% for nag in nags %}
+										<hr>
+										<img src="{% static 'images/Mombot_pale_circle_facing_right_tiny.png' %}" alt="mom.bot icon">
+
+										<p class="text-left" style="padding-left: 6em; margin-top: -3em">
+											<i class="fas fa-quote-left" style="margin-left: 3em"></i>
+											{{ nag.text }}
+											<i class="fas fa-quote-right"></i>
+										<p>
+
+										<!-- need to change this to only show one or other -->
+										<button type="button" class="btn btn-default btn-sm" style="float:right;">
+												<span class="glyphicon glyphicon-thumbs-up"></span> Like
+										</button>
+										<button type="button" class="btn btn-success btn-sm" style="float:right;">
+										 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
+										 </button>
+
+										<p style="margin-left: 8.5em">
+												<br>
+												Categories:
+												<a href="{% url 'category' nag.category.slug %}"
+													class="badge badge-secondary">
+													#{{ nag.category }}
+												</a>
+										</p>
+
+		      {% endfor %}
+			{% else %}
+					<strong>No nags.</strong>
+			{% endif %}
   </div>
 {% endblock %}
