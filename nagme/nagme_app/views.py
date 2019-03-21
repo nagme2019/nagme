@@ -181,14 +181,14 @@ def send_text(name, number, content):
 
 def nags_likes(request):
     nag_list = Nag.objects.order_by('-likes')
-    context_dict = {"nags": nag_list}
+    context_dict = {"nags": nag_list, "nag_page_title": "Popular Nags"}
 
     return render(request, 'nagme/nags.html', context_dict)
 
 
 def nags_time(request):
     nag_list = Nag.objects.order_by('-created')
-    context_dict = {"nags": nag_list}
+    context_dict = {"nags": nag_list, "nag_page_title": "Recent Nags"}
 
     return render(request, 'nagme/nags.html', context_dict)
 
