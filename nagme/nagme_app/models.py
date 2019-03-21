@@ -65,4 +65,3 @@ class Nag(models.Model):
 
     class Meta:
         app_label = 'nagme_app'
-

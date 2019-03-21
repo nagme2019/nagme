@@ -92,9 +92,17 @@ def user_home(request):
 
 @login_required
 def account(request):
-    context_dict = {}
+    # remember to make sure only to allow is user is logged in later
+    # TODO add firstname, lastname, email to profile?
+    user = request.user
 
-    return render(request, 'nagme/account.html', context_dict)
+    context_dict = {
+        "username": user.user,
+        "phone_number": user.phone_number,
+        "password": "********",
+    }
+
+    return render(request, 'nagme/manage_account.html', context_dict)
 
 
 @login_required
