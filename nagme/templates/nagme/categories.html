@@ -19,8 +19,11 @@
                                 <h2>{{ category.name }}</h2>
                             </a>
                             <p>
+                                {% if category in subbed %}
                                 <button type="button" class="btn btn-light btn-sm">Subscribe</button>
+                                {% else %}
                                 <button type="button" class="btn btn-success btn-sm">Subscribed</button>
+                                {% endif %}
                             </p>
                         </div><!-- /.col-lg-4 -->
                   {% endfor %}

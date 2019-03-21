@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from nagme_app.models import Category, Nag, Like, Subscribe
+from django.conf import settings
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
+
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
@@ -88,7 +96,6 @@ def user_home(request):
 
     return render(request, 'nagme/user_home.html', context_dict)
 
-
 @login_required
 def account(request):
     # remember to make sure only to allow is user is logged in later
@@ -116,16 +123,24 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
+@login_required
 def like(request, username, nag_id):
-    new_like, created = Like.objects.get_or_create(user=username, nag_id=nag_id)
+    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id)
     if not created:
         return False
     else:
         return True
 
 
-def subscribe(request, username, category):
-    new_sub, created = Subscribe.objects.get_or_create(user=username, category=category)
+def is_liked(request, username, nag_id):
+    return Like.objects.filter(user=username, nag=nag_id).exists()
+
+@login_required
+def subscribe(request, user, category):
+    Subscribe.objects.get_or_create(user=user.user, category=category.name)
+
+def is_subbed(request, user, category):
+    return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
 
 # make sure it can't be accessed unless the person is an author
@@ -178,14 +193,14 @@ def send_text(name, number, content):
 
 def nags_likes(request):
     nag_list = Nag.objects.order_by('-likes')
-    context_dict = {"nags": nag_list, "nag_page_title": "Popular Nags"}
+    context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
 
 
 def nags_time(request):
     nag_list = Nag.objects.order_by('-created')
-    context_dict = {"nags": nag_list, "nag_page_title": "Recent Nags"}
+    context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
 
@@ -205,24 +220,32 @@ def subscribed_categories(request):
 
     return render(request, 'nagme/subscribed_categories.html', context_dict)
 
+#emails = emails to send to
+def send_email(subject,emails,content):
+    send_mail(subject,content,'nagmebot2019@gmail.com',emails)
+
+def send_nags(nag_cat,emails):
+    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
+    send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
 
 def support(request):
-    if request.method == 'POST':
+    #if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             name= form.cleaned_data.get("contact_name")
-            number= form.cleaned_data.get("contact_number")
-            content=form.cleaned_data.get("content")
-            print(number)
+            email= form.cleaned_data.get("contact_email")
+            message=form.cleaned_data.get("content")
+            content= name+"\n"+email+"\n"+message
             print ("message recieved")
-            send_text(name,number,content)
+            send_email('Support',['nagmebot2019@gmail.com'],content)
+            send_nags("Wake",['oliver.warke@gmail.com'])
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
             context= {'form': form}
             return render(request, 'nagme/support.html', {'form': form})
-    else:
-        return render(request, 'nagme/support.html', {})
+    #else:
+     #   return render(request, 'nagme/support.html', {})
 
 
 def categories(request):
@@ -240,9 +263,11 @@ def category(request, category_name_slug):
         nag = Nag.objects.filter(category=cat)
         context_dict['nags'] = nag
         context_dict['category'] = cat
+        context_dict['subbed'] = Subscribe.objects.filter(user=request.user.user)
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
+
 
 
 # ##############################################################################

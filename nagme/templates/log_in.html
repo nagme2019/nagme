@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load static %}
+
+{% block title_block %}
+    Log In
+{% endblock %}
+
+{% block sidebar_width_block %}
+<div id="sidebar" class="col-sm-0 hidden sidenav"/>
+{% endblock %}
+
+{% block leftbutton_block %}
+{% endblock %}
+
+{% block rightbutton_block %}
+<a href="#" class="nav-link" >
+      <i class="fas fa-home"></i>
+      Back to Welcome Page
+</a>
+{% endblock %}
+
+
+{% block pagebody_width_block %}
+<div id="pagecontents" class="col-sm-12"/>
+{% endblock %}
+
+{% block body_block %}
+<div class="container-fluid">
+  <h1 class="text-center">Sign in to personalize your nags</h1>
+  <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot"/>
+  <a href="/registration/">Register Here</a>
+  <form id="login_form" method="post" action="{% url "login" %}">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" name="password" value="" size="50" />
+            <br />
+
+            <input type="submit" value="submit" />
+   </form>
+</div>
+{% endblock %}
