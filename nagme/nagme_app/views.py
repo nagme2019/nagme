@@ -6,10 +6,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from nagme_app.models import Category, Nag, Like, Subscribe
+from django.conf import settings
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
-
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
@@ -145,8 +145,11 @@ def is_liked(request, username, nag_id):
 
 
 @login_required
-def subscribe(request, username, category):
-    new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
+def subscribe(request, user, category):
+    Subscribe.objects.get_or_create(user=user.user, category=category.name)
+
+def is_subbed(request, user, category):
+    return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
 
 def is_subbed(request, username, category):
@@ -280,6 +283,7 @@ def category(request, category_name_slug):
         nag = Nag.objects.filter(category=cat)
         context_dict['nags'] = nag
         context_dict['category'] = cat
+        context_dict['subbed'] = Subscribe.objects.filter(user=request.user.user)
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
