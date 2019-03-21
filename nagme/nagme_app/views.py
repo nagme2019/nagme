@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag
+from nagme_app.models import Category, Nag, Like, Subscribe
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
@@ -116,27 +116,23 @@ def account_password(request):
     return render(request, 'nagme/account_password.html', context_dict)
 
 
-@login_reguired
-def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id
-    if not created:
-        return False
-    else:
-        return True
+@login_required
+def like(request, user, nag):
+    new_like,created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+    if created:
+        nag.likes += 1
 
 def is_liked(request, username, nag_id)
     return Like.objects.filter(user=username, nag=nag_id).exists()
 
 @login_required
-def subscribe(request, username, category):
-    new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
+def subscribe(request, user, category):
+    Subscribe.objects.get_or_create(user=user.user, category=category.name)
 
-def is_subbed(request, username, category):
-    return Subscribe.objects.filter(user=username, cat=category).exists()
-    if not created:
-        return False
-    else:
-        return True
+def is_subbed(request, user, category):
+    return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
+
+
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
 # make it possible for them to choose the category from a drop down list on the add
@@ -249,6 +245,7 @@ def category(request, category_name_slug):
         nag = Nag.objects.filter(category=cat)
         context_dict['nags'] = nag
         context_dict['category'] = cat
+        context_dict['subbed'] = Subscribe.objects.filter(user=request.user.user)
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
