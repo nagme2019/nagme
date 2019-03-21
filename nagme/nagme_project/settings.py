@@ -46,9 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nagme_app',
-    'bootstrap3',
-    'django_forms_bootstrap',
-    'timezone_field'
 ]
 
 MIDDLEWARE = [
