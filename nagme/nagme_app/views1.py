@@ -1,16 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag, Like, Subscribe
+from nagme_app.models import Category, Nag
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
-
-from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
 
 
 def base(request):
@@ -40,7 +42,7 @@ def log_in(request):
             else:
                 return HttpResponse("Your Nag.Me account is disabled.")
         else:
-            print("Invalid login details: {0}, {1}".format(username, password))
+            print ("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
 
     else:
@@ -49,41 +51,28 @@ def log_in(request):
 
 def registration(request):
     registered = False
-
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
-
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
-
             profile = profile_form.save(commit=False)
             profile.user = user
-
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
             profile.save()
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            print (user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-
     return render(request,
                   'nagme/register.html',
-                  {'user_form': user_form,
-                   'profile_form': profile_form,
-                   'registered': registered})
-
-
-@login_required
-def log_out(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('index'))
+                  {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 
 def user_home(request):
@@ -106,15 +95,9 @@ def user_home(request):
 
 @login_required
 def account(request):
-    # remember to make sure only to allow is user is logged in later
-    # TODO add firstname, lastname, email to profile?
-    user = request.user
-    context_dict = {
-        "username": user.user,
-        "phone_number": user.phone_number,
-        "password": "********",
-    }
-    return render(request, 'nagme/manage_account.html', context_dict)
+    context_dict = {}
+
+    return render(request, 'nagme/account.html', context_dict)
 
 
 @login_required
@@ -130,31 +113,6 @@ def account_password(request):
 
     return render(request, 'nagme/account_password.html', context_dict)
 
-
-@login_required
-def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id)
-    if not created:
-        return False
-    else:
-        return True
-
-
-def is_liked(request, username, nag_id):
-    return Like.objects.filter(user=username, nag=nag_id).exists()
-
-
-@login_required
-def subscribe(request, username, category):
-    new_sub,created = Subscribe.objects.get_or_create(user=username, category=category)
-
-
-def is_subbed(request, username, category):
-    return Subscribe.objects.filter(user=username, cat=category).exists()
-    if not created:
-        return False
-    else:
-        return True
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
@@ -183,16 +141,15 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
-
 #call sent_text with number you want to send to and content being what you want to send
-def send_text(name, number, content):
+def send_text(name,number,content):
     account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
     nagme_number='+447480534396'
     test='+447365140632'
     if(not number):
         print("no")
-
+        
     client= Client(account_sid,auth_token)
 
     message=client.messages \
@@ -202,17 +159,10 @@ def send_text(name, number, content):
                  to=test
              )
     print(message.sid)
+    
 
-
-def nags_likes(request):
-    nag_list = Nag.objects.order_by('-likes')
-    context_dict = {"nags": nag_list}
-
-    return render(request, 'nagme/nags.html', context_dict)
-
-
-def nags_time(request):
-    nag_list = Nag.objects.order_by('-created')
+def nags(request):
+    nag_list = Nag.objects.all()
     context_dict = {"nags": nag_list}
 
     return render(request, 'nagme/nags.html', context_dict)
@@ -225,45 +175,23 @@ def nags_time(request):
 #
 #     return render(request, 'nagme/subscribed_nags.html', context_dict)
 
-
-@login_required
-def subscribed_categories(request):
-    user = request.user
-    category_list = Category.objects.filter(subscribers=user)
-    context_dict = {"categories": category_list}
-
-    return render(request, 'nagme/subscribed_categories.html', context_dict)
-
-
-#emails = emails to send to
-def send_email(subject,emails,content):
-    send_mail(subject,content,'nagmebot2019@gmail.com',emails)
-
-
-def send_nags(nag_cat,emails):
-    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
-    send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
-    
-
 def support(request):
-    #if request.method == 'POST':
+    if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
             name= form.cleaned_data.get("contact_name")
-            email= form.cleaned_data.get("contact_email")
-            message=form.cleaned_data.get("content")
-            content= name+"\n"+email+"\n"+message
+            number= form.cleaned_data.get("contact_number")
+            content=form.cleaned_data.get("content")
+            print(number)
             print ("message recieved")
-            send_email('Support',['nagmebot2019@gmail.com'],content)
-            send_nags("Wake",['oliver.warke@gmail.com'])
+            send_text(name,number,content)
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
             context= {'form': form}
             return render(request, 'nagme/support.html', {'form': form})
-    #else:
-     #   return render(request, 'nagme/support.html', {})
-
+    else:
+        return render(request, 'nagme/support.html', {})
 
 def categories(request):
     category_list = Category.objects.all()
@@ -284,6 +212,108 @@ def category(request, category_name_slug):
         context_dict['nag'] = None
         context_dict['category'] = None
 
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    """Shows users a list of appointments"""
+
+    model = Reminder
+    
+    
+
+
+class ReminderDetailView(DetailView):
+    """Shows users a single appointment"""
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    """Powers a form to edit existing appointments"""
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+
+
+#class ReminderDeleteView(DeleteView):
+ #   """Prompts users to confirm deletion of an appointment"""
+
+  #  model = Reminder
+   # success_url = reverse_lazy('list_appointments')
+    #return render(request, 'nagme/category_page.html', context_dict)
+
+
+class ReminderCreateView(SuccessMessageMixin, CreateView):
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully created.'
+
+
+class ReminderListView(ListView):
+    """Shows users a list of appointments"""
+
+    model = Reminder
+    
+
+class ReminderDetailView(DetailView):
+    """Shows users a single appointment"""
+
+    model = Reminder
+
+
+class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+    """Powers a form to edit existing appointments"""
+
+    model = Reminder
+    fields = ['name', 'phonenumber', 'time', 'time_zone']
+    success_message = 'Reminder successfully updated.'
+
+
+#class ReminderDeleteView(DeleteView):
+ #   """Prompts users to confirm deletion of an appointment"""
+
+  #  model = Reminder
+   # success_url = reverse_lazy('list_appointments')
+    #return render(request, 'nagme/category_page.html', context_dict)
+
+
+# class ReminderCreateView(SuccessMessageMixin, CreateView):
+#     model = Reminder
+#     fields = ['name', 'phone_number', 'time', 'time_zone']
+#     success_message = 'Reminder successfully created.'
+#
+#
+# class ReminderListView(ListView):
+#     """Shows users a list of appointments"""
+#
+#     model = Reminder
+#
+#
+# class ReminderDetailView(DetailView):
+#     """Shows users a single appointment"""
+#
+#     model = Reminder
+#
+#
+# class ReminderUpdateView(SuccessMessageMixin, UpdateView):
+#     """Powers a form to edit existing appointments"""
+#
+#     model = Reminder
+#     fields = ['name', 'phone_number', 'time', 'time_zone']
+#     success_message = 'Reminder successfully updated.'
+#
+#
+# class ReminderDeleteView(DeleteView):
+#     """Prompts users to confirm deletion of an appointment"""
+#
+#     model = Reminder
+#     success_url = re
 
 
 # ##############################################################################
