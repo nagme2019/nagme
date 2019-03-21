@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nagme_project.settings')
 import django
 
 django.setup()
-from nagme_app.models import Category, UserProfile, Nag, Reminder
+from nagme_app.models import Category, UserProfile, Nag
 
 
 def populate():
@@ -78,13 +78,6 @@ def add_user(name, phonenumber):
     u = UserProfile.objects.get_or_create(name=name, phonenumber=phonenumber)[0]
     u.save()
     return u
-
-
-def add_reminder(name, time, text):
-    r = Reminder.objects.get_or_create(name=name, time=time, text=text)[0]
-    r.phonenumber = name.phonenumber
-    r.save()
-    return r
 
 
 if __name__ == '__main__':
