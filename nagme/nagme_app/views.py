@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag, Reminder
+from nagme_app.models import Category, Nag
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
@@ -157,7 +157,7 @@ def send_text(name,number,content):
     test='+447365140632'
     if(not number):
         print("no")
-        
+
     client= Client(account_sid,auth_token)
 
     message=client.messages \
@@ -167,7 +167,7 @@ def send_text(name,number,content):
                  to=test
              )
     print(message.sid)
-    
+
 
 def nags(request):
     nag_list = Nag.objects.all()
@@ -219,111 +219,6 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
-
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
-
-
-class ReminderListView(ListView):
-    """Shows users a list of appointments"""
-
-    model = Reminder
-    
-    
-
-
-class ReminderDetailView(DetailView):
-    """Shows users a single appointment"""
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-
-
-#class ReminderDeleteView(DeleteView):
- #   """Prompts users to confirm deletion of an appointment"""
-
-  #  model = Reminder
-   # success_url = reverse_lazy('list_appointments')
-    #return render(request, 'nagme/category_page.html', context_dict)
-
-
-class ReminderCreateView(SuccessMessageMixin, CreateView):
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully created.'
-
-
-class ReminderListView(ListView):
-    """Shows users a list of appointments"""
-
-    model = Reminder
-    
-
-class ReminderDetailView(DetailView):
-    """Shows users a single appointment"""
-
-    model = Reminder
-
-
-class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-    """Powers a form to edit existing appointments"""
-
-    model = Reminder
-    fields = ['name', 'phonenumber', 'time', 'time_zone']
-    success_message = 'Reminder successfully updated.'
-
-
-#class ReminderDeleteView(DeleteView):
- #   """Prompts users to confirm deletion of an appointment"""
-
-  #  model = Reminder
-   # success_url = reverse_lazy('list_appointments')
-    #return render(request, 'nagme/category_page.html', context_dict)
-
-
-# class ReminderCreateView(SuccessMessageMixin, CreateView):
-#     model = Reminder
-#     fields = ['name', 'phone_number', 'time', 'time_zone']
-#     success_message = 'Reminder successfully created.'
-#
-#
-# class ReminderListView(ListView):
-#     """Shows users a list of appointments"""
-#
-#     model = Reminder
-#
-#
-# class ReminderDetailView(DetailView):
-#     """Shows users a single appointment"""
-#
-#     model = Reminder
-#
-#
-# class ReminderUpdateView(SuccessMessageMixin, UpdateView):
-#     """Powers a form to edit existing appointments"""
-#
-#     model = Reminder
-#     fields = ['name', 'phone_number', 'time', 'time_zone']
-#     success_message = 'Reminder successfully updated.'
-#
-#
-# class ReminderDeleteView(DeleteView):
-#     """Prompts users to confirm deletion of an appointment"""
-#
-#     model = Reminder
-#     success_url = reverse_lazy('list_appointments')
-#>>>>>>> 33a2162509bbd92f726b0ba0d795819fe792c366
-
 
 # ##############################################################################
 # The dictionaries below temporary
