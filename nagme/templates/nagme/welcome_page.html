@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block logo_link %}
-    <a href="{% url 'welcome' %}" class="navbar-left">
+    <a href="{% url 'welcome' %}" class="navbar-left"></a>
 {% endblock %}
 
 {% block sidebar_block %}
@@ -30,7 +30,7 @@
 
 
 {% block pagebody_width_block %}
-<div id="pagecontents" class="col-sm-12">
+    <div id="pagecontents" class="col-sm-12"></div>
 {% endblock %}
 
 {% block body_block %}
@@ -47,10 +47,9 @@
     </div>
 
     <div class="col-sm-4">
-      <img class="botcircle" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot">
-      <div class="bubble orange">
-        <h3>Nag of the day</h3>
-        <p>{{ nag_of_the_day }}</p>
+      <img class="botcircle" style="height:200px;float:right;" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot">
+      <div class="bubble orange" style="float:left;">
+        <h3 style="color:white;">Nag of the day:</h3><p>{{ nag_of_the_day }}</p>
       </div>
     </div>
 

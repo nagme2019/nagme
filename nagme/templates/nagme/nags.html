@@ -7,17 +7,20 @@
 
 
 {% block body_block %}
-	<div class="container marketing" style="margin-top:10px;max-width:60%">
-
-      <!-- Three columns of text below the carousel -->
-        {% if nags %}
-            <ul>
-                {% for nag in nags %}
-                       <li><a href="{% url 'category' nag.category.slug %}">{{ nag.category }}</a>: {{ nag.text }}</li>
-                  {% endfor %}
-            </ul>
-        {% else %}
-            <strong>No nags.</strong>
-        {% endif %}
-    </div>
+	{% if nags %}
+			{% for nag in nags %}
+                <p>
+                <button type="button" class="btn btn-default btn-sm" style="float:right;">
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
+                </button>
+                <button type="button" class="btn btn-success btn-sm" style="float:right;">
+                 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
+                 </button>
+                <a href="{% url 'category' nag.category.slug %}">{{ nag.category }}:</a> {{ nag.text }}
+                </p>
+            {% endfor %}
+	{% else %}
+			<strong>No nags.</strong>
+	{% endif %}
+  </div>
 {% endblock %}

@@ -45,10 +45,10 @@ def populate():
         {"text": "Do your assignment"},
     ]
 
-    cats = {"Hygiene": {"nags": hygiene_nags},
-            "House": {"nags": house_nags},
-            "Work": {"nags": work_nags},
-            "Wake": {"nags": wake_nags},
+    cats = {"Hygiene": {"nags": hygiene_nags, "image": "/images/Cat_Hygiene.png"},
+            "House": {"nags": house_nags, "image": "/images/Cat_sleep.png"},
+            "Work": {"nags": work_nags, "image": "/image/Cat_Study.png"},
+            "Wake": {"nags": wake_nags, "image": "/image/Cat_WakeUp.png"},
             }
 
     for cat, cat_data in cats.items():

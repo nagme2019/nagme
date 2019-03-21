@@ -19,10 +19,6 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from nagme_app import views
-# from nagme_app.views import ReminderCreateView
-# from nagme_app.views import ReminderListView
-# from nagme_app.views import ReminderDeleteView
-# from nagme_app.views import ReminderDetailView
 
 urlpatterns = [
     url(r'^$',
@@ -49,10 +45,10 @@ urlpatterns = [
     url(r'^category/(?P<category_name_slug>[\w\-]+)/add_nag/$',
         views.add_nag,
         name='add_nag'),
-    url(r'^nags/$', views.nags, name='nags'),
+    url(r'^subscribed_categories/$',
+        views.subscribed_categories,
+        name='subscribed_categories'),
+    url(r'^nags/by_time$', views.nags_time, name='nags_time'),
+    url(r'^nags/by_likes$', views.nags_likes, name='nags_likes'),
     url(r'^admin/', admin.site.urls),
-    # url(r'^add_reminder/$', ReminderCreateView.as_view(), name='new_reminder'),
-    # url(r'^reminders/$', ReminderListView.as_view(), name='list_reminders'),
-    # url(r'^(?P<reminder_name_slug>[\w\-]+)/delete$', ReminderDeleteView.as_view(), name='delete_reminder'),
-    # url(r'^(?P<category_name_slug>[\w\-]+)/$', ReminderDetailView.as_view(), name='detail_reminder'),
 ]

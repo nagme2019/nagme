@@ -141,6 +141,7 @@ def add_nag(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
     return render(request, 'nagme/add_nag.html', context_dict)
 
+#call sent_text with number you want to send to and content being what you want to send
 def send_text(name,number,content):
     account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
