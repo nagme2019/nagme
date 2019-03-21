@@ -47,6 +47,10 @@ body {
 #sidebar {
   background-color: #ebebeb;
   padding: 4.5em 0.75em 0.75em;
+  height: inherit;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
 
 .sidenav .nav-item .nav-link {
@@ -95,6 +99,9 @@ body {
 #pagecontents {
   margin-top : 3em;
   font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
+}
+
+#pagecontents div.full_width{
 }
 
 #pagecontents h1 {
@@ -179,6 +186,14 @@ body {
   margin-top: -9px;
   left: -6px;
   top: 78%;
+}
+
+.nag_list {
+  margin-left: 1S6em;
+  padding-left: 16em;
+  margin-right: 6em;
+  margin-top: -3em;
+  font-size: 1.5em;
 }
 
 .img .botcircle {

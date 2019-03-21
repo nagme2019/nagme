@@ -28,6 +28,8 @@ urlpatterns = [
         views.log_in, name='log_in'),
     url(r'^registration/',
         views.registration, name='registration'),
+    url(r'^log_out/$',
+        views.log_out, name="log_out"),
     url(r'^user_home/',
         views.user_home, name='user_home'),
     url(r'^user_home/account/',
@@ -51,4 +53,5 @@ urlpatterns = [
     url(r'^nags/by_time$', views.nags_time, name='nags_time'),
     url(r'^nags/by_likes$', views.nags_likes, name='nags_likes'),
     url(r'^admin/', admin.site.urls),
+    url(r'^subscribe/', views.subscribe, name='subscribe'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

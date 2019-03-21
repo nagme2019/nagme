@@ -7,40 +7,34 @@
 
 
 {% block body_block %}
-	<div style="margin-left: 2.5%; margin-right: 2.5%">
-			<h2 class="orange">
-				<strong>{{ nag_page_title }}</strong>
-				<br>
-				<small class="text-muted">Like your favorite nags or click on #category tags under nags to explore similar content</small>
-			</h2>
+	<div style="width: 95%; float: center; margin-left: 2em">
+			<h1>{{ nag_page_title }}</h1>
+			<h2><small class="text-muted">Like your favorite nags or look for new categories</small></h2>
 
 			{% if nags %}
 					{% for nag in nags %}
 										<hr>
 										<img src="{% static 'images/Mombot_pale_circle_facing_right_tiny.png' %}" alt="mom.bot icon">
 
-										<p class="text-left" style="padding-left: 6em; margin-top: -3em">
-											<i class="fas fa-quote-left" style="margin-left: 3em"></i>
+										<p class="text-left"
+										style="margin-left: 6em; margin-right: 10em; margin-top: -3em; font-size: 1.25em">
+											<i class="fas fa-quote-left" style=""></i>
 											{{ nag.text }}
 											<i class="fas fa-quote-right"></i>
 										<p>
-
-										<!-- need to change this to only show one or other -->
-										<button type="button" class="btn btn-default btn-sm" style="float:right;">
+										<button type="button" class="btn btn-default btn-sm" style="float:right; margin-right: 1em; margin-top: -3em;">
 												<span class="glyphicon glyphicon-thumbs-up"></span> Like
 										</button>
-										<button type="button" class="btn btn-success btn-sm" style="float:right;">
-										 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
-										 </button>
 
-										<p style="margin-left: 8.5em">
+										<p class="text-muted"
+										style="margin-right: 1.5em; margin-top: -1em; float: right">
 												<br>
-												Categories:
-												<a href="{% url 'category' nag.category.slug %}"
-													class="badge badge-secondary">
+												Category:
+												<a href="{% url 'category' nag.category.slug %}" class="text-muted">
 													#{{ nag.category }}
 												</a>
 										</p>
+										<br>
 
 		      {% endfor %}
 			{% else %}
