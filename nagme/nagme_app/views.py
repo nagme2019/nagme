@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from nagme_app.models import Category, Nag, Like, Subscribe
+from nagme_app.models import Category, Nag, Like, Subscribe, UserProfile
 from django.conf import settings
 from django.contrib.auth.models import User
 from twilio.rest import Client
@@ -86,12 +86,14 @@ def log_out(request):
     return HttpResponseRedirect(reverse('welcome'))
 
 
+@login_required
 def user_home(request):
     # change to only allow if user is logged in,
     # otherwise redirect to login page
 
     category_list = Category.objects.all
     nag = Nag.objects.order_by('-likes')[0]
+    userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
 
     context_dict = {
         "firstname": "FirstName",
@@ -99,29 +101,35 @@ def user_home(request):
         "days_using": 184,
         "nag_of_the_day": nag,
         "categories": category_list,
+        'userprofile': userprofile,
     }
 
     return render(request, 'nagme/user_home.html', context_dict)
 
 
+# change so user can change email/first name/etc etc
 @login_required
 def account(request):
-    # remember to make sure only to allow is user is logged in later
-    # TODO add firstname, lastname, email to profile?
     user = request.user
-    context_dict = {
-        "username": user.user,
-        "phone_number": user.phone_number,
-        "password": "********",
-    }
-    return render(request, 'nagme/manage_account.html', context_dict)
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
+    form = UserProfileForm(
+        {'phone_number': userprofile.phone_number,
+         'picture': userprofile.picture})
 
-@login_required
-def account_details(request):
-    context_dict = {}
+    if request.method == 'POST':
+        form = UserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=userprofile)
 
-    return render(request, 'nagme/account_details.html', context_dict)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('account')
+        else: print(form.errors)
+
+    return render(request, 'nagme/account.html',
+                  {'userprofile': userprofile, 'user': user, 'form': form})
 
 
 @login_required
@@ -132,22 +140,24 @@ def account_password(request):
 
 
 @login_required
-def like(request, username, nag_id):
-    new_like,created = Like.objects.get_or_create(user=username, nag_id=nag_id)
-    if not created:
-        return False
-    else:
-        return True
+def like(request, user, nag):
+    new_like,created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+    if created:
+        nag.likes += 1
 
 
-def is_liked(request, username, nag_id):
-    return Like.objects.filter(user=username, nag=nag_id).exists()
+@login_required
+def is_liked(request, user, nag):
+    return Like.objects.filter(user=user.user, nag=nag.id).exists()
 
 
 @login_required
 def subscribe(request, user, category):
-    Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    if created:
+        category.subscribers += 1
 
+@login_required
 def is_subbed(request, user, category):
     return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
@@ -158,6 +168,7 @@ def is_subbed(request, username, category):
         return False
     else:
         return True
+
 
 # make sure it can't be accessed unless the person is an author
 # currently set up so author can add nag from chosen category page, assume we want to
@@ -187,23 +198,23 @@ def add_nag(request, category_name_slug):
     return render(request, 'nagme/add_nag.html', context_dict)
 
 
-#call sent_text with number you want to send to and content being what you want to send
+# call sent_text with number you want to send to and content being what you want to send
 def send_text(name, number, content):
     account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
     auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
-    nagme_number='+447480534396'
-    test='+447365140632'
-    if(not number):
+    nagme_number = '+447480534396'
+    test = '+447365140632'
+    if (not number):
         print("no")
 
-    client= Client(account_sid,auth_token)
+    client = Client(account_sid, auth_token)
 
-    message=client.messages \
-             .create(
-                 body=content,
-                 from_=nagme_number,
-                 to=test
-             )
+    message = client.messages \
+        .create(
+        body=content,
+        from_=nagme_number,
+        to=test
+    )
     print(message.sid)
 
 
@@ -238,9 +249,9 @@ def subscribed_categories(request):
     return render(request, 'nagme/subscribed_categories.html', context_dict)
 
 
-#emails = emails to send to
-def send_email(subject,emails,content):
-    send_mail(subject,content,'nagmebot2019@gmail.com',emails)
+# emails = emails to send to
+def send_email(subject, emails, content):
+    send_mail(subject, content, 'nagmebot2019@gmail.com', emails)
 
 
 def send_nags(request,category_name_slug):
@@ -276,6 +287,7 @@ def support(request):
      #   return render(request, 'nagme/support.html', {})
 
 
+
 def categories(request):
     category_list = Category.objects.all()
     context_dict = {'categories': category_list}
@@ -297,7 +309,6 @@ def category(request, category_name_slug):
         context_dict['category'] = None
 
     return render(request, 'nagme/category_page.html', context_dict)
-
 
 
 # ##############################################################################

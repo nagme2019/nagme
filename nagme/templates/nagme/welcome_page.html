@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block logo_link %}
-    <a href="{% url 'welcome' %}" class="navbar-left"></a>
+    {% url 'welcome' %}
 {% endblock %}
 
 {% block sidebar_block %}
@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block rightbutton_block %}
-<a href="#" class="nav-link" >
+<a href="{% url 'log_in' %}" class="nav-link" >
       <i class="fas fa-sign-in-alt"></i>
       Log In
 </a>

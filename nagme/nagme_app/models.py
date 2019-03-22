@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True, primary_key=True)
     slug = models.SlugField(unique=True)
-    subscribers = models.ManyToManyField('UserProfile')
+    subscribers = models.PositiveIntegerField(default=0)
     image = models.ImageField(blank=True)
 
     def save(self, *args, **kwargs):
