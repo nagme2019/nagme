@@ -30,4 +30,4 @@ class UserProfileForm(forms.ModelForm):
 class NagForm(forms.ModelForm):
     class Meta:
         model = Nag
-        fields = ('category', 'author', 'text')
+        exclude = ('category', 'author', 'likes')

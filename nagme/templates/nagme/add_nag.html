@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Add a nag</title>
-</head>
-<body>
+{%  extends 'base.html' %}
+
+{% block title_block %}Add a nag{% endblock %}
+
+{% block body_block %}
 	<div>
 		{% if category %}
 		<h1>Add a nag to {{category.name}}</h1>
@@ -25,5 +24,4 @@
 			A category by this name does not exist
 		{% endif %}
 	</div>
-</body>
-</html>
+{% endblock %}

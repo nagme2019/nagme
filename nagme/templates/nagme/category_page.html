@@ -26,12 +26,8 @@
 		{% else %}
 			<strong>No nags currently in category.</strong>
 		{% endif %}
-		<a href="{% url 'send_nags' category.slug %}">category</a>
-		{% if user.is_author %}
-			<a href="{% url 'add_nag' category.slug %}">Add a nag</a>
-			
-			
-		{% endif %}
+		<a href="{% url 'add_nag' category.slug %}">Add a nag</a><br>
+        <a href="{%  url 'send_nags' category.slug %}">Send a nag</a><br>
 	{% else %}
 		The specified category does not exist!
 	{% endif %}
