@@ -25,13 +25,50 @@
 
 {% block body_block %}
     <h1>Welcome {{ user }}!</h1>
-    <p><a class="btn btn-outline-primary" href="#" role="button">Click here</a> to be sent the top nag from each of your
-        subscribed categories</p>
-    <div class="announcebox">
+    <div class="announcebox" >
         <img src="{% static "/images/Mombot.png" %}" style="height: 200px; position:relative; float:left;"/>
       <div class="bubble text-center">
         <h4 style="color: #081233"><strong class="text.center">Nag of the Day</strong></h4>
         <p class="text-center">{{ nag_of_the_day.text }}</p>
       </div>
     </div>
+    <div class="container">
+      <div class="row">
+        <br>
+        <hr>
+        <h4 class="navy">
+          <strong>Today's Hottest Categories</strong>
+        </h4>
+        <br>
+        <!-- Three columns of text below the carousel -->
+          {% if categories %}
+                <div class="row">
+  									<div class="category_list">
+  										{% for category in categories %}
+  													<div class="col-sm-3 category_list item">
+  														<div class="category_list_item">
+
+  																	<a href="{% url 'category' category.slug %}" class="">
+  																		<div class="category_list_item_text text-center">
+  																			{{ category.name }}
+  																		</div>
+  																		<img src="{{ MEDIA_URL }}{{ category.image }}" width="140" height="140" class="category_list_image">
+  																	</a>
+  																	<br>
+
+  														</div>
+
+
+  													</div><!-- /.col-lg-4 -->
+  										{% endfor %}
+  									</div>
+
+
+                </div><!-- /.row -->
+          {% else %}
+              <strong class="navy">No categories.</strong>
+          {% endif %}
+      </div>
+    </div>
+
 {% endblock %}

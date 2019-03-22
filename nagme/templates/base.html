@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static "/css/base_styles.css" %}">
-
+    <script src="{% static "js/nagme-ajax.js" %}"></script>
     <!-- IMPORT HOSTED BOOTSTRAP FROM MAXCDN-->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -18,7 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"> </script>
     <!-- TAB TITLE PASSED CONTEXTUALLY -->
     <title>NagMe -
       {% block title_block %}
@@ -78,7 +78,7 @@
     <div class="container-fluid">
     {% block sidebar_block %}
       <div id="siderow" class="row">
-        <div id="sidebar" data-spy="affix" class="col-sm-2 hidden-xs sidenav fixed-left">
+        <div id="sidebar" data-spy="affix" class="col-sm-2 sidenav fixed-left">
             <div class="sidebar_content">
               {% block user_image %}{% endblock %}
                 <ul class="nav nav-pills nav-stacked fixed-left">
@@ -86,9 +86,6 @@
                       <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
                   <li class="nav-item text-center big-side-button">
                       <a class="nav-link" href="{% url 'account' %}">Manage account</a>
-                    </li>
-                    <li class="nav-item text-center big-side-button">
-                      <a class="nav-link" href="{% url 'subscribed_categories' %}">Manage subscribed categories</a>
                     </li>
                     {%  if user.is_author %}
                     <li class="nav-item text-center big-side-button">

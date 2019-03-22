@@ -122,9 +122,9 @@ html, body {
 #pagecontents {
   margin-top : 3em;
   font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
-}
-
-#pagecontents div.full_width{
+  max-width: 100%;
+  min-width: 40%;
+  overflow: hidden;
 }
 
 #pagecontents h1 {
@@ -135,11 +135,12 @@ html, body {
 
 #pagecontents h1.big {
   font-size: 5em;
+  max-width: 80%;
   font-weight: bold;
   text-align: center;
-  margin-left: -2em;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
+  padding-left: 1em;
 }
 
 #pagecontents h3 {
@@ -154,11 +155,8 @@ html, body {
 }
 
 #pagecontents .navy {
-  color : #081233;
-}
-
-#pagecontents p.navy{
-
+  color : #2b3054;
+  /*old = #081233 */
 }
 
 #pagecontents h2.navy {
@@ -168,6 +166,14 @@ html, body {
 #pagecontents h3.navy {
   font-weight: bold;
   font-size: 3.5em;
+  margin-right: 2em;
+}
+
+#pagecontents h4.navy {
+  font-weight: bold;
+  font-size: 2.25em;
+  text-align: center;
+  margin-left: -1em;
 }
 
 #pagecontents .arial {
@@ -223,9 +229,44 @@ html, body {
 .nag_list {
   margin-left: 1em;
   padding-left: 16em;
+  padding-right: 2em;
+  margin-left: 1em;
   margin-right: 6em;
   margin-top: -3em;
   font-size: 1.5em;
+}
+
+.nag_list_img{
+  margin-left: 8em;
+  margin-right: 10em;
+  margin-top: -3em;
+  font-size: 1.25em;
+  padding-left: 1em;
+}
+
+.nag_list_text {
+  margin-left: 6em;
+  margin-right: 10em;
+  margin-top: -3em;
+  font-size: 1.25em;
+}
+
+.nag_list_button {
+  float:right;
+  margin-right: 2em;
+  margin-top: -3em;
+}
+
+.nag_list_category {
+  margin-right: 2.5em;
+  margin-top: -1em;
+  float: right;
+}
+
+.nag_button {
+  text-align: center;
+  font-size: 2.5em;
+  margin: 0.5em;
 }
 
 .category_list {
@@ -290,16 +331,8 @@ a.category_list_item:hover {
   width: 20px;
 }
 
-.img_cols_3wide{
-
-}
-
-.navy_section_title{
-
-}
-
-.navy_img_title{
-
+.text-lowercase {
+  text-transform: lowercase;
 }
 
 
