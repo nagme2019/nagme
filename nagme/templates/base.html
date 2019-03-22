@@ -40,7 +40,7 @@
 
 <!-- Top bar logo -->
         <div class="navbar-header" style="position:absolute;">
-          {% block logo_link %}<a href="{% url 'user_home' %}" class="navbar-left">{% endblock %}
+          <a href="{% block logo_link %}{% url 'user_home' %}{% endblock %}" class="navbar-left">
             <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}"/>
           </a>
         </div>
@@ -84,7 +84,7 @@
                 <li class="nav-item text-center big-side-button">
                     <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
                 <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="">Manage account</a>
+                    <a class="nav-link" href="{% url 'account' %}">Manage account</a>
                   </li>
                   <li class="nav-item text-center big-side-button">
                     <a class="nav-link" href="{% url 'subscribed_categories' %}">Manage subscribed categories</a>

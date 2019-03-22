@@ -3,6 +3,21 @@
 
 {% block title_block %} Login {% endblock %}
 
+{% block logo_link %}
+    {% url 'welcome' %}
+{% endblock %}
+
+{% block leftbutton_block %}{% endblock %}
+
+{% block rightbutton_block %}
+    <a href="{% url 'registration' %}" class="nav-link" >
+      <i class="fas fa-user-plus"></i>
+      Register
+    </a>
+{% endblock %}
+
+{% block sidebar_block %}{% endblock %}
+
 {% block body_block %}
     <h1>Login to NagMe</h1>
     <form id="login_form" method="post" action="{% url 'log_in' %}">
