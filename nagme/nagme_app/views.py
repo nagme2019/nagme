@@ -269,7 +269,6 @@ def send_text(name, number, content):
 
 
 def support(request):
-<<<<<<< HEAD
     #if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -279,7 +278,6 @@ def support(request):
             content= name+"\n"+email+"\n"+message
             print ("message recieved")
             send_email('Support',['nagmebot2019@gmail.com'],content)
-            send_text("Oliver",'+447365140632',"hi")
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
@@ -287,27 +285,6 @@ def support(request):
             return render(request, 'nagme/support.html', {'form': form})
     #else:
      #   return render(request, 'nagme/support.html', {})
-=======
-    # if request.method == 'POST':
-    form = ContactForm(request.POST)
-    if form.is_valid():
-        name = form.cleaned_data.get("contact_name")
-        email = form.cleaned_data.get("contact_email")
-        message = form.cleaned_data.get("content")
-        content = name + "\n" + email + "\n" + message
-        print("message recieved")
-        send_email('Support', ['nagmebot2019@gmail.com'], content)
-        # send_nags("Wake",['oliver.warke@gmail.com'])
-        context = {'form': form}
-        return render(request, 'nagme/support.html', context)
-    else:
-        context = {'form': form}
-        return render(request, 'nagme/support.html', {'form': form})
->>>>>>> 9a995f179197c2c0e1f1efcf79da9d3580fb6d38
-
-
-# else:
-#   return render(request, 'nagme/support.html', {})
 
 @login_required
 def categories(request):
