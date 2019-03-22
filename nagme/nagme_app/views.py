@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
@@ -138,35 +138,29 @@ def account(request):
 
 
 @login_required
-def like(request, user, nag):
-    new_like, created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+def like(request, n):
+    new_like, created = Like.objects.get_or_create(user=request.user, nag=n)
     if created:
         nag.likes += 1
 
 
 @login_required
-def is_liked(request, user, nag):
-    return Like.objects.filter(user=user.user, nag=nag.id).exists()
+def is_liked(request, text):
+    nag = Nag.object.filter(text=text)[0]
+    return Like.objects.filter(user=request.user, nag=nag).exists()
 
 
 @login_required
-def subscribe(request, user, category):
-    new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
+def subscribe(request, cat):
+    new_sub, created = Subscribe.objects.get_or_create(user=request.user, category=cat.name)
     if created:
         category.subscribers += 1
 
 
 @login_required
-def is_subbed(request, user, category):
-    return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
+def is_subbed(request, cat):
+    return Subscribe.objects.filter(user=request.user, category=cat.name).exists()
 
-
-def is_subbed(request, username, category):
-    return Subscribe.objects.filter(user=username, cat=category).exists()
-    if not created:
-        return False
-    else:
-        return True
 
 
 # make sure it can't be accessed unless the person is an author
@@ -180,21 +174,22 @@ def add_nag(request, category_name_slug):
     except Category.DoesNotExist:
         cat = None
 
-    form = NagForm()
     if request.method == 'POST':
         form = NagForm(request.POST)
         if form.is_valid():
             if cat:
-                nag = form.save(commit=False)
+                nag = form.save(commit=True)
                 nag.category = cat
                 nag.likes = 0
                 nag.save()
-                return cat(request, category_name_slug)
+                return category(request, category_name_slug)
         else:
             print(form.errors)
+    else:
+        form = NagForm()
 
     context_dict = {'form': form, 'category': cat}
-    return render(request, 'nagme/add_nag.html', context_dict)
+    return render('nagme/add_nag.html', context_dict)
 
 
 
@@ -237,6 +232,7 @@ def subscribed_categories(request):
 def send_email(subject, emails, content):
     send_mail(subject, content, 'nagmebot2019@gmail.com', emails)
 
+
 def send_nags(request, category_name_slug):
     try:
         nag_cat = Category.objects.get(slug=category_name_slug)
@@ -245,10 +241,14 @@ def send_nags(request, category_name_slug):
     print(category_name_slug)
     emails = []
     subscribers = Subscribe.objects.filter(cat=nag_cat)
+    nag = Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
     for s in subscribers:
         emails.add(s.user.email)
-        send_text(s.user.name,s.user.phone_number,nag)
-    send_email('Nag',emails,nag.text)
+        send_text(s.user.name, s.user.phone_number, s.nag.text)
+    if not emails:
+        emails.append("oliver.warke@gmail.com")
+        emails.append("yousavvy@live.com")
+    send_email('Nag', emails, nag.text)
     return category(request, category_name_slug)
 
 
