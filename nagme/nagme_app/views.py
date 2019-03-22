@@ -19,10 +19,8 @@ def base(request):
 
 def welcome(request):
     nag = Nag.objects.order_by('-likes')[0]
-
     context_dict = {
         "nag_of_the_day": nag}
-
     return render(request, 'nagme/welcome_page.html', context_dict)
 
 
@@ -199,24 +197,7 @@ def add_nag(request, category_name_slug):
     return render(request, 'nagme/add_nag.html', context_dict)
 
 
-# call sent_text with number you want to send to and content being what you want to send
-def send_text(name, number, content):
-    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
-    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
-    nagme_number = '+447480534396'
-    test = '+447365140632'
-    if (not number):
-        print("no")
 
-    client = Client(account_sid, auth_token)
-
-    message = client.messages \
-        .create(
-        body=content,
-        from_=nagme_number,
-        to=test
-    )
-    print(message.sid)
 
 
 @login_required
@@ -268,6 +249,25 @@ def send_nags(request, category_name_slug):
     send_mail('Nag', nag.text, 'nagmebot2019@gmail.com', emails)
 
     return category(request, category_name_slug)
+
+# call sent_text with number you want to send to and content being what you want to send
+def send_text(name, number, content):
+    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
+    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
+    nagme_number = '+447480534396'
+    test = '+447365140632'
+    if (not number):
+        print("no")
+
+    client = Client(account_sid, auth_token)
+
+    message = client.messages \
+        .create(
+        body=content,
+        from_=nagme_number,
+        to=test
+    )
+    print(message.sid)
 
 
 def support(request):
