@@ -50,4 +50,5 @@ urlpatterns = [
     url(r'^nags/by_likes$', views.nags_likes, name='nags_likes'),
     url(r'^admin/', admin.site.urls),
     url(r'^subscribe/', views.subscribe, name='subscribe'),
+    url(r'^send_nags/$', views.send_nags, name='send_nags'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
