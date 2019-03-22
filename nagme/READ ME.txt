@@ -1,0 +1,12 @@
+Please follow the instructions below to run our project code on your machine:
+
+1. Make parent directory in which to store everything related to the project. Inside that parent directory make a virtual environment and also a subfolder in which to store the project code/files.
+
+2. Make sure you have the following installed:
+- git
+- python 3.7
+- Django 1.11.17
+- pip (for python 3)
+
+3. Clone the code from our git repository at https://github.com/nagme2019/nagme
+  (clone this git repository into the subfolder of the parent directory intended for the project files)
