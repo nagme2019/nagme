@@ -18,10 +18,8 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from nagme_app.views import MyRegistrationView
 
 urlpatterns = [
     url(r'^', include('nagme_app.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
 ]
