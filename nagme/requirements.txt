@@ -12,7 +12,6 @@ django-dramatiq==0.6.0
 django-forms-bootstrap==3.1.0
 django-phonenumber-field==2.2.0
 django-timezone-field==3.0
-dramatiq==1.5.0
 gevent==1.4.0
 greenlet==0.4.15
 gunicorn==19.9.0
