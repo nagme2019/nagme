@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
+from registration.backends.simple.views import RegistrationView
 
 
 def base(request):
@@ -24,64 +25,68 @@ def welcome(request):
     return render(request, 'nagme/welcome_page.html', context_dict)
 
 
-# added an underscore temporarily because name conflict with import at top,
-# need to fix name of this view everywhere later
-def log_in(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse('user_home'))
-            else:
-                return HttpResponse("Your Nag.Me account is disabled.")
-        else:
-            print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
+# # added an underscore temporarily because name conflict with import at top,
+# # need to fix name of this view everywhere later
+# def log_in(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(username=username, password=password)
+#         if user:
+#             if user.is_active:
+#                 login(request, user)
+#                 return HttpResponseRedirect(reverse('user_home'))
+#             else:
+#                 return HttpResponse("Your Nag.Me account is disabled.")
+#         else:
+#             print("Invalid login details: {0}, {1}".format(username, password))
+#             return HttpResponse("Invalid login details supplied.")
+#
+#     else:
+#         return render(request, 'nagme/log_in.html', {})
+#
+#
+# def registration(request):
+#     registered = False
+#
+#     if request.method == 'POST':
+#         user_form = UserForm(data=request.POST)
+#         profile_form = UserProfileForm(data=request.POST)
+#
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user = user_form.save()
+#             user.set_password(user.password)
+#             user.save()
+#
+#             profile = profile_form.save(commit=False)
+#             profile.user = user
+#
+#             if 'picture' in request.FILES:
+#                 profile.picture = request.FILES['picture']
+#             profile.save()
+#             registered = True
+#         else:
+#             print(user_form.errors, profile_form.errors)
+#
+#     else:
+#         user_form = UserForm()
+#         profile_form = UserProfileForm()
+#
+#     return render(request,
+#                   'nagme/register.html',
+#                   {'user_form': user_form,
+#                    'profile_form': profile_form,
+#                    'registered': registered})
+#
+#
+# @login_required
+# def log_out(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('welcome'))
 
-    else:
-        return render(request, 'nagme/log_in.html', {})
-
-
-def registration(request):
-    registered = False
-
-    if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
-        else:
-            print(user_form.errors, profile_form.errors)
-
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
-    return render(request,
-                  'nagme/register.html',
-                  {'user_form': user_form,
-                   'profile_form': profile_form,
-                   'registered': registered})
-
-
-@login_required
-def log_out(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('welcome'))
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return '/user_home/'
 
 
 @login_required
