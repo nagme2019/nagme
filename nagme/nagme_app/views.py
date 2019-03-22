@@ -239,8 +239,12 @@ def send_email(subject, emails, content):
 
 
 def send_nags(request, category_name_slug):
+    try:
+        nag_cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        nag_cat = None
+    print(category_name_slug)
     emails = []
-    nag_cat = Category.objects.get(slug=category_name_slug)
     subscribers = Subscribe.objects.filter(cat=nag_cat)
     for s in subscribers:
         emails.add(s.user.email)
@@ -249,6 +253,7 @@ def send_nags(request, category_name_slug):
     send_mail('Nag', nag.text, 'nagmebot2019@gmail.com', emails)
 
     return category(request, category_name_slug)
+
 
 # call sent_text with number you want to send to and content being what you want to send
 def send_text(name, number, content):
@@ -308,7 +313,7 @@ def category(request, category_name_slug):
         nag = Nag.objects.filter(category=cat)
         context_dict['nags'] = nag
         context_dict['category'] = cat
-        context_dict['subbed'] = Subscribe.objects.filter(user=request.user.user)
+#        context_dict['subbed'] = Subscribe.objects.filter(user=request.user.user)
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
