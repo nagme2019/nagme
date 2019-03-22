@@ -19,8 +19,9 @@ def base(request):
 
 def welcome(request):
     nag = Nag.objects.order_by('-likes')[0]
+    category_list = Category.objects.all
     context_dict = {
-        "nag_of_the_day": nag}
+        "nag_of_the_day": nag, "category_list": category_list}
     return render(request, 'nagme/welcome_page.html', context_dict)
 
 # # added an underscore temporarily because name conflict with import at top,

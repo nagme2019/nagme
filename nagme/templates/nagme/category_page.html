@@ -8,28 +8,69 @@
 
 {% block body_block %}
 	{% if category %}
-		<div class="jumbotron">
-		<h1>{{ category.name }}</h1>
+		<div class="text-center">
+				<br>
+				<h1><strong>{{ category.name }} Category</strong></h1>
+				<img src="{{ MEDIA_URL }}{{ category.image }}" alt="category image" width="140" height="140" class="category_list_image">
+
+				<br>
+				<br>
+				<br>
+				<br>
+				<h2 class="text-muted">
+					<small>Explore nags in the </small>
+					<small class="text-lowercase">{{ category.name }}</small>
+					<small>category below</small>
+				</h2>
+
 		</div>
 		{% if nags %}
-            {% for nag in nags %}
-                <p>
-                <button type="button" class="btn btn-default btn-sm" style="float:right;">
-                    <span class="glyphicon glyphicon-thumbs-up"></span> Like
-                </button>
-                <button type="button" class="btn btn-success btn-sm" style="float:right;">
-                 <span class="glyphicon glyphicon-thumbs-up"></span> Liked
-                 </button>
-                {{ nag.text }}
-                </p>
-			{% endfor %}
+				{% for nag in nags %}
+									<hr>
+									<img src="{% static 'images/Mombot_pale_circle_facing_right_tiny.png' %}" alt="mom.bot icon"
+									style"padding-left: 1em">
+
+									<p class="text-left nag_list_text">
+										<i class="fas fa-quote-left" style=""></i>
+										{{ nag.text }}
+										<i class="fas fa-quote-right"></i>
+									<p>
+									<button type="button" class="btn btn-default btn-sm nag_list_button" >
+											<span class="glyphicon glyphicon-thumbs-up"></span> Like
+									</button>
+
+									<p class="text-muted nag_list_category">
+											<br>
+											Category:
+											<a href="{% url 'category' nag.category.slug %}" class="text-muted">
+												#{{ nag.category }}
+											</a>
+									</p>
+									<br>
+
+				{% endfor %}
+
 		{% else %}
 			<strong>No nags currently in category.</strong>
 		{% endif %}
-		<a href="{% url 'add_nag' category.slug %}">Add a nag</a><br>
-        <a href="{%  url 'send_nags' category.slug %}">Send a nag</a><br>
+		<p class="text-center nag_button">
+			<br>
+			<a href="{% url 'add_nag' category.slug %}"
+			class="btn btn-success" role="button">
+				Add a nag</a>
+			<br>
+			<a href="{%  url 'send_nags' category.slug %}"
+			class="btn btn-success" role="button">
+				Send a nag</a>
+			<br>
+			<br>
+		</p>
+
 	{% else %}
 		The specified category does not exist!
 	{% endif %}
-    <a href="{% url 'categories' %}">Back to list of categories</a>
+	<p class="text-center">
+		<a href="{% url 'categories' %}">Back to list of categories</a>
+	</p>
+
 {% endblock %}

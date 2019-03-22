@@ -16,18 +16,16 @@
 										<hr>
 										<img src="{% static 'images/Mombot_pale_circle_facing_right_tiny.png' %}" alt="mom.bot icon">
 
-										<p class="text-left"
-										style="margin-left: 6em; margin-right: 10em; margin-top: -3em; font-size: 1.25em">
+										<p class="text-left nag_list_text">
 											<i class="fas fa-quote-left" style=""></i>
 											{{ nag.text }}
 											<i class="fas fa-quote-right"></i>
 										<p>
-										<button type="button" class="btn btn-default btn-sm" style="float:right; margin-right: 1em; margin-top: -3em;">
+										<button type="button" class="btn btn-default btn-sm nag_list_button" >
 												<span class="glyphicon glyphicon-thumbs-up"></span> Like
 										</button>
 
-										<p class="text-muted"
-										style="margin-right: 1.5em; margin-top: -1em; float: right">
+										<p class="text-muted nag_list_category">
 												<br>
 												Category:
 												<a href="{% url 'category' nag.category.slug %}" class="text-muted">
