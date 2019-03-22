@@ -25,9 +25,7 @@
 
 {% block body_block %}
     <h1>Welcome {{ user }}!</h1>
-    <p><a class="btn btn-outline-primary" href="#" role="button">Click here</a> to be sent the top nag from each of your
-        subscribed categories</p>
-    <div class="announcebox">
+    <div class="announcebox" >
         <img src="{% static "/images/Mombot.png" %}" style="height: 200px; position:relative; float:left;"/>
       <div class="bubble text-center">
         <h4 style="color: #081233"><strong class="text.center">Nag of the Day</strong></h4>
@@ -56,17 +54,6 @@
   																		</div>
   																		<img src="{{ MEDIA_URL }}{{ category.image }}" width="140" height="140" class="category_list_image">
   																	</a>
-
-  																	<p class="category_list_sub_button">
-  																			<button type="button" class="btn btn-light btn-sm">Subscribe</button>
-  																			<!--
-  																			<button type="button" class="btn btn-success btn-sm">Subscribed</button
-
-  																			if category.subscribers == user ??
-  																			if category in subbed ??
-
-  																			-->
-  																	</p>
   																	<br>
 
   														</div>

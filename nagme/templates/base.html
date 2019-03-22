@@ -87,9 +87,6 @@
                   <li class="nav-item text-center big-side-button">
                       <a class="nav-link" href="{% url 'account' %}">Manage account</a>
                     </li>
-                    <li class="nav-item text-center big-side-button">
-                      <a class="nav-link" href="{% url 'subscribed_categories' %}">Manage subscribed categories</a>
-                    </li>
                     {%  if user.is_author %}
                     <li class="nav-item text-center big-side-button">
                           <a class="nav-link" href="{% url 'add_nag' %}">Write a nag</a>
