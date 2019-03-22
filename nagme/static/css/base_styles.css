@@ -16,6 +16,15 @@ body {
   font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
 }
 
+/*These help keep sidebar full height
+*/
+html, body {
+    min-height: 100%
+}
+.wrap {
+    height: 100%
+}
+
 .fa-question {
   font-size : 0.75em;
   vertical-align : text-top -1%;
@@ -45,12 +54,26 @@ body {
 }
 
 #sidebar {
-  background-color: #ebebeb;
+  background-color: #eeeeee;
   padding: 4.5em 0.75em 0.75em;
-  height: inherit;
+  margin-bottom: -10em;
+  min-height: 100% !important;
+  height: 100%;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar .sidebar_content {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: block;
+  }
 }
 
 .sidenav .nav-item .nav-link {
@@ -74,7 +97,7 @@ body {
   color : #ff6700;
   background-color : #ffffff;
   text-align : center;
-  font-size : 100%;
+  font-size : 1.15em;
   font-weight : bold;
   border-color : #ff6700;
   border-width : .05em;
@@ -108,6 +131,15 @@ body {
   font-weight: 300;
   font-size: 4em;
   color : #ff6700;
+}
+
+#pagecontents h1.big {
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 #pagecontents h3 {
@@ -189,11 +221,69 @@ body {
 }
 
 .nag_list {
-  margin-left: 1S6em;
+  margin-left: 1em;
   padding-left: 16em;
   margin-right: 6em;
   margin-top: -3em;
   font-size: 1.5em;
+}
+
+.category_list {
+  padding-left: 1em;
+  padding-right: 1em;
+  align-content: center;
+  width: 75%;
+  align-self: center;
+  margin-left: 7%;
+  margin-right: auto;
+}
+
+.category_list h1 {
+  padding-left: 0em;
+}
+
+.category_list_item {
+  padding: 1.5em;
+  margin-bottom: 2em;
+  border-width: 0.2em;
+  border-color: #c6c6c6;
+  border-radius: 5px;
+  border-style: solid;
+}
+
+a.category_list_item {
+  align-content: center;
+  padding: 1em;
+}
+
+a.category_list_item:hover {
+  background-color: blue;
+}
+
+.category_list_item_text {
+  color: #55557d;
+  font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.category_list_sub_button {
+  margin-left: 2.25em;
+  margin-top: 1em;
+  margin-bottom: -1.5em;
+}
+
+.category_list_image {
+  width: 140px;
+  height: 140px;
+  padding: 2px;
+  border-width: 0.2em;
+  border-color: #c6c6c6;
+  border-radius: 5px;
+  border-style: solid;
+
 }
 
 .img .botcircle {

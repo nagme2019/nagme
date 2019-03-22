@@ -7,39 +7,50 @@
 
 
 {% block body_block %}
-	<div class="container marketing" style="margin: auto;">
+	<div class="container">
     <div class="row">
       <!-- Three columns of text below the carousel -->
         {% if categories %}
               <div class="row">
-                  {% for category in categories %}
-                        <div class="col-lg-4">
-                            <a href="{% url 'category' category.slug %}">
-                                <img src="{{ category.image }}" width="140" height="140">
-                                <h2>{{ category.name }}</h2>
-                            </a>
-                            <p>
-<<<<<<< HEAD
-                                {% if category.subscribers == user %}
-                                    <button type="button" class="btn btn-success btn-sm">Subscribed</button>
-                                {% else %}
-                                    <a target="_blank" class="btn bt-light btn-sm" href="{%  url 'subscribe' category.name %}">Subscribe</a>
-=======
-                                {% if category in subbed %}
-                                <button type="button" class="btn btn-light btn-sm">Subscribe</button>
-                                {% else %}
-                                <button type="button" class="btn btn-success btn-sm">Subscribed</button>
->>>>>>> 1ba638e9a207633ecdeeff70abd5e5411a343a94
-                                {% endif %}
-                            </p>
-                        </div><!-- /.col-lg-4 -->
-                  {% endfor %}
+								<h1 class="big">Explore Categories</h1>
+									<div class="category_list">
+										{% for category in categories %}
+													<div class="col-lg-3 category_list item">
+														<div class="category_list_item">
+
+																	<a href="{% url 'category' category.slug %}" class="">
+																		<div class="category_list_item_text text-center">
+																			{{ category.name }}
+																		</div>
+																		<img src="{{ MEDIA_URL }}{{ category.image }}" width="140" height="140" class="category_list_image">
+																	</a>
+
+																	<p class="category_list_sub_button">
+																			<button type="button" class="btn btn-light btn-sm">Subscribe</button>
+																			<!--
+																			<button type="button" class="btn btn-success btn-sm">Subscribed</button
+
+																			if category.subscribers == user ??
+																			if category in subbed ??
+
+																			-->
+																	</p>
+																	<br>
+
+														</div>
+
+
+													</div><!-- /.col-lg-4 -->
+										{% endfor %}
+									</div>
+
+
               </div><!-- /.row -->
         {% else %}
             <strong>No categories.</strong>
         {% endif %}
     </div>
-    </div>
+  </div>
 {% endblock %}
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -40,7 +40,7 @@
 
 <!-- Top bar logo -->
         <div class="navbar-header" style="position:absolute;">
-          {% block logo_link %}<a href="{% url 'user_home' %}" class="navbar-left">{% endblock %}
+          <a href="{% block logo_link %}{% url 'user_home' %}{% endblock %}" class="navbar-left">
             <img id="logo"src="{% static "images/Nagme_Logo_Tiny.png" %}"/>
           </a>
         </div>
@@ -58,7 +58,7 @@
               <li class="nav-item">
                   {% block rightbutton_block %}
                       {% if user.is_authenticated %}
-                          <a href="{% url 'log_out' %}" class="nav-link" >
+                          <a href="{% url 'auth_logout' %}?next=/" class="nav-link" >
                             <i class="fas fa-sign-out-alt"></i>
                               Log Out
                           </a>
@@ -79,36 +79,54 @@
     {% block sidebar_block %}
       <div id="siderow" class="row">
         <div id="sidebar" data-spy="affix" class="col-sm-2 hidden-xs sidenav fixed-left">
-            {% block user_image %}{% endblock %}
-              <ul class="nav nav-pills nav-stacked fixed-left">
-                <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
-                <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="">Manage account</a>
-                  </li>
+            <div class="sidebar_content">
+              {% block user_image %}{% endblock %}
+                <ul class="nav nav-pills nav-stacked fixed-left">
                   <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="{% url 'subscribed_categories' %}">Manage subscribed categories</a>
-                  </li>
-                  {%  if user.is_author %}
+                      <a class="nav-link" href="{% url 'user_home' %}">Homepage</a></li>
                   <li class="nav-item text-center big-side-button">
-                        <a class="nav-link" href="{% url 'add_nag' %}">Write a nag</a>
-                  </li>
-                  {% endif %}
-                  <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="{% url 'nags_time' %}">Explore recent Nags</a>
-                  </li>
+                      <a class="nav-link" href="{% url 'account' %}">Manage account</a>
+                    </li>
                     <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="{% url 'nags_likes' %}">Explore most liked Nags</a>
-                  </li>
-                  <li class="nav-item text-center big-side-button">
-                    <a class="nav-link" href="{% url 'categories' %}" class="text-dark">Explore Categories</a>
-                  </li>
-                  <li class="nav-item text-centre big-side-button">
-                    <a class="nav-link" href="{% url 'support' %}" class="text-dark"> <i class="far fa-question-circle"></i>Contact Us</a>
-                  </li>
-              </ul><br>
+                      <a class="nav-link" href="{% url 'subscribed_categories' %}">Manage subscribed categories</a>
+                    </li>
+                    {%  if user.is_author %}
+                    <li class="nav-item text-center big-side-button">
+                          <a class="nav-link" href="{% url 'add_nag' %}">Write a nag</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item text-center big-side-button">
+                      <a class="nav-link" href="{% url 'nags_time' %}">Explore recent Nags</a>
+                    </li>
+                      <li class="nav-item text-center big-side-button">
+                      <a class="nav-link" href="{% url 'nags_likes' %}">Explore most liked Nags</a>
+                    </li>
+                    <li class="nav-item text-center big-side-button">
+                      <a class="nav-link" href="{% url 'categories' %}" class="text-dark">Explore Categories</a>
+                    </li>
+                    <li class="nav-item text-centre big-side-button">
+                      <a class="nav-link" href="{% url 'support' %}" class="text-dark"> <i class="far fa-question-circle"></i>Contact Us</a>
+                    </li>
+                </ul><br>
+
+        {% endblock %}
+
+        {% block sidebar_height_block %}
+                <!-- this makes sure that sidebar doesn't get taller than page when content is added -->
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+        {% endblock %}
+
+            </div>
         </div>
-      {% endblock %}
+
 
 <!-- PAGE BODY -->
         <div id="pagecontents" class="col-sm-10">

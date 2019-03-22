@@ -4,13 +4,13 @@
 {% block title_block %} Register {% endblock %}
 
 {% block logo_link %}
-    <a href="{% url 'welcome' %}" class="navbar-left"></a>
+    {% url 'welcome' %}
 {% endblock %}
 
 {% block leftbutton_block %}{% endblock %}
 
 {% block rightbutton_block %}
-    <a href="{% url 'log_in' %}" class="nav-link" >
+    <a href="{% url 'auth_login' %}" class="nav-link" >
       <i class="fas fa-sign-in-alt"></i>
       Log In
     </a>
@@ -22,7 +22,7 @@
     <h1>Register for NagMe</h1>
     {% if registered %}
         MomBot says: <strong>thank you for registering!</strong>
-        <a href="{% url 'user_home' %}">Return to the homepage.</a><br />
+        <a href="{% url 'user_home' %}">Login now</a><br />
     {% else %}
         MomBot says: <strong>register here!</strong><br />
         <form id="user_form" method="post" action="{% url 'registration' %}"

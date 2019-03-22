@@ -10,12 +10,21 @@
 {% endblock %}
 
 {% block user_image %}
-    <img id="sidebar-prof-pic" src="{% static "/images/blank user pic.jpg"%}" alt="blank user pic">
+    {% if userprofile.picture %}
+    <img id="sidebar-prof-pic" src="{{ MEDIA_URL }}{{ userprofile.picture }}" alt=""/>
+    {% else %}
+    <img id="sidebar-prof-pic" src="{% static 'images/blank user pic.jpg' %}"/>
+    {% endif %}
     <p class="text-center text-muted">{{ user.username }}</p>
 {% endblock %}
 
+{% block sidebar_height_block %}
+    <!-- this makes sure that sidebar doesn't get taller than page when pic
+        is added -->
+{% endblock %}
+
 {% block body_block %}
-    <h1>Welcome {{ user.username }}!</h1>
+    <h1>Welcome {{ user }}!</h1>
     <p><a class="btn btn-outline-primary" href="#" role="button">Click here</a> to be sent the top nag from each of your
         subscribed categories</p>
     <div class="announcebox">

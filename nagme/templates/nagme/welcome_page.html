@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block logo_link %}
-    <a href="{% url 'welcome' %}" class="navbar-left"></a>
+    {% url 'welcome' %}
 {% endblock %}
 
 {% block sidebar_block %}
@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block rightbutton_block %}
-<a href="#" class="nav-link" >
+<a href="{% url 'auth_login' %}" class="nav-link" >
       <i class="fas fa-sign-in-alt"></i>
       Log In
 </a>
@@ -40,17 +40,16 @@
   <div class="row">
 
     <div class="col-sm-8">
-      <h2 class="navy text-center arial">meet</h2>
-      <h3 class="navy text-center arial">mum.bot</h3>
-      <h4 class="navy arial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id maximus ante, et vehicula magna. Fusce vel rhoncus dui. Curabitur lacinia mattis arcu in sollicitudin. Pellentesque id lobortis neque. Etiam at lacus nec orci bibendum feugiat eget ac nunc. In id leo mauris. Integer feugiat vehicula ex, in vulputate mauris tempus vitae. Donec lorem augue, blandit eu ligula quis, iaculis euismod odio. Nam euismod scelerisque sapien. Integer rhoncus lobortis metus vitae iaculis.
-
-	Duis nec dolor sit amet justo porta ornare. Etiam convallis lectus vel odio iaculis venenatis. Proin pretium, lorem sit amet tempus malesuada, ligula velit interdum elit, ut posuere nunc ligula eget enim. Nam posuere neque a libero efficitur dictum. Curabitur in malesuada risus.</h4>
+      <h2 class="navy text-center arial">Meet</h2>
+      <h3 class="navy text-center arial">MomBot</h3>
+      <h4 class="navy text-center arial">NagMe is a website to which students, young and old, can subscribe to be sent nagging messages from a robotic parent simulation program “MomBot”, to help them stay on task or get things done that they usually forget
+</h4>
     </div>
 
     <div class="col-sm-4">
       <img class="botcircle" style="height:200px;float:right;" src="{% static 'images/Mombot_pale_circle_facing_left_small.png'%}" alt="mum.bot">
       <div class="bubble orange" style="float:left;">
-        <h3 style="color:white;">Nag of the day:</h3><p>{{ nag_of_the_day }}</p>
+        <h3 class="text-center" style="color:white;">Nag of the day:</h3><p class="text-center">{{ nag_of_the_day }}</p>
       </div>
     </div>
 

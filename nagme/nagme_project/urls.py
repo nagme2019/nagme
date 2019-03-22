@@ -21,4 +21,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^', include('nagme_app.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
 ]
