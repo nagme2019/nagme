@@ -25,11 +25,6 @@ html, body {
     height: 100%
 }
 
-.fa-question {
-  font-size : 0.75em;
-  vertical-align : text-top -1%;
-}
-
 .navbar-custom {
   background-color: #ff6700;
   margin-bottom: 0;
@@ -53,6 +48,29 @@ html, body {
   background-color: #ff6700;
 }
 
+/* special formatting for the question icon */
+.fa-question {
+  font-size : 0.75em;
+  vertical-align : text-top -1%;
+}
+
+
+
+
+/*
+    SIDE BAR FORMATTING
+*/
+
+@media (min-width: 768px) {
+  #sidebar .sidebar_content {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: block;
+  }
+}
+
 #sidebar {
   background-color: #eeeeee;
   padding: 4.5em 0.75em 0.75em;
@@ -64,16 +82,6 @@ html, body {
   top: 0;
   bottom: 0;
   left: 0;
-}
-
-@media (min-width: 768px) {
-  #sidebar .sidebar_content {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 1000;
-    display: block;
-  }
 }
 
 .sidenav .nav-item .nav-link {
@@ -117,7 +125,9 @@ html, body {
 
 
 
-
+/*
+    PAGE BODY/CONTENTS FORMATTING
+*/
 
 #pagecontents {
   margin-top : 3em;
@@ -180,6 +190,11 @@ html, body {
   font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
 }
 
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+/* this is for the mum.bot nag of the day on user_home */
 .announcebox {
   background-color: #f5edf0;
   padding : 1em;
@@ -189,7 +204,7 @@ html, body {
   padding:10px;
 }
 
-
+/* this is the speech bubble for the nags */
 .bubble {
   position: relative;
   float: left;
@@ -226,6 +241,19 @@ html, body {
   top: 78%;
 }
 
+
+
+
+
+
+
+
+
+
+/*
+    NAG PAGES FORMATTING
+    sub tags position different elements of the repeating template
+*/
 .nag_list {
   margin-left: 1em;
   padding-left: 16em;
@@ -269,6 +297,17 @@ html, body {
   margin: 0.5em;
 }
 
+/* botcircle used in nag list as mumbot icon */
+.img .botcircle {
+  width: 20px;
+}
+
+
+
+
+/*
+    CATEGORY PAGE FORMATTING
+*/
 .category_list {
   padding-left: 1em;
   padding-right: 1em;
@@ -327,13 +366,11 @@ a.category_list_item:hover {
 
 }
 
-.img .botcircle {
-  width: 20px;
-}
 
-.text-lowercase {
-  text-transform: lowercase;
-}
+
+
+
+
 
 
 
