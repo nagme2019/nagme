@@ -98,8 +98,9 @@ def account(request):
 
 
 @login_required
-def like(request, n):
-    n.likes += 1
+def like(request, text):
+    nag = Nag.object.filter(text=text)[0]
+    nag.likes += 1
     return render(request, 'nagme/nags.html')
 
 

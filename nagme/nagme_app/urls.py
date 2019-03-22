@@ -42,7 +42,6 @@ urlpatterns = [
     url(r'^subscribed_categories/$',
         views.subscribed_categories,
         name='subscribed_categories'),
-    url(r'^user_home/like/(?P<nag>[\w\-]+)/$', views.like, name='like'),
     url(r'^user_home/subscribe/', views.subscribe, name='subscribe'),
     url(r'^nags/by_time$', views.nags_time, name='nags_time'),
     url(r'^nags/by_likes$', views.nags_likes, name='nags_likes'),
