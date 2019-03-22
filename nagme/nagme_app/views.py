@@ -247,8 +247,13 @@ def send_nags(request,category_name_slug):
     emails=[]
     nag_cat = Category.objects.get(slug=category_name_slug)
     subscribers=Subscribe.objects.filter(cat=nag_cat)
+    for s in subscribers:
+        emails.add(s.user.email)
+    print(emails)
     nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
     send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
+
+    return category(request, category_name_slug)
 
 
 def support(request):
@@ -261,7 +266,7 @@ def support(request):
             content= name+"\n"+email+"\n"+message
             print ("message recieved")
             send_email('Support',['nagmebot2019@gmail.com'],content)
-            send_nags("Wake",['oliver.warke@gmail.com'])
+            #send_nags("Wake",['oliver.warke@gmail.com'])
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
@@ -290,6 +295,8 @@ def category(request, category_name_slug):
     except Category.DoesNotExist:
         context_dict['nag'] = None
         context_dict['category'] = None
+
+    return render(request, 'nagme/category_page.html', context_dict)
 
 
 
