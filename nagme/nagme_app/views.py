@@ -23,26 +23,25 @@ def welcome(request):
         "nag_of_the_day": nag}
     return render(request, 'nagme/welcome_page.html', context_dict)
 
-
-# added an underscore temporarily because name conflict with import at top,
-# need to fix name of this view everywhere later
-def log_in(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse('user_home'))
-            else:
-                return HttpResponse("Your Nag.Me account is disabled.")
-        else:
-            print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
-
-    else:
-        return render(request, 'nagme/log_in.html', {})
+# # added an underscore temporarily because name conflict with import at top,
+# # need to fix name of this view everywhere later
+# def log_in(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(username=username, password=password)
+#         if user:
+#             if user.is_active:
+#                 login(request, user)
+#                 return HttpResponseRedirect(reverse('user_home'))
+#             else:
+#                 return HttpResponse("Your Nag.Me account is disabled.")
+#         else:
+#             print("Invalid login details: {0}, {1}".format(username, password))
+#             return HttpResponse("Invalid login details supplied.")
+#
+#     else:
+#         return render(request, 'nagme/log_in.html', {})
 
 
 def registration(request):
@@ -78,10 +77,17 @@ def registration(request):
                    'registered': registered})
 
 
-@login_required
-def log_out(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('welcome'))
+#
+#
+# @login_required
+# def log_out(request):
+#     logout(request)
+#     return HttpResponseRedirect(reverse('welcome'))
+
+# class MyRegistrationView(RegistrationView):
+#     def get_success_url(self, user):
+#         return '/user_home/'
+
 
 
 @login_required
@@ -124,22 +130,16 @@ def account(request):
         if form.is_valid():
             form.save(commit=True)
             return redirect('account')
-        else: print(form.errors)
+        else:
+            print(form.errors)
 
     return render(request, 'nagme/account.html',
                   {'userprofile': userprofile, 'user': user, 'form': form})
 
 
 @login_required
-def account_password(request):
-    context_dict = {}
-
-    return render(request, 'nagme/account_password.html', context_dict)
-
-
-@login_required
 def like(request, user, nag):
-    new_like,created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+    new_like, created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
     if created:
         nag.likes += 1
 
@@ -154,6 +154,7 @@ def subscribe(request, user, category):
     new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
     if created:
         category.subscribers += 1
+
 
 @login_required
 def is_subbed(request, user, category):
@@ -199,6 +200,7 @@ def add_nag(request, category_name_slug):
 
 
 
+@login_required
 def nags_likes(request):
     nag_list = Nag.objects.order_by('-likes')
     context_dict = {"nags": nag_list}
@@ -206,6 +208,7 @@ def nags_likes(request):
     return render(request, 'nagme/nags.html', context_dict)
 
 
+@login_required
 def nags_time(request):
     nag_list = Nag.objects.order_by('-created')
     context_dict = {"nags": nag_list}
@@ -242,8 +245,7 @@ def send_nags(request,category_name_slug):
     for s in subscribers:
         emails.add(s.user.email)
         send_text(s.user.name,s.user.phone_number,nag)
-    send_email('Nag',nag.text,'nagmebot2019@gmail.com',emails)
-
+    send_email('Nag',emails,nag.text)
     return category(request, category_name_slug)
 
 # call sent_text with number you want to send to and content being what you want to send
@@ -267,6 +269,7 @@ def send_text(name, number, content):
 
 
 def support(request):
+<<<<<<< HEAD
     #if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -284,9 +287,29 @@ def support(request):
             return render(request, 'nagme/support.html', {'form': form})
     #else:
      #   return render(request, 'nagme/support.html', {})
+=======
+    # if request.method == 'POST':
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        name = form.cleaned_data.get("contact_name")
+        email = form.cleaned_data.get("contact_email")
+        message = form.cleaned_data.get("content")
+        content = name + "\n" + email + "\n" + message
+        print("message recieved")
+        send_email('Support', ['nagmebot2019@gmail.com'], content)
+        # send_nags("Wake",['oliver.warke@gmail.com'])
+        context = {'form': form}
+        return render(request, 'nagme/support.html', context)
+    else:
+        context = {'form': form}
+        return render(request, 'nagme/support.html', {'form': form})
+>>>>>>> 9a995f179197c2c0e1f1efcf79da9d3580fb6d38
 
 
+# else:
+#   return render(request, 'nagme/support.html', {})
 
+@login_required
 def categories(request):
     category_list = Category.objects.all()
     context_dict = {'categories': category_list}
@@ -294,6 +317,7 @@ def categories(request):
     return render(request, 'nagme/categories.html', context_dict)
 
 
+@login_required
 def category(request, category_name_slug):
     context_dict = {}
 
