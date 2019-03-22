@@ -18,4 +18,4 @@ class nagTests(TestCase):
     Nag.objects.create(text="testing")
 
     def test_something(self):
-        
+
