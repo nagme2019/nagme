@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from twilio.rest import Client
 from .forms import ContactForm, UserForm, UserProfileForm, NagForm
 from nagme_project.settings import TWILIO_NUMBER, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN
-from registration.backends.simple.views import RegistrationView
 
 
 def base(request):
@@ -25,68 +24,64 @@ def welcome(request):
     return render(request, 'nagme/welcome_page.html', context_dict)
 
 
-# # added an underscore temporarily because name conflict with import at top,
-# # need to fix name of this view everywhere later
-# def log_in(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(username=username, password=password)
-#         if user:
-#             if user.is_active:
-#                 login(request, user)
-#                 return HttpResponseRedirect(reverse('user_home'))
-#             else:
-#                 return HttpResponse("Your Nag.Me account is disabled.")
-#         else:
-#             print("Invalid login details: {0}, {1}".format(username, password))
-#             return HttpResponse("Invalid login details supplied.")
-#
-#     else:
-#         return render(request, 'nagme/log_in.html', {})
-#
-#
-# def registration(request):
-#     registered = False
-#
-#     if request.method == 'POST':
-#         user_form = UserForm(data=request.POST)
-#         profile_form = UserProfileForm(data=request.POST)
-#
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user = user_form.save()
-#             user.set_password(user.password)
-#             user.save()
-#
-#             profile = profile_form.save(commit=False)
-#             profile.user = user
-#
-#             if 'picture' in request.FILES:
-#                 profile.picture = request.FILES['picture']
-#             profile.save()
-#             registered = True
-#         else:
-#             print(user_form.errors, profile_form.errors)
-#
-#     else:
-#         user_form = UserForm()
-#         profile_form = UserProfileForm()
-#
-#     return render(request,
-#                   'nagme/register.html',
-#                   {'user_form': user_form,
-#                    'profile_form': profile_form,
-#                    'registered': registered})
-#
-#
-# @login_required
-# def log_out(request):
-#     logout(request)
-#     return HttpResponseRedirect(reverse('welcome'))
+# added an underscore temporarily because name conflict with import at top,
+# need to fix name of this view everywhere later
+def log_in(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('user_home'))
+            else:
+                return HttpResponse("Your Nag.Me account is disabled.")
+        else:
+            print("Invalid login details: {0}, {1}".format(username, password))
+            return HttpResponse("Invalid login details supplied.")
 
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self, user):
-        return '/user_home/'
+    else:
+        return render(request, 'nagme/log_in.html', {})
+
+
+def registration(request):
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+            profile.save()
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request,
+                  'nagme/register.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
+
+
+@login_required
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('welcome'))
 
 
 @login_required
@@ -239,24 +234,23 @@ def subscribed_categories(request):
 def send_email(subject, emails, content):
     send_mail(subject, content, 'nagmebot2019@gmail.com', emails)
 
-
 def send_nags(request,category_name_slug):
     emails=[]
     nag_cat = Category.objects.get(slug=category_name_slug)
+    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
     subscribers=Subscribe.objects.filter(cat=nag_cat)
     for s in subscribers:
         emails.add(s.user.email)
-    print(emails)
-    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
-    send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
+        send_text(s.user.name,s.user.phone_number,nag)
+    send_email('Nag',nag.text,'nagmebot2019@gmail.com',emails)
 
     return category(request, category_name_slug)
 
 # call sent_text with number you want to send to and content being what you want to send
 def send_text(name, number, content):
-    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
-    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
-    nagme_number = '+447480534396'
+    account_sid = 'ACc7275585ad0d4e46526ca4355d7c3c84'
+    auth_token = 'baa49c54a17bde4c1b84ea873a32e399'
+    nagme_number = '+447480739458'
     test = '+447365140632'
     if (not number):
         print("no")
@@ -267,7 +261,7 @@ def send_text(name, number, content):
         .create(
         body=content,
         from_=nagme_number,
-        to=test
+        to=number
     )
     print(message.sid)
 
@@ -282,7 +276,7 @@ def support(request):
             content= name+"\n"+email+"\n"+message
             print ("message recieved")
             send_email('Support',['nagmebot2019@gmail.com'],content)
-            #send_nags("Wake",['oliver.warke@gmail.com'])
+            send_text("Oliver",'+447365140632',"hi")
             context= {'form': form}
             return render(request, 'nagme/support.html', context)
         else:
