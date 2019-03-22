@@ -18,8 +18,13 @@
     <p class="text-center text-muted">{{ user.username }}</p>
 {% endblock %}
 
+{% block sidebar_height_block %}
+    <!-- this makes sure that sidebar doesn't get taller than page when pic
+        is added -->
+{% endblock %}
+
 {% block body_block %}
-    <h1>Welcome {{ user.first_name }}!</h1>
+    <h1>Welcome {{ user }}!</h1>
     <p><a class="btn btn-outline-primary" href="#" role="button">Click here</a> to be sent the top nag from each of your
         subscribed categories</p>
     <div class="announcebox">
