@@ -23,7 +23,6 @@ def welcome(request):
         "nag_of_the_day": nag}
     return render(request, 'nagme/welcome_page.html', context_dict)
 
-
 # # added an underscore temporarily because name conflict with import at top,
 # # need to fix name of this view everywhere later
 # def log_in(request):
@@ -88,6 +87,7 @@ def registration(request):
 # class MyRegistrationView(RegistrationView):
 #     def get_success_url(self, user):
 #         return '/user_home/'
+
 
 
 @login_required
@@ -237,7 +237,6 @@ def subscribed_categories(request):
 def send_email(subject, emails, content):
     send_mail(subject, content, 'nagmebot2019@gmail.com', emails)
 
-
 def send_nags(request, category_name_slug):
     try:
         nag_cat = Category.objects.get(slug=category_name_slug)
@@ -248,18 +247,16 @@ def send_nags(request, category_name_slug):
     subscribers = Subscribe.objects.filter(cat=nag_cat)
     for s in subscribers:
         emails.add(s.user.email)
-    print(emails)
-    nag = Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
-    send_mail('Nag', nag.text, 'nagmebot2019@gmail.com', emails)
-
+        send_text(s.user.name,s.user.phone_number,nag)
+    send_email('Nag',emails,nag.text)
     return category(request, category_name_slug)
 
 
 # call sent_text with number you want to send to and content being what you want to send
 def send_text(name, number, content):
-    account_sid = 'ACf46f7868cc321426fc41dbbe0ea4676e'
-    auth_token = 'f091327b9ce1bb5900b28edc8bb416b3'
-    nagme_number = '+447480534396'
+    account_sid = 'ACc7275585ad0d4e46526ca4355d7c3c84'
+    auth_token = 'baa49c54a17bde4c1b84ea873a32e399'
+    nagme_number = '+447480739458'
     test = '+447365140632'
     if (not number):
         print("no")
@@ -270,28 +267,28 @@ def send_text(name, number, content):
         .create(
         body=content,
         from_=nagme_number,
-        to=test
+        to=number
     )
     print(message.sid)
 
 
 def support(request):
-    # if request.method == 'POST':
-    form = ContactForm(request.POST)
-    if form.is_valid():
-        name = form.cleaned_data.get("contact_name")
-        email = form.cleaned_data.get("contact_email")
-        message = form.cleaned_data.get("content")
-        content = name + "\n" + email + "\n" + message
-        print("message recieved")
-        send_email('Support', ['nagmebot2019@gmail.com'], content)
-        # send_nags("Wake",['oliver.warke@gmail.com'])
-        context = {'form': form}
-        return render(request, 'nagme/support.html', context)
-    else:
-        context = {'form': form}
-        return render(request, 'nagme/support.html', {'form': form})
-
+    #if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name= form.cleaned_data.get("contact_name")
+            email= form.cleaned_data.get("contact_email")
+            message=form.cleaned_data.get("content")
+            content= name+"\n"+email+"\n"+message
+            print ("message recieved")
+            send_email('Support',['nagmebot2019@gmail.com'],content)
+            context= {'form': form}
+            return render(request, 'nagme/support.html', context)
+        else:
+            context= {'form': form}
+            return render(request, 'nagme/support.html', {'form': form})
+    #else:
+     #   return render(request, 'nagme/support.html', {})
 
 # else:
 #   return render(request, 'nagme/support.html', {})
