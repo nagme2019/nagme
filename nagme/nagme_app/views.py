@@ -290,8 +290,6 @@ def support(request):
     #else:
      #   return render(request, 'nagme/support.html', {})
 
-# else:
-#   return render(request, 'nagme/support.html', {})
 
 @login_required
 def categories(request):

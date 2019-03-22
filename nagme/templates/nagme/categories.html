@@ -16,24 +16,30 @@
 									<div class="category_list">
 										{% for category in categories %}
 													<div class="col-lg-3 category_list item">
-															<img src="{{ category.image }}" width="140" height="140" class="category_list_image">
+														<div class="category_list_item">
 
-															<br>
+																	<a href="{% url 'category' category.slug %}" class="">
+																		<div class="category_list_item_text text-center">
+																			{{ category.name }}
+																		</div>
+																		<img src="{{ MEDIA_URL }}{{ category.image }}" width="140" height="140" class="category_list_image">
+																	</a>
 
-															<a href="{% url 'category' category.slug %}" class="category_list_item btn btn-primary" role="button">
-																	{{ category.name }}
-															</a>
+																	<p class="category_list_sub_button">
+																			<button type="button" class="btn btn-light btn-sm">Subscribe</button>
+																			<!--
+																			<button type="button" class="btn btn-success btn-sm">Subscribed</button
 
-															<p>
-																	<button type="button" class="btn btn-light btn-sm">Subscribe</button>
-																	<!--
-																	<button type="button" class="btn btn-success btn-sm">Subscribed</button
+																			if category.subscribers == user ??
+																			if category in subbed ??
 
-																	if category.subscribers == user ??
-																	if category in subbed ??
+																			-->
+																	</p>
+																	<br>
 
-																	-->
-															</p>
+														</div>
+
+
 													</div><!-- /.col-lg-4 -->
 										{% endfor %}
 									</div>

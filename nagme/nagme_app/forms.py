@@ -13,7 +13,6 @@ class ContactForm(forms.Form):
         label="Message"
     )
 
-
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
