@@ -110,6 +110,15 @@ body {
   color : #ff6700;
 }
 
+#pagecontents h1.big {
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+  margin-left: -2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 #pagecontents h3 {
   font-weight : bold;
   color : #ff6700;
@@ -189,11 +198,36 @@ body {
 }
 
 .nag_list {
-  margin-left: 1S6em;
+  margin-left: 1em;
   padding-left: 16em;
   margin-right: 6em;
   margin-top: -3em;
   font-size: 1.5em;
+}
+
+.category_list {
+  padding-left: 1em;
+  padding-right: 1em;
+  align-content: center;
+  width: 75%;
+  align-self: center;
+  margin-left: 7%;
+  margin-right: auto;
+}
+
+.category_list h1 {
+  padding-left: 0em;
+}
+
+.category_list_item {
+  margin-right: -1em;
+  width: 20%;
+}
+
+.category_list_image {
+  width: 140px;
+  height: 140px;
+  align-content: right;
 }
 
 .img .botcircle {

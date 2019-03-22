@@ -140,23 +140,24 @@ def account_password(request):
 
 
 @login_required
-def like(request, username, nag_id):
-    new_like, created = Like.objects.get_or_create(user=username, nag_id=nag_id)
-    if not created:
-        return False
-    else:
-        return True
+def like(request, user, nag):
+    new_like,created = Like.objects.get_or_create(user=user.user, nag_id=nag.id)
+    if created:
+        nag.likes += 1
 
 
-def is_liked(request, username, nag_id):
-    return Like.objects.filter(user=username, nag=nag_id).exists()
+@login_required
+def is_liked(request, user, nag):
+    return Like.objects.filter(user=user.user, nag=nag.id).exists()
 
 
 @login_required
 def subscribe(request, user, category):
-    Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    new_sub, created = Subscribe.objects.get_or_create(user=user.user, category=category.name)
+    if created:
+        category.subscribers += 1
 
-
+@login_required
 def is_subbed(request, user, category):
     return Subscribe.objects.filter(user=user.user, cat=category.name).exists()
 
@@ -253,9 +254,12 @@ def send_email(subject, emails, content):
     send_mail(subject, content, 'nagmebot2019@gmail.com', emails)
 
 
-def send_nags(nag_cat, emails):
-    nag = Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
-    send_mail('Nag', nag.text, 'nagmebot2019@gmail.com', emails)
+def send_nags(request,category_name_slug):
+    emails=[]
+    nag_cat = Category.objects.get(slug=category_name_slug)
+    subscribers=Subscribe.objects.filter(cat=nag_cat)
+    nag= Nag.objects.filter(category=nag_cat).order_by('-likes')[0]
+    send_mail('Nag',nag.text,'nagmebot2019@gmail.com',emails)
 
 
 def support(request):
